@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Atom\Web\Shared\Layout\Main\Asset;
+use Atom\Widget\AlertWidget;
 use Yiisoft\Html\Html;
 
 $assetManager->register(Asset::class);
@@ -80,6 +81,7 @@ $this->beginPage()
 </aside>
 
 <main class="main-container">
+    <?= AlertWidget::widget() ?>
     <?= $content ?>
 </main>
 

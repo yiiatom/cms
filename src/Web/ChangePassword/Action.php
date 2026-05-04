@@ -14,6 +14,7 @@ use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Security\PasswordHasher;
+use Yiisoft\Session\Flash\FlashInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
@@ -21,6 +22,7 @@ final readonly class Action
 {
     public function __construct(
         private CurrentUser $currentUser,
+        private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
@@ -48,6 +50,8 @@ final readonly class Action
             $identity->password = (new PasswordHasher())->hash($form->newPassword);
             $identity->authKey = null;
             $this->userRepository->save($identity);
+
+            $this->flash->add('success', 'Your password has been updated.');
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)

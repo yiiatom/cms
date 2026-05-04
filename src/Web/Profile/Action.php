@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Session\Flash\FlashInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
@@ -19,6 +20,7 @@ final readonly class Action
 {
     public function __construct(
         private CurrentUser $currentUser,
+        private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
@@ -45,6 +47,8 @@ final readonly class Action
             $identity->firstName = $form->firstName;
             $identity->lastName = $form->lastName;
             $this->userRepository->save($identity);
+
+            $this->flash->add('success', 'Your profile has been updated.');
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
