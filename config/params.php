@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Atom\User\LayoutInjection;
+use Atom\User\Injection\LayoutInjection;
 use Yiisoft\Definitions\Reference;
 
 return [
@@ -21,8 +21,6 @@ return [
     'yiisoft/db-migration' => [
         'sourcePaths' => [
             dirname(__DIR__) . '/migrations',
-            dirname(__DIR__) . '/../../yiisoft/rbac-db/migrations/items',
-            dirname(__DIR__) . '/../../yiisoft/rbac-db/migrations/assignments',
         ]
     ],
 ];

@@ -4,10 +4,11 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": ">=8.2",
+        "yiisoft/yii-dataview": "^1.1",
+        "yiisoft/data-db": "^1.0",
         "yiisoft/db-mysql": "^2.0",
         "yiisoft/db-migration": "^2.0",
         "yiisoft/form-model": "^1.1",
-        "yiisoft/rbac-db": "^2.1",
         "yiisoft/user": "^2.3",
         "ramsey/uuid": "^4.9"
     },

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Atom\Web\Login;
 
-use Atom\User\User;
-use Atom\User\UserRepository;
-use Atom\User\UserService;
+use Atom\User\Entity\User;
+use Atom\User\Data\UserRepository;
+use Atom\User\Service\UserService;
 use Atom\Web\Login\LoginForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -80,7 +80,7 @@ final readonly class Action
         }
 
         return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Login/layout.php')
+            ->withLayout('@atom/src/Web/Shared/Layout/Login/layout')
             ->render(__DIR__ . '/template', [
                 'form' => $form,
             ]);

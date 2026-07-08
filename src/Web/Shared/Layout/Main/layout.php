@@ -44,6 +44,12 @@ $this->beginPage()
                 ->url($urlGenerator->generate('atom.dashboard'))
                 ->class('nav-link active') ?>
         </li>
+        <li class="nav-item">
+            <?= Html::a('<i class="fa-solid fa-user-group"></i> Users')
+                ->encode(false)
+                ->url($urlGenerator->generate('atom.user.list'))
+                ->class('nav-link text-white') ?>
+        </li>
     </ul>
     <hr>
     <div class="dropdown current-user">

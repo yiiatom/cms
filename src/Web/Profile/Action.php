@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\Profile;
 
-use Atom\User\UserRepository;
+use Atom\User\Repository\UserRepository;
 use Atom\Web\Profile\ProfileForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -59,7 +59,7 @@ final readonly class Action
         }
 
         return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout.php')
+            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
             ->render(__DIR__ . '/template', [
                 'form' => $form,
             ]);

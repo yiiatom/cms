@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\User;
+namespace Atom\User\Entity;
 
 use DateTimeImmutable;
 use Yiisoft\Auth\IdentityInterface;

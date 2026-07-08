@@ -38,6 +38,14 @@ return [
                     Route::methods([Method::GET, Method::POST], '/change-password')
                         ->action(Atom\Web\ChangePassword\Action::class)
                         ->name('atom.change-password'),
+
+                    Route::get('/user/list')
+                        ->action(Atom\User\Web\List\Action::class)
+                        ->name('atom.user.list'),
+
+                    Route::get('/user/create')
+                        ->action(Atom\User\Web\Сreate\Action::class)
+                        ->name('atom.user.create'),
                 ),
         ),
 ];

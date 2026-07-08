@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atom\Web\ChangePassword;
 
-use Atom\User\UserRepository;
-use Atom\User\UserService;
+use Atom\User\Repository\UserRepository;
+use Atom\User\Service\UserService;
 use Atom\Web\ChangePassword\ChangePasswordForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -62,7 +62,7 @@ final readonly class Action
         }
 
         return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout.php')
+            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
             ->render(__DIR__ . '/template', [
                 'form' => $form,
             ]);

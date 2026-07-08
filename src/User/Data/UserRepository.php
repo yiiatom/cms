@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Atom\User;
+namespace Atom\User\Data;
 
 use DateTimeImmutable;
-use Atom\User\User;
+use Atom\User\Data\UserDataReader;
+use Atom\User\Entity\User;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Db\Connection\ConnectionInterface;
+use Yiisoft\Db\Query\Query;
 
 final readonly class UserRepository implements IdentityRepositoryInterface
 {
@@ -110,5 +112,17 @@ final readonly class UserRepository implements IdentityRepositoryInterface
             ->where('username = :username', ['username' => $username]);
 
         return $this->createEntity($query->one());
+    }
+
+
+    public function findAllDataReader(): UserDataReader
+    {
+        $query = $this->connection
+            ->select()
+            ->from('{{%user}}');
+
+        $dataReader = new UserDataReader($query);
+
+        return $dataReader;
     }
 }
