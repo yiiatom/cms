@@ -1,12 +1,39 @@
-=== Database configuration
-// config/common/params.php
-'yiisoft/db-mysql' => [
-    'dsn' => new Dsn('mysql', '127.0.0.1', 'atom', '3306'),
-    'username' => 'atom',
-    'password' => 'atom',
-],
+# 
 
+## Database configuration
+
+```php
+// config/common/params.php
+
+use Yiisoft\Db\Mysql\Dsn;
+
+return [
+    ...
+    'yiisoft/db-mysql' => [
+        'dsn' => new Dsn(
+            'mysql',
+            $_ENV['DB_HOST'],
+            $_ENV['DB_NAME'],
+            $_ENV['DB_PORT']
+        ),
+        'username' => $_ENV['DB_USERNAME'],
+        'password' => $_ENV['DB_PASSWORD'],
+    ],
+    ...
+];
+```
+
+```php
 // config/common/di/db-mysql.php
+
+declare(strict_types=1);
+
+use Yiisoft\Db\Connection\ConnectionInterface;
+use Yiisoft\Db\Mysql\Connection;
+use Yiisoft\Db\Mysql\Driver;
+
+/** @var array $params */
+
 return [
     ConnectionInterface::class => [
         'class' => Connection::class,
@@ -19,29 +46,59 @@ return [
         ],
     ],
 ];
+```
+
+```
+// .env
+
+DB_HOST=127.0.0.1
+DB_NAME=your_database_name
+DB_PORT=3306
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 
 
-=== User configuration
+### User configuration
+
+```php
 // config/web/di/user.php
+
+declare(strict_types=1);
+
+use Yiisoft\Definitions\Reference;
+use Yiisoft\Session\SessionInterface;
+use Yiisoft\User\CurrentUser;
+
 return [
     CurrentUser::class => [
         'withSession()' => [Reference::to(SessionInterface::class)]
     ],
 ];
+```
 
+#### Using non-secure requests (http instead of https)
 
-=== Using non-secure requests (http instead of https)
-// common/params.php
-'yiisoft/session' => [
-    'session' => [
-        'options' => [
-            'cookie_secure' => 0,
+```php
+// config/common/params.php
+
+return [
+    ...
+    'yiisoft/session' => [
+        'session' => [
+            'options' => [
+                'cookie_secure' => 0,
+            ],
         ],
     ],
-],
+    ...
+];
+```
+
+
+### Migrations
+
+### Changing CMS base path
 
 
 
-Migrations
-
-Changing CMS base path
