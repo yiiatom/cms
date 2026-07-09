@@ -110,5 +110,19 @@ return [
 
 ### 3. Apply database migrations
 
+Add this to `config/console/params.php`:
+
+```php
+'yiisoft/db-migration' => [
+    // ...
+    'sourcePaths' => [
+        __DIR__ . '/../../vendor/yiiatom/cms/migrations',
+    ],
+],
+```
+
+```
+./yii migrate:up
+```
 
 ## Changing CMS base path
