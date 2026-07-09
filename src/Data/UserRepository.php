@@ -43,6 +43,7 @@ final readonly class UserRepository implements IdentityRepositoryInterface
             'username' => $user->username,
             'email' => $user->email,
             'password' => $user->password,
+            'password_expires_at' => $user->passwordExpiresAt,
             'token' => $user->token,
             'auth_key' => $user->authKey,
             'status' => $user->status,
@@ -67,11 +68,12 @@ final readonly class UserRepository implements IdentityRepositoryInterface
             return null;
         }
 
-        return User::create(
+        return new User(
             uuid: $row['uuid'],
             username: $row['username'],
             email: $row['email'],
             password: $row['password'],
+            passwordExpiresAt: $row['password_expires_at'] ? new DateTimeImmutable($row['password_expires_at']) : null,
             token: $row['token'],
             authKey: $row['auth_key'],
             status: (int) $row['status'],

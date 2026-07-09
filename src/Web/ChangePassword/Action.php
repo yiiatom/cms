@@ -48,6 +48,7 @@ final readonly class Action
 
         if ($form->isValid()) {
             $identity->password = (new PasswordHasher())->hash($form->newPassword);
+            $identity->passwordExpiresAt = null;
             $identity->authKey = null;
             $this->userRepository->save($identity);
 

@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use Atom\User\Entity\User;
+use DateTimeImmutable;
+use Atom\Entity\User;
 use Ramsey\Uuid\Uuid;
 use Yiisoft\Db\Migration\MigrationBuilder;
 use Yiisoft\Db\Migration\RevertibleMigrationInterface;
@@ -31,6 +32,7 @@ final class M260709035701User implements RevertibleMigrationInterface, Transacti
             'username' => ColumnBuilder::string(20)->notNull(),
             'email' => ColumnBuilder::string(254),
             'password' => ColumnBuilder::string(64),
+            'password_expires_at' => ColumnBuilder::datetime(),
             'token' => ColumnBuilder::string(64),
             'auth_key' => ColumnBuilder::string(36),
             'status' => ColumnBuilder::integer()->notNull(),
@@ -53,6 +55,7 @@ final class M260709035701User implements RevertibleMigrationInterface, Transacti
             'username' => 'admin',
             'email' => null,
             'password' => (new PasswordHasher())->hash('admin'),
+            'password_expires_at' => new DateTimeImmutable(),
             'token' => null,
             'auth_key' => null,
             'status' => User::STATUS_ACTIVE,
