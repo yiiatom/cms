@@ -1,6 +1,20 @@
-# 
+# Atom CMS for Yii3 Framework
 
-## Database configuration
+## Installation
+
+To install the CMS, follow these steps:
+
+### 1. Install the framework
+
+For more information see https://yiisoft.github.io/docs/guide/start/creating-project.html
+
+```
+composer create-project yiisoft/app your_project
+```
+
+### 2. Configure your application
+
+#### Database configuration
 
 ```php
 // config/common/params.php
@@ -51,15 +65,16 @@ return [
 ```
 // .env
 
+...
 DB_HOST=127.0.0.1
 DB_NAME=your_database_name
 DB_PORT=3306
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
+...
 ```
 
-
-### User configuration
+#### User configuration
 
 ```php
 // config/web/di/user.php
@@ -77,8 +92,6 @@ return [
 ];
 ```
 
-#### Using non-secure requests (http instead of https)
-
 ```php
 // config/common/params.php
 
@@ -95,10 +108,7 @@ return [
 ];
 ```
 
-
-### Migrations
-
-### Changing CMS base path
+### 3. Apply database migrations
 
 
-
+## Changing CMS base path
