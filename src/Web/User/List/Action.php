@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atom\User\Web\List;
+namespace Atom\Web\User\List;
 
-use Atom\User\Data\UserRepository;
+use Atom\Data\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 

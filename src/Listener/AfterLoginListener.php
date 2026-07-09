@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Atom\User\Listener;
+namespace Atom\Listener;
 
 use DateTimeImmutable;
-use Atom\User\Data\UserRepository;
+use Atom\Data\UserRepository;
 use Yiisoft\User\Event\AfterLogin;
 
 final readonly class AfterLoginListener

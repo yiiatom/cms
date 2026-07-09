@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\User\Data;
+namespace Atom\Data;
 
 use Generator;
 use Yiisoft\Data\Db\QueryDataReader;

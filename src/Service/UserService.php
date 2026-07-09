@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atom\User\Service;
+namespace Atom\Service;
 
-use Atom\User\Entity\User;
+use Atom\Entity\User;
 use Yiisoft\Security\PasswordHasher;
 
 final readonly class UserService

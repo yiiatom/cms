@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Atom\User\Data;
+namespace Atom\Data;
 
 use DateTimeImmutable;
-use Atom\User\Data\UserDataReader;
-use Atom\User\Entity\User;
+use Atom\Data\UserDataReader;
+use Atom\Entity\User;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Db\Connection\ConnectionInterface;

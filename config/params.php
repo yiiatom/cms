@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Atom\User\Injection\LayoutInjection;
+use Atom\Injection\LayoutInjection;
 use Yiisoft\Definitions\Reference;
 
 return [

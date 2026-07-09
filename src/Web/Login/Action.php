@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Atom\Web\Login;
 
-use Atom\User\Entity\User;
-use Atom\User\Data\UserRepository;
-use Atom\User\Service\UserService;
+use Atom\Entity\User;
+use Atom\Data\UserRepository;
+use Atom\Service\UserService;
 use Atom\Web\Login\LoginForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

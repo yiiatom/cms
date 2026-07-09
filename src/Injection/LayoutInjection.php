@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\User\Injection;
+namespace Atom\Injection;
 
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\LayoutParametersInjectionInterface;
