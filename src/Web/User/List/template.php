@@ -21,22 +21,20 @@ $this->setTitle($title);
 <?= GridView::widget()
     ->dataReader($dataReader)
     ->columns(
-        new DataColumn(property: 'uuid'),
         new DataColumn(property: 'username'),
         new ActionColumn(
             buttons: [
                 'edit' => new ActionButton(
-                    '<i class="fa-solid fa-pencil"></i>',
+                    Html::i('', ['class' => 'fa-solid fa-pencil']),
                     attributes: ['title' => 'Edit'],
                 ),
                 'delete' => new ActionButton(
-                    '<i class="fa-solid fa-trash"></i>',
+                    Html::i('', ['class' => 'fa-solid fa-trash']),
                     attributes: ['title' => 'Delete'],
                 ),
             ],
             urlCreator: function ($action, $context) use ($urlGenerator) {
-                var_dump($context->data); die();
-                return '121';
+                return $urlGenerator->generate('atom.user.' . $action, ['uuid' => $context->data->uuid]);
             }
         ),
     )

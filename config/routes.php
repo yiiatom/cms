@@ -46,6 +46,14 @@ return [
                     Route::get('/user/create')
                         ->action(Atom\Web\User\Сreate\Action::class)
                         ->name('atom.user.create'),
+
+                    Route::get('/user/edit/{uuid}')
+                        ->action(Atom\Web\User\Edit\Action::class)
+                        ->name('atom.user.edit'),
+
+                    Route::get('/user/delete/{uuid}')
+                        ->action(Atom\Web\User\Delete\Action::class)
+                        ->name('atom.user.delete'),
                 ),
         ),
 ];

@@ -9,6 +9,7 @@ use Atom\Data\UserDataReader;
 use Atom\Entity\User;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Data\Db\QueryDataReader;
 use Yiisoft\Db\Connection\ConnectionInterface;
 use Yiisoft\Db\Query\Query;
 
@@ -62,7 +63,7 @@ final readonly class UserRepository implements IdentityRepositoryInterface
         }
     }
 
-    private function createEntity(?array $row): ?User
+    public static function createEntity(?array $row): ?User
     {
         if ($row === null) {
             return null;
@@ -123,8 +124,8 @@ final readonly class UserRepository implements IdentityRepositoryInterface
             ->select()
             ->from('{{%user}}');
 
-        $dataReader = new UserDataReader($query);
+        $reader = new QueryDataReader($query);
 
-        return $dataReader;
+        return new UserDataReader($reader);
     }
 }

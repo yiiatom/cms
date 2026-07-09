@@ -5,28 +5,27 @@ declare(strict_types=1);
 namespace Atom\Data;
 
 use Generator;
+use Atom\Data\UserRepository;
+use Atom\Entity\User;
 use Yiisoft\Data\Db\QueryDataReader;
+use Yiisoft\Data\Reader\ReadableDataInterface;
 
-class UserDataReader extends QueryDataReader
+class UserDataReader implements ReadableDataInterface
 {
-    final public function getIterator(): Generator
+    public function __construct(
+        private QueryDataReader $dataReader
+    ) {}
+
+    final public function read(): Generator
     {
-        if ($this->batchSize !== null) {
-            foreach ($this->getPreparedQuery()->batch($this->batchSize) as $data) {
-                /** @psalm-var array<TKey, TValue> $data */
-                yield from $data;
-            }
-            /** @infection-ignore-all */
-            return;
+        foreach ($this->dataReader->read() as $row) {
+            yield UserRepository::createEntity($row);
         }
+    }
 
-        if (is_array($this->cache)) {
-            yield from $this->cache;
-            return;
-        }
-
-        /** @psalm-var array<TKey, TValue> */
-        $this->cache = $this->getPreparedQuery()->all();
-        yield from $this->cache;
+    final public function readOne(): User|null
+    {
+        $row = $this->dataReader->readOne();
+        return UserRepository::createEntity($row);
     }
 }
