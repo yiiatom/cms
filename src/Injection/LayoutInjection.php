@@ -27,15 +27,15 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
             return 'Guest';
         }
 
-        $identity = $this->currentUser->getIdentity();
+        $user = $this->currentUser->getIdentity()->getUser();
 
-        $firstName = $identity->firstName ?? "";
-        $lastName = $identity->lastName ?? "";
+        $firstName = $user->firstName ?? "";
+        $lastName = $user->lastName ?? "";
 
         $displayName = trim($firstName . ' ' . $lastName);
 
         if (!$displayName) {
-            $displayName = $identity->username;
+            $displayName = $user->username;
         }
 
         return $displayName;
@@ -47,6 +47,6 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
             return null;
         }
 
-        return $this->currentUser->getIdentity()->avatarUrl;
+        return $this->currentUser->getIdentity()->getUser()->avatarUrl;
     }
 }

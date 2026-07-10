@@ -14,14 +14,17 @@ use Yiisoft\Security\PasswordHasher;
 final class M260709035701User implements RevertibleMigrationInterface, TransactionalMigrationInterface
 {
     private const USER_TABLE = '{{%user}}';
+    private const USER_AUTHKEY_TABLE = '{{%user_authkey}}';
 
     public function up(MigrationBuilder $b): void
     {
         $this->createUserTable($b);
+        $this->createUserAuthKeyTable($b);
     }
 
     public function down(MigrationBuilder $b): void
     {
+        $b->dropTable(self::USER_AUTHKEY_TABLE);
         $b->dropTable(self::USER_TABLE);
     }
 
@@ -33,38 +36,47 @@ final class M260709035701User implements RevertibleMigrationInterface, Transacti
             'email' => ColumnBuilder::string(254),
             'password' => ColumnBuilder::string(64),
             'password_expires_at' => ColumnBuilder::datetime(),
-            'token' => ColumnBuilder::string(64),
-            'auth_key' => ColumnBuilder::string(36),
             'status' => ColumnBuilder::integer()->notNull(),
             'first_name' => ColumnBuilder::string(100),
             'last_name' => ColumnBuilder::string(100),
             'avatar_url' => ColumnBuilder::string(255),
-            'created_at' => ColumnBuilder::datetime(),
-            'login_at' => ColumnBuilder::datetime(),
-            'login_ip' => ColumnBuilder::string(15),
+            'created_at' => ColumnBuilder::datetime()->notNull(),
+            'updated_at' => ColumnBuilder::datetime()->notNull(),
+            'deleted_at' => ColumnBuilder::datetime(),
         ]);
 
         $b->addPrimaryKey(self::USER_TABLE, 'uuid', 'uuid');
         $b->createIndex(self::USER_TABLE, 'username', 'username', 'UNIQUE');
-        $b->createIndex(self::USER_TABLE, 'token', 'token', 'UNIQUE');
-        $b->createIndex(self::USER_TABLE, 'email', 'email', 'UNIQUE');
-        $b->createIndex(self::USER_TABLE, 'auth_key', 'auth_key', 'UNIQUE');
+        $b->createIndex(self::USER_TABLE, 'email', ['email', 'deleted_at'], 'UNIQUE');
 
+        $now = new DateTimeImmutable();
         $b->insert(self::USER_TABLE, [
             'uuid' => Uuid::uuid7()->toString(),
             'username' => 'admin',
             'email' => null,
             'password' => (new PasswordHasher())->hash('admin'),
-            'password_expires_at' => new DateTimeImmutable(),
-            'token' => null,
-            'auth_key' => null,
+            'password_expires_at' => $now,
             'status' => User::STATUS_ACTIVE,
             'first_name' => null,
             'last_name' => null,
             'avatar_url' => null,
-            'created_at' => null,
-            'login_at' => null,
-            'login_ip' => null,
+            'created_at' => $now,
+            'updated_at' => $now,
+            'deleted_at' => null,
         ]);
+    }
+
+    private function createUserAuthKeyTable(MigrationBuilder $b): void
+    {
+        $b->createTable(self::USER_AUTHKEY_TABLE, [
+            'uuid' => ColumnBuilder::string(36)->notNull(),
+            'user_uuid' => ColumnBuilder::string(36)->notNull(),
+            'expires_at' => ColumnBuilder::datetime()->notNull(),
+        ]);
+
+        $b->addPrimaryKey(self::USER_AUTHKEY_TABLE, 'uuid', 'uuid');
+        $b->addForeignKey(self::USER_AUTHKEY_TABLE, 'fk_user_authkey_user', 'user_uuid', self::USER_TABLE, 'uuid', 'CASCADE', 'CASCADE');
+        $b->createIndex(self::USER_AUTHKEY_TABLE, 'user_uuid', 'user_uuid');
+        $b->createIndex(self::USER_AUTHKEY_TABLE, 'expires_at', 'expires_at');
     }
 }

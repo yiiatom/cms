@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Profile;
+namespace Atom\Web\User\Create;
 
+use DateTimeImmutable;
 use Atom\Data\UserRepository;
-use Atom\Web\Profile\ProfileForm;
+use Atom\Entity\User;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,13 +14,11 @@ use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
-use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class Action
 {
     public function __construct(
-        private CurrentUser $currentUser,
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
@@ -32,31 +31,36 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $identity = $this->currentUser->getIdentity();
-
-        $form = new ProfileForm();
-        $form->username = $identity->username;
-        $form->email = $identity->email;
-        $form->firstName = $identity->firstName;
-        $form->lastName = $identity->lastName;
+        $form = new UserForm();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->isValid()) {
-            $identity->email = $form->email;
-            $identity->firstName = $form->firstName;
-            $identity->lastName = $form->lastName;
-            $this->userRepository->save($identity);
+            if ($this->userRepository->findOneByUsername($form->username)) {
+                $form->addError('Username is already in use.', ['username']);
+            }
+        }
 
-            $this->flash->add('success', 'Your profile has been updated.');
+        if ($form->isValid()) {
+            $user = User::create(
+                username: $form->username,
+                email: $form->email,
+                firstName: $form->firstName,
+                lastName: $form->lastName,
+                createdAt: new DateTimeImmutable(),
+            );
+            $this->userRepository->save($user);
+
+            $this->flash->add('success', 'User has been created.');
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
                     'Location', 
-                    $this->urlGenerator->generate('atom.dashboard'),
+                    $this->urlGenerator->generate('atom.user.list'),
                 );
         }
+
 
         return $this->viewRenderer
             ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')

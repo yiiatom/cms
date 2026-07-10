@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Atom\Web\ChangePassword;
 
 use Atom\Data\UserRepository;
-use Atom\Service\UserService;
+use Atom\Security\PasswordHasherInterface;
 use Atom\Web\ChangePassword\ChangePasswordForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +13,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Session\Flash\FlashInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
@@ -24,10 +23,10 @@ final readonly class Action
         private CurrentUser $currentUser,
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
+        private PasswordHasherInterface $passwordHasher,
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
-        private UserService $userService,
         private WebViewRenderer $viewRenderer,
     ) {}
 
@@ -40,17 +39,15 @@ final readonly class Action
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->oldPassword) {
-            $identity = $this->currentUser->getIdentity();
-            if (!$this->userService->validatePassword($identity, $form->oldPassword)) {
+            $user = $this->currentUser->getIdentity()->getUser();
+            if (!$user->validatePassword($form->oldPassword, $this->passwordHasher)) {
                 $form->addError('Incorrect password.', ['oldPassword']);
             }
         }
 
         if ($form->isValid()) {
-            $identity->password = (new PasswordHasher())->hash($form->newPassword);
-            $identity->passwordExpiresAt = null;
-            $identity->authKey = null;
-            $this->userRepository->save($identity);
+            $user->changePassword($form->newPassword, $this->passwordHasher);
+            $this->userRepository->save($user);
 
             $this->flash->add('success', 'Your password has been updated.');
 

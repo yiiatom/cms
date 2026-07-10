@@ -17,7 +17,6 @@ final readonly class Action
 
     public function __invoke(): ResponseInterface
     {
-        // $dataReader = new QueryDataReader($this->userRepository->findAllQuery());
         $dataReader = $this->userRepository->findAllDataReader();
 
         return $this->viewRenderer

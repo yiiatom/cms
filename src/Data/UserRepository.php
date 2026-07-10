@@ -7,27 +7,15 @@ namespace Atom\Data;
 use DateTimeImmutable;
 use Atom\Data\UserDataReader;
 use Atom\Entity\User;
-use Yiisoft\Auth\IdentityInterface;
-use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Data\Db\QueryDataReader;
 use Yiisoft\Db\Connection\ConnectionInterface;
 use Yiisoft\Db\Query\Query;
 
-final readonly class UserRepository implements IdentityRepositoryInterface
+final readonly class UserRepository
 {
     public function __construct(
         private ConnectionInterface $connection,
     ) { }
-
-    public function findIdentity(string $id): ?IdentityInterface
-    {
-        return $this->findOne($id);
-    }
-
-    public function findIdentityByToken(string $token, string $type): ?IdentityInterface
-    {
-        return $this->findOneByToken($token);
-    }
 
     public function exists(string $uuid): bool
     {
@@ -37,53 +25,48 @@ final readonly class UserRepository implements IdentityRepositoryInterface
             ->exists();
     }
 
-    public function save(User $user): void
+    public function save(User $entity): void
     {
         $row = [
-            'uuid' => $user->uuid,
-            'username' => $user->username,
-            'email' => $user->email,
-            'password' => $user->password,
-            'password_expires_at' => $user->passwordExpiresAt,
-            'token' => $user->token,
-            'auth_key' => $user->authKey,
-            'status' => $user->status,
-            'first_name' => $user->firstName,
-            'last_name' => $user->lastName,
-            'avatar_url' => $user->avatarUrl,
-            'created_at' => $user->createdAt,
-            'login_at' => $user->loginAt,
-            'login_ip' => $user->loginIp,
+            'uuid' => $entity->uuid,
+            'username' => $entity->username,
+            'email' => $entity->email,
+            'password' => $entity->password,
+            'password_expires_at' => $entity->passwordExpiresAt,
+            'status' => $entity->status,
+            'first_name' => $entity->firstName,
+            'last_name' => $entity->lastName,
+            'avatar_url' => $entity->avatarUrl,
+            'updated_at' => new DateTimeImmutable(),
         ];
 
-        if ($this->exists($user->uuid)) {
-            $this->connection->createCommand()->update('{{%user}}', $row, ['uuid' => $user->uuid])->execute();
+        if ($this->exists($entity->uuid)) {
+            $this->connection->createCommand()->update('{{%user}}', $row, ['uuid' => $entity->uuid])->execute();
         } else {
+            $row['created_at'] = $row['updated_at'];
             $this->connection->createCommand()->insert('{{%user}}', $row)->execute();
         }
     }
 
-    public static function createEntity(?array $row): ?User
+    private function createEntity(?array $row): ?User
     {
         if ($row === null) {
             return null;
         }
 
-        return new User(
+        return User::create(
             uuid: $row['uuid'],
             username: $row['username'],
             email: $row['email'],
             password: $row['password'],
             passwordExpiresAt: $row['password_expires_at'] ? new DateTimeImmutable($row['password_expires_at']) : null,
-            token: $row['token'],
-            authKey: $row['auth_key'],
             status: (int) $row['status'],
             firstName: $row['first_name'],
             lastName: $row['last_name'],
             avatarUrl: $row['avatar_url'],
             createdAt: $row['created_at'] ? new DateTimeImmutable($row['created_at']) : null,
-            loginAt: $row['login_at'] ? new DateTimeImmutable($row['login_at']) : null,
-            loginIp: $row['login_ip'],
+            updatedAt: $row['updated_at'] ? new DateTimeImmutable($row['updated_at']) : null,
+            deletedAt: $row['deleted_at'] ? new DateTimeImmutable($row['deleted_at']) : null,
         );
     }
 
@@ -93,16 +76,6 @@ final readonly class UserRepository implements IdentityRepositoryInterface
             ->select()
             ->from('{{%user}}')
             ->where('uuid = :uuid', ['uuid' => $uuid]);
-
-        return $this->createEntity($query->one());
-    }
-
-    public function findOneByToken(string $token): ?User
-    {
-        $query = $this->connection
-            ->select()
-            ->from('{{%user}}')
-            ->where('token = :token', ['token' => $token]);
 
         return $this->createEntity($query->one());
     }

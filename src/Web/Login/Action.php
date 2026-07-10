@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Atom\Web\Login;
 
-use Atom\Entity\User;
+use Atom\Data\UserAuthKeyRepository;
 use Atom\Data\UserRepository;
-use Atom\Service\UserService;
+use Atom\Entity\User;
+use Atom\Entity\UserAuthKey;
+use Atom\Identity\UserIdentity;
+use Atom\Security\PasswordHasherInterface;
 use Atom\Web\Login\LoginForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,10 +28,11 @@ final readonly class Action
     public function __construct(
         private CurrentUser $currentUser,
         private FormHydrator $formHydrator,
+        private PasswordHasherInterface $passwordHasher,
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
+        private UserAuthKeyRepository $userAuthKeyRepository,
         private UserRepository $userRepository,
-        private UserService $userService,
         private WebViewRenderer $viewRenderer,
     ) {}
 
@@ -46,19 +50,20 @@ final readonly class Action
                 );
         }
 
-        $identity = null;
+        $user = null;
         $form = new LoginForm();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->username && $form->password) {
-            $identity = $this->userRepository->findOneByUsername($form->username);
-            if (!$identity || $identity->status !== User::STATUS_ACTIVE || !$this->userService->validatePassword($identity, $form->password)) {
+            $user = $this->userRepository->findOneByUsername($form->username);
+            if (!$user || $user->status !== User::STATUS_ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
                 $form->addError('Incorrect username or password.', ['password']);
             }
         }
 
         if ($form->isValid()) {
+            $identity = new UserIdentity($user, $this->userAuthKeyRepository);
             $this->currentUser->login($identity);
 
             $response = $this->responseFactory
@@ -69,10 +74,8 @@ final readonly class Action
                 );
 
             if ($form->rememberMe) {
-                if (!$identity->authKey) {
-                    $identity->authKey = Uuid::uuid7()->toString();
-                    $this->userRepository->save($identity);
-                }
+                $userAuthKey = UserAuthKey::create($user->uuid);
+                $this->userAuthKeyRepository->save($userAuthKey);
                 $response = $cookieLogin->addCookie($identity, $response);
             }
 

@@ -22,6 +22,7 @@ $this->setTitle($title);
     ->dataReader($dataReader)
     ->columns(
         new DataColumn(property: 'username'),
+        new DataColumn(property: 'status'),
         new ActionColumn(
             buttons: [
                 'edit' => new ActionButton(
@@ -34,7 +35,7 @@ $this->setTitle($title);
                 ),
             ],
             urlCreator: function ($action, $context) use ($urlGenerator) {
-                return $urlGenerator->generate('atom.user.' . $action, ['uuid' => $context->data->uuid]);
+                return $urlGenerator->generate('atom.user.' . $action, ['username' => $context->data->username]);
             }
         ),
     )
