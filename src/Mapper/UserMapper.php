@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Mapper;
 
 use Atom\Entity\User;
+use Closure;
 use DateTimeImmutable;
 use Yiisoft\Hydrator\HydratorInterface;
 
@@ -36,20 +37,25 @@ final class UserMapper
 
     public function mapEntityToRow(User $user): array
     {
-        $data = $this->hydrator->extract($user);
+        $extractor = function (): array {
+            return [
+                'uuid' => $this->uuid,
+                'username' => $this->username,
+                'email' => $this->email,
+                'password' => $this->password,
+                'password_expires_at' => $this->passwordExpiresAt,
+                'status' => $this->status,
+                'first_name' => $this->firstName,
+                'last_name' => $this->lastName,
+                'avatar_url' => $this->avatarUrl,
+                'created_at' => $this->createdAt,
+                'updated_at' => $this->updatedAt,
+                'deleted_at' => $this->deletedAt,
+            ];
+        };
 
-        return [
-            'uuid' => $data['uuid'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'password_expires_at' => $data['passwordExpiresAt'],
-            'first_name' => $data['firstName'],
-            'last_name' => $data['lastName'],
-            'avatar_url' => $data['avatarUrl'],
-            'created_at' => $data['createdAt'],
-            'updated_at' => $data['updatedAt'],
-            'deleted_at' => $data['deletedAt'],
-        ];
+        $extractorClosure = Closure::bind($extractor, $user, User::class);
+
+        return $extractorClosure();
     }
 }
