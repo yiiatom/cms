@@ -32,21 +32,21 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $identity = $this->currentUser->getIdentity();
+        $user = $this->currentUser->getIdentity()->getUser();
 
         $form = new ProfileForm();
-        $form->username = $identity->username;
-        $form->email = $identity->email;
-        $form->firstName = $identity->firstName;
-        $form->lastName = $identity->lastName;
+        $form->username = $user->username;
+        $form->email = $user->email;
+        $form->firstName = $user->firstName;
+        $form->lastName = $user->lastName;
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->isValid()) {
-            $identity->email = $form->email;
-            $identity->firstName = $form->firstName;
-            $identity->lastName = $form->lastName;
-            $this->userRepository->save($identity);
+            $user->email = $form->email;
+            $user->firstName = $form->firstName;
+            $user->lastName = $form->lastName;
+            $this->userRepository->save($user);
 
             $this->flash->add('success', 'Your profile has been updated.');
 
