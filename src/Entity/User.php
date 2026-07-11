@@ -15,7 +15,7 @@ final class User
     const STATUS_BLOCKED = 2;
     const STATUS_ARCHIVED = 3;
 
-    private function __construct(
+    public function __construct(
         public string $uuid,
         public string $username,
         public ?string $email,

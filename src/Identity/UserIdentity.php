@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Atom\Identity;
 
-use Atom\Data\UserAuthKeyRepository;
 use Atom\Entity\User;
+use Atom\Repository\UserAuthKeyRepository;
 use Yiisoft\Auth\IdentityInterface;
 use Yiisoft\User\Login\Cookie\CookieLoginIdentityInterface;
 

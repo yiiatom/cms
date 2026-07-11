@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Data;
+namespace Atom\Repository;
 
 use DateTimeImmutable;
 use Atom\Entity\UserAuthKey;

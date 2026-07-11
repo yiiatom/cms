@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\ChangePassword;
 
-use Atom\Data\UserRepository;
+use Atom\Repository\UserRepository;
 use Atom\Security\PasswordHasherInterface;
 use Atom\Web\ChangePassword\ChangePasswordForm;
 use Psr\Http\Message\ResponseFactoryInterface;

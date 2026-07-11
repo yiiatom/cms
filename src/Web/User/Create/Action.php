@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Atom\Web\User\Create;
 
 use DateTimeImmutable;
-use Atom\Data\UserRepository;
+use Atom\Repository\UserRepository;
 use Atom\Entity\User;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

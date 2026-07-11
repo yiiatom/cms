@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\List;
 
-use Atom\Data\UserRepository;
+use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\Profile;
 
-use Atom\Data\UserRepository;
+use Atom\Repository\UserRepository;
 use Atom\Web\Profile\ProfileForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

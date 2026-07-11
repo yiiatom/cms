@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Atom\Web\Login;
 
-use Atom\Data\UserAuthKeyRepository;
-use Atom\Data\UserRepository;
 use Atom\Entity\User;
 use Atom\Entity\UserAuthKey;
 use Atom\Identity\UserIdentity;
+use Atom\Repository\UserAuthKeyRepository;
+use Atom\Repository\UserRepository;
 use Atom\Security\PasswordHasherInterface;
 use Atom\Web\Login\LoginForm;
 use Psr\Http\Message\ResponseFactoryInterface;
