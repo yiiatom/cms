@@ -32,8 +32,10 @@ final readonly class UserRepository
         $row = $this->mapper->mapEntityToRow($entity);
         $row['updated_at'] = new DateTimeImmutable();
 
-        if ($this->exists($entity->uuid)) {
-            $this->connection->createCommand()->update('{{%user}}', $row, ['uuid' => $entity->uuid])->execute();
+        $uuid = $entity->getUuid();
+
+        if ($this->exists($uuid)) {
+            $this->connection->createCommand()->update('{{%user}}', $row, ['uuid' => $uuid])->execute();
         } else {
             $row['created_at'] = $row['updated_at'];
             $this->connection->createCommand()->insert('{{%user}}', $row)->execute();

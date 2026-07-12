@@ -16,18 +16,18 @@ final class User
     const STATUS_ARCHIVED = 3;
 
     public function __construct(
-        public string $uuid,
-        public string $username,
-        public ?string $email,
-        public ?string $password,
-        public ?DateTimeImmutable $passwordExpiresAt,
-        public int $status,
-        public ?string $firstName,
-        public ?string $lastName,
-        public ?string $avatarUrl,
-        public ?DateTimeImmutable $createdAt,
-        public ?DateTimeImmutable $updatedAt,
-        public ?DateTimeImmutable $deletedAt,
+        private string $uuid,
+        private string $username,
+        private ?string $email,
+        private ?string $password,
+        private ?DateTimeImmutable $passwordExpiresAt,
+        private int $status,
+        private ?string $firstName,
+        private ?string $lastName,
+        private ?string $avatarUrl,
+        private DateTimeImmutable $createdAt,
+        private DateTimeImmutable $updatedAt,
+        private ?DateTimeImmutable $deletedAt,
     ) {}
 
     public static function create(
@@ -44,6 +44,7 @@ final class User
         ?DateTimeImmutable $updatedAt = null,
         ?DateTimeImmutable $deletedAt = null,
     ): self {
+        $date = new DateTimeImmutable;
         return new self(
             uuid: $uuid ?: Uuid::uuid7()->toString(),
             username: $username,
@@ -54,10 +55,66 @@ final class User
             firstName: $firstName,
             lastName: $lastName,
             avatarUrl: $avatarUrl,
-            createdAt: $createdAt,
-            updatedAt: $updatedAt,
+            createdAt: $createdAt ?? $date,
+            updatedAt: $updatedAt ?? $date,
             deletedAt: $deletedAt,
         );
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $value): self
+    {
+        $this->email = $value;
+
+        return $this;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $value): self
+    {
+        $this->firstName = $value;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $value): self
+    {
+        $this->lastName = $value;
+
+        return $this;
+    }
+
+    public function getAvatarUrl(): ?string
+    {
+        return $this->avatarUrl;
     }
 
     public function validatePassword(string $password, PasswordHasherInterface $passwordHasher): bool
@@ -69,5 +126,10 @@ final class User
     {
         $this->password = $passwordHasher->hash($password);
         $this->passwordExpiresAt = null;
+    }
+
+    public function isPasswordExpired(): bool
+    {
+        return $this->passwordExpiresAt && $this->passwordExpiresAt < new DateTimeImmutable();
     }
 }

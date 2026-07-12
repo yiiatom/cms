@@ -57,7 +57,7 @@ final readonly class Action
 
         if ($form->username && $form->password) {
             $user = $this->userRepository->findOneByUsername($form->username);
-            if (!$user || $user->status !== User::STATUS_ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
+            if (!$user || $user->getStatus() !== User::STATUS_ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
                 $form->addError('Incorrect username or password.', ['password']);
             }
         }
@@ -74,7 +74,7 @@ final readonly class Action
                 );
 
             if ($form->rememberMe) {
-                $userAuthKey = UserAuthKey::create($user->uuid);
+                $userAuthKey = UserAuthKey::create($user->getUuid());
                 $this->userAuthKeyRepository->save($userAuthKey);
                 $response = $cookieLogin->addCookie($identity, $response);
             }

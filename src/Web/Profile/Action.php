@@ -35,17 +35,20 @@ final readonly class Action
         $user = $this->currentUser->getIdentity()->getUser();
 
         $form = new ProfileForm();
-        $form->username = $user->username;
-        $form->email = $user->email;
-        $form->firstName = $user->firstName;
-        $form->lastName = $user->lastName;
+        $form->username = $user->getUsername();
+        $form->email = $user->getEmail();
+        $form->firstName = $user->getFirstName();
+        $form->lastName = $user->getLastName();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->isValid()) {
-            $user->email = $form->email;
-            $user->firstName = $form->firstName;
-            $user->lastName = $form->lastName;
+            $user
+                ->setEmail($form->email)
+                ->setFirstName($form->firstName)
+                ->setLastName($form->lastName)
+            ;
+
             $this->userRepository->save($user);
 
             $this->flash->add('success', 'Your profile has been updated.');

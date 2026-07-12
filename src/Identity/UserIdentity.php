@@ -23,18 +23,18 @@ final class UserIdentity implements IdentityInterface, CookieLoginIdentityInterf
 
     public function getId(): string
     {
-        return $this->user->uuid;
+        return $this->user->getUuid();
     }
 
     public function getCookieLoginKey(): string
     {
-        $authKey = $this->userAuthKeyRepository->findLatestByUserUuid($this->user->uuid);
+        $authKey = $this->userAuthKeyRepository->findLatestByUserUuid($this->user->getUuid());
         return $authKey->value ?? '';
     }
 
     public function validateCookieLoginKey(string $key): bool
     {
         $authKey = $this->userAuthKeyRepository->findOne($key);
-        return $authKey && $authKey->isValid($this->user->uuid);
+        return $authKey && $authKey->isValid($this->user->getUuid());
     }
 }
