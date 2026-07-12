@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Mapper;
 
 use Atom\Entity\User;
+use Atom\Entity\UserStatus;
 use Closure;
 use DateTimeImmutable;
 use Yiisoft\Hydrator\HydratorInterface;
@@ -23,7 +24,7 @@ final class UserMapper
             'email' => $row['email'],
             'password' => $row['password'],
             'passwordExpiresAt' => $row['password_expires_at'] ? new DateTimeImmutable($row['password_expires_at']) : null,
-            'status' => (int) $row['status'],
+            'status' => UserStatus::from((int) $row['status']),
             'firstName' => $row['first_name'],
             'lastName' => $row['last_name'],
             'avatarUrl' => $row['avatar_url'],
@@ -44,7 +45,7 @@ final class UserMapper
                 'email' => $this->email,
                 'password' => $this->password,
                 'password_expires_at' => $this->passwordExpiresAt,
-                'status' => $this->status,
+                'status' => $this->status->value,
                 'first_name' => $this->firstName,
                 'last_name' => $this->lastName,
                 'avatar_url' => $this->avatarUrl,

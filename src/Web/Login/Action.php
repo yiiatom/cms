@@ -6,6 +6,7 @@ namespace Atom\Web\Login;
 
 use Atom\Entity\User;
 use Atom\Entity\UserAuthKey;
+use Atom\Entity\UserStatus;
 use Atom\Identity\UserIdentity;
 use Atom\Repository\UserAuthKeyRepository;
 use Atom\Repository\UserRepository;
@@ -57,7 +58,7 @@ final readonly class Action
 
         if ($form->username && $form->password) {
             $user = $this->userRepository->findOneByUsername($form->username);
-            if (!$user || $user->getStatus() !== User::STATUS_ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
+            if (!$user || $user->getStatus() !== UserStatus::ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
                 $form->addError('Incorrect username or password.', ['password']);
             }
         }

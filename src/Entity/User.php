@@ -10,18 +10,13 @@ use Ramsey\Uuid\Uuid;
 
 final class User
 {
-    const STATUS_PENDING = 0;
-    const STATUS_ACTIVE = 1;
-    const STATUS_BLOCKED = 2;
-    const STATUS_ARCHIVED = 3;
-
     public function __construct(
         private string $uuid,
         private string $username,
         private ?string $email,
         private ?string $password,
         private ?DateTimeImmutable $passwordExpiresAt,
-        private int $status,
+        private UserStatus $status,
         private ?string $firstName,
         private ?string $lastName,
         private ?string $avatarUrl,
@@ -36,7 +31,7 @@ final class User
         ?string $email = null,
         ?string $password = null,
         ?DateTimeImmutable $passwordExpiresAt = null,
-        ?int $status = null,
+        ?UserStatus $status = null,
         ?string $firstName = null,
         ?string $lastName = null,
         ?string $avatarUrl = null,
@@ -51,7 +46,7 @@ final class User
             email: $email,
             password: $password,
             passwordExpiresAt: $passwordExpiresAt,
-            status: $status ?? self::STATUS_PENDING,
+            status: $status ?? UserStatus::PENDING,
             firstName: $firstName,
             lastName: $lastName,
             avatarUrl: $avatarUrl,
@@ -83,7 +78,7 @@ final class User
         return $this;
     }
 
-    public function getStatus(): int
+    public function getStatus(): UserStatus
     {
         return $this->status;
     }
