@@ -6,13 +6,15 @@ namespace Atom\Repository;
 
 use DateTimeImmutable;
 use Atom\Entity\UserAuthKey;
+use Atom\Mapper\UserAuthKeyMapper;
 use Yiisoft\Db\Connection\ConnectionInterface;
 
 final readonly class UserAuthKeyRepository
 {
     public function __construct(
         private ConnectionInterface $connection,
-    ) { }
+        private UserAuthKeyMapper $mapper,
+    ) {}
 
     public function exists(string $uuid): bool
     {
@@ -24,14 +26,11 @@ final readonly class UserAuthKeyRepository
 
     public function save(UserAuthKey $entity): void
     {
-        $row = [
-            'uuid' => $entity->uuid,
-            'user_uuid' => $entity->userUuid,
-            'expires_at' => $entity->expiresAt,
-        ];
+        $row = $this->mapper->mapEntityToRow($entity);
+        $uuid = $entity->getUuid();
 
-        if ($this->exists($entity->uuid)) {
-            $this->connection->createCommand()->update('{{%user_authkey}}', $row, ['uuid' => $entity->uuid])->execute();
+        if ($this->exists($uuid)) {
+            $this->connection->createCommand()->update('{{%user_authkey}}', $row, ['uuid' => $uuid])->execute();
         } else {
             $this->connection->createCommand()->insert('{{%user_authkey}}', $row)->execute();
         }
@@ -43,11 +42,7 @@ final readonly class UserAuthKeyRepository
             return null;
         }
 
-        return UserAuthKey::create(
-            uuid: $row['uuid'],
-            userUuid: $row['user_uuid'],
-            expiresAt: new DateTimeImmutable($row['expires_at']),
-        );
+        return $this->mapper->mapRowToEntity($row);
     }
 
     public function findLatestByUserUuid(string $userUuid): ?UserAuthKey

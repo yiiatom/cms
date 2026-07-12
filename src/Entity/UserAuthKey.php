@@ -9,10 +9,10 @@ use Ramsey\Uuid\Uuid;
 
 final class UserAuthKey
 {
-    private function __construct(
-        public string $uuid,
-        public string $userUuid,
-        public DateTimeImmutable $expiresAt,
+    public function __construct(
+        private string $uuid,
+        private string $userUuid,
+        private DateTimeImmutable $expiresAt,
     ) {}
 
     public static function create(
@@ -26,6 +26,11 @@ final class UserAuthKey
             userUuid: $userUuid,
             expiresAt: $expiresAt ?: (new DateTimeImmutable())->modify('+30 days'),
         );
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
     }
 
     public function isValid(string $userUuid): bool
