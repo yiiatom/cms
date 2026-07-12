@@ -36,7 +36,7 @@ final class UserMapper
         return $this->hydrator->create(User::class, $data);
     }
 
-    public function mapEntityToRow(User $user): array
+    public function mapEntityToRow(User $entity): array
     {
         $extractor = function (): array {
             return [
@@ -55,7 +55,7 @@ final class UserMapper
             ];
         };
 
-        $extractorClosure = Closure::bind($extractor, $user, User::class);
+        $extractorClosure = Closure::bind($extractor, $entity, User::class);
 
         return $extractorClosure();
     }
