@@ -74,6 +74,7 @@ final class User
     public function setEmail(?string $value): self
     {
         $this->email = $value;
+        $this->updatedAt = new DateTimeImmutable;
 
         return $this;
     }
@@ -91,6 +92,7 @@ final class User
     public function setFirstName(?string $value): self
     {
         $this->firstName = $value;
+        $this->updatedAt = new DateTimeImmutable;
 
         return $this;
     }
@@ -103,6 +105,7 @@ final class User
     public function setLastName(?string $value): self
     {
         $this->lastName = $value;
+        $this->updatedAt = new DateTimeImmutable;
 
         return $this;
     }
