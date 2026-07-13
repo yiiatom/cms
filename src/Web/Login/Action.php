@@ -85,7 +85,7 @@ final readonly class Action
 
         return $this->viewRenderer
             ->withLayout('@atom/src/Web/Shared/Layout/Login/layout')
-            ->render(__DIR__ . '/template', [
+            ->render(__DIR__ . '/login', [
                 'form' => $form,
             ]);
     }
