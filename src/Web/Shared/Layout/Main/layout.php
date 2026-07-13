@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Atom\Web\Shared\Layout\Main\Asset;
-use Atom\Widget\AlertWidget;
+use Atom\Web\Shared\Widget\AlertWidget;
 use Yiisoft\Html\Html;
 
 $assetManager->register(Asset::class);

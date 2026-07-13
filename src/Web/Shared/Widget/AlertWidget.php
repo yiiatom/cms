@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Widget;
+namespace Atom\Web\Shared\Widget;
 
 use Yiisoft\Html\Html;
 use Yiisoft\Session\Flash\FlashInterface;
