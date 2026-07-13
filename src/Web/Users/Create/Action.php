@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\User\Create;
+namespace Atom\Web\Users\Create;
 
-use DateTimeImmutable;
-use Atom\Repository\UserRepository;
 use Atom\Entity\User;
+use Atom\Entity\UserStatus;
+use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,14 +24,13 @@ final readonly class Action
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
-        private WebViewRenderer $viewRenderer,
     ) {}
 
     public function __invoke(
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $form = new UserForm();
+        $form = new UserCreateForm();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
@@ -41,13 +40,19 @@ final readonly class Action
             }
         }
 
+        if ($form->isValid() && $form->email) {
+            if ($this->userRepository->findOneByEmail($form->email)) {
+                $form->addError('Email is already in use.', ['email']);
+            }
+        }
+
         if ($form->isValid()) {
             $user = User::create(
                 username: $form->username,
                 email: $form->email,
+                status: UserStatus::from($form->status),
                 firstName: $form->firstName,
                 lastName: $form->lastName,
-                createdAt: new DateTimeImmutable(),
             );
             $this->userRepository->save($user);
 
@@ -57,14 +62,14 @@ final readonly class Action
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
                     'Location', 
-                    $this->urlGenerator->generate('atom.user.list'),
+                    $this->urlGenerator->generate('atom.users.index'),
                 );
         }
 
 
-        return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
-            ->render(__DIR__ . '/template', [
+        return $request
+            ->getAttribute(WebViewRenderer::class)
+            ->render(__DIR__ . '/create', [
                 'form' => $form,
             ]);
     }

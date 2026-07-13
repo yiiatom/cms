@@ -20,7 +20,9 @@ $htmlForm = Html::form()
 <?= $htmlForm->open() ?>
     <?= Field::text($form, 'username') ?>
     <?= Field::email($form, 'email') ?>
+    <?= Field::select($form, 'status')->optionsData($form->getStatusOptions()) ?>
     <?= Field::text($form, 'firstName') ?>
     <?= Field::text($form, 'lastName') ?>
-    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+    <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
+    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.users.index'))->class('btn btn-outline-primary') ?>
 <?= $htmlForm->close() ?>

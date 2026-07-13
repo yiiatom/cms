@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\User\List;
+namespace Atom\Web\Users\Index;
 
 use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class Action
 {
     public function __construct(
         private UserRepository $userRepository,
-        private WebViewRenderer $viewRenderer,
     ) {}
 
-    public function __invoke(): ResponseInterface
+    public function __invoke(
+        ServerRequestInterface $request,
+    ): ResponseInterface
     {
         $dataReader = $this->userRepository->findAllDataReader();
 
-        return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
-            ->render(__DIR__ . '/template', [
+        return $request
+            ->getAttribute(WebViewRenderer::class)
+            ->render(__DIR__ . '/index', [
                 'dataReader' => $dataReader,
             ]);
     }

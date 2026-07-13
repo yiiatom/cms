@@ -84,6 +84,17 @@ final class User
         return $this->status;
     }
 
+    public function setStatus(UserStatus $value): self
+    {
+        $this->status = $value;
+        $this->updatedAt = new DateTimeImmutable;
+        if ($value !== UserStatus::DELETED) {
+            $this->deletedAt = null;
+        }
+
+        return $this;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -115,6 +126,26 @@ final class User
         return $this->avatarUrl;
     }
 
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function getDeletedAt(): ?DateTimeImmutable
+    {
+        return $this->deletedAt;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->username === 'admin';
+    }
+
     public function validatePassword(string $password, PasswordHasherInterface $passwordHasher): bool
     {
         return $passwordHasher->validate($password, $this->password);
@@ -124,10 +155,24 @@ final class User
     {
         $this->password = $passwordHasher->hash($password);
         $this->passwordExpiresAt = null;
+        $this->updatedAt = new DateTimeImmutable;
+    }
+
+    public function forcePasswordChange(): void
+    {
+        $this->passwordExpiresAt = new DateTimeImmutable;
+        $this->updatedAt = new DateTimeImmutable;
     }
 
     public function isPasswordExpired(): bool
     {
         return $this->passwordExpiresAt && $this->passwordExpiresAt < new DateTimeImmutable();
+    }
+
+    public function delete(): void
+    {
+        $this->status = UserStatus::DELETED;
+        $this->deletedAt = new DateTimeImmutable;
+        $this->updatedAt = new DateTimeImmutable;
     }
 }

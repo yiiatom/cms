@@ -47,7 +47,7 @@ $this->beginPage()
         <li class="nav-item">
             <?= Html::a('<i class="fa-solid fa-user-group"></i> Users')
                 ->encode(false)
-                ->url($urlGenerator->generate('atom.user.list'))
+                ->url($urlGenerator->generate('atom.users.index'))
                 ->class('nav-link text-white') ?>
         </li>
     </ul>

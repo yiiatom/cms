@@ -58,12 +58,32 @@ final readonly class UserRepository
         return $this->createEntity($query->one());
     }
 
+    public function findOneByUuid(string $uuid): ?User
+    {
+        $query = $this->connection
+            ->select()
+            ->from('{{%user}}')
+            ->where('uuid = :uuid', ['uuid' => $uuid]);
+
+        return $this->createEntity($query->one());
+    }
+
     public function findOneByUsername(string $username): ?User
     {
         $query = $this->connection
             ->select()
             ->from('{{%user}}')
             ->where('username = :username', ['username' => $username]);
+
+        return $this->createEntity($query->one());
+    }
+
+    public function findOneByEmail(string $email): ?User
+    {
+        $query = $this->connection
+            ->select()
+            ->from('{{%user}}')
+            ->where('email = :email', ['email' => $email]);
 
         return $this->createEntity($query->one());
     }
@@ -77,6 +97,6 @@ final readonly class UserRepository
 
         $reader = new QueryDataReader($query);
 
-        return new UserDataReader($reader);
+        return new UserDataReader($reader, $this->mapper);
     }
 }
