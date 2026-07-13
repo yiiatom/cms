@@ -2,24 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Shared\Middleware;
+namespace Atom\Middleware;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Form\Theme\ThemeContainer;
-use Yiisoft\Widget\WidgetFactory;
-use Yiisoft\Yii\DataView\GridView\GridView;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
-final readonly class MainTheme implements MiddlewareInterface
+final readonly class LoginTheme implements MiddlewareInterface
 {
     public function __construct(
         private Aliases $aliases,
-        private ContainerInterface $container,
         private WebViewRenderer $viewRenderer,
     ) {}
 
@@ -29,17 +25,10 @@ final readonly class MainTheme implements MiddlewareInterface
     ): ResponseInterface {
 
         ThemeContainer::initialize([
-            'horizontal' => require $this->aliases->get('@atom/config/theme/main-horizontal.php'),
-        ], 'horizontal');
+            'login' => require $this->aliases->get('@atom/config/theme/login.php'),
+        ], 'login');
 
-        WidgetFactory::initialize($this->container, [
-            GridView::class => [
-                'tableClass()' => ['table table-bordered table-sm'],
-                'headerRowAttributes()' => [['class' => 'table-dark']],
-            ],
-        ]);
-
-        $renderer = $this->viewRenderer->withLayout('@atom/src/Web/Shared/Layout/Main/main');
+        $renderer = $this->viewRenderer->withLayout('@atom/src/Web/Shared/Layout/Login/login');
         $request = $request->withAttribute(WebViewRenderer::class, $renderer);
 
         return $handler->handle($request);

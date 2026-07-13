@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Atom\Web\Shared\Middleware\Authentication;
-use Atom\Web\Shared\Middleware\LoginTheme;
-use Atom\Web\Shared\Middleware\MainTheme;
+use Atom\Middleware\Authentication;
+use Atom\Middleware\LoginTheme;
+use Atom\Middleware\MainTheme;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;

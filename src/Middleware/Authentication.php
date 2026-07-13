@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Shared\Middleware;
+namespace Atom\Middleware;
 
 use DateTimeImmutable;
 use Psr\Http\Message\ResponseFactoryInterface;
