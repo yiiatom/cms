@@ -34,12 +34,11 @@ final readonly class Action
         private UrlGeneratorInterface $urlGenerator,
         private UserAuthKeyRepository $userAuthKeyRepository,
         private UserRepository $userRepository,
-        private WebViewRenderer $viewRenderer,
     ) {}
 
     public function __invoke(
-        ServerRequestInterface $request,
         CookieLogin $cookieLogin,
+        ServerRequestInterface $request,
     ): ResponseInterface
     {
         if (!$this->currentUser->isGuest()) {
@@ -83,8 +82,8 @@ final readonly class Action
             return $response;
         }
 
-        return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Login/login')
+        return $request
+            ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/login', [
                 'form' => $form,
             ]);

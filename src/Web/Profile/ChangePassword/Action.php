@@ -26,7 +26,6 @@ final readonly class Action
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
-        private WebViewRenderer $viewRenderer,
     ) {}
 
     public function __invoke(
@@ -58,8 +57,8 @@ final readonly class Action
                 );
         }
 
-        return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/main')
+        return $request
+            ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/change-password', [
                 'form' => $form,
             ]);

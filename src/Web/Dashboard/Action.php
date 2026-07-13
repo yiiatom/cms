@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace Atom\Web\Dashboard;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class Action
 {
     public function __construct(
-        private WebViewRenderer $viewRenderer,
     ) {}
 
-    public function __invoke(): ResponseInterface
+    public function __invoke(
+        ServerRequestInterface $request,
+    ): ResponseInterface
     {
-        return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/main')
+        return $request
+            ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/dashboard');
     }
 }
