@@ -31,13 +31,13 @@ return [
                         ->action(Atom\Web\Logout\Action::class)
                         ->name('atom.logout'),
 
-                    Route::methods([Method::GET, Method::POST], '/profile')
-                        ->action(Atom\Web\Profile\Action::class)
-                        ->name('atom.profile'),
+                    Route::methods([Method::GET, Method::POST], '/profile/edit')
+                        ->action(Atom\Web\Profile\Edit\Action::class)
+                        ->name('atom.profile.edit'),
 
-                    Route::methods([Method::GET, Method::POST], '/change-password')
-                        ->action(Atom\Web\ChangePassword\Action::class)
-                        ->name('atom.change-password'),
+                    Route::methods([Method::GET, Method::POST], '/profile/change-password')
+                        ->action(Atom\Web\Profile\ChangePassword\Action::class)
+                        ->name('atom.profile.change-password'),
 
                     Route::get('/user/list')
                         ->action(Atom\Web\User\List\Action::class)

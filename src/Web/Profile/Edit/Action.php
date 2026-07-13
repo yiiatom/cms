@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Profile;
+namespace Atom\Web\Profile\Edit;
 
 use Atom\Repository\UserRepository;
-use Atom\Web\Profile\ProfileForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -46,8 +45,7 @@ final readonly class Action
             $user
                 ->setEmail($form->email)
                 ->setFirstName($form->firstName)
-                ->setLastName($form->lastName)
-            ;
+                ->setLastName($form->lastName);
 
             $this->userRepository->save($user);
 
@@ -63,7 +61,7 @@ final readonly class Action
 
         return $this->viewRenderer
             ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
-            ->render(__DIR__ . '/profile', [
+            ->render(__DIR__ . '/edit', [
                 'form' => $form,
             ]);
     }

@@ -66,12 +66,12 @@ $this->beginPage()
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
             <li>
                 <?= Html::a('Profile')
-                    ->url($urlGenerator->generate('atom.profile'))
+                    ->url($urlGenerator->generate('atom.profile.edit'))
                     ->class('dropdown-item') ?>
             </li>
             <li>
                 <?= Html::a('Change password')
-                    ->url($urlGenerator->generate('atom.change-password'))
+                    ->url($urlGenerator->generate('atom.profile.change-password'))
                     ->class('dropdown-item') ?>
             </li>
             <li>

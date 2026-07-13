@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Profile;
+namespace Atom\Web\Profile\Edit;
 
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Label;
