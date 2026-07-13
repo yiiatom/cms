@@ -48,16 +48,6 @@ final readonly class UserRepository
         return $this->mapper->mapRowToEntity($row);
     }
 
-    public function findOne(string $uuid): ?User
-    {
-        $query = $this->connection
-            ->select()
-            ->from('{{%user}}')
-            ->where('uuid = :uuid', ['uuid' => $uuid]);
-
-        return $this->createEntity($query->one());
-    }
-
     public function findOneByUuid(string $uuid): ?User
     {
         $query = $this->connection

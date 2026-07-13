@@ -34,7 +34,7 @@ final class UserIdentity implements IdentityInterface, CookieLoginIdentityInterf
 
     public function validateCookieLoginKey(string $key): bool
     {
-        $authKey = $this->userAuthKeyRepository->findOne($key);
+        $authKey = $this->userAuthKeyRepository->findOneByUuid($key);
         return $authKey && $authKey->isValid($this->user->getUuid());
     }
 }

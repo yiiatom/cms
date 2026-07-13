@@ -45,6 +45,15 @@ final readonly class UserAuthKeyRepository
         return $this->mapper->mapRowToEntity($row);
     }
 
+    public function findOneByUuid(string $uuid): ?UserAuthKey
+    {
+        $query = $this->connection->createQuery()
+            ->from('{{%user_authkey}}')
+            ->where(['uuid' => $uuid]);
+
+        return $this->createEntity($query->one());
+    }
+
     public function findLatestByUserUuid(string $userUuid): ?UserAuthKey
     {
         $query = $this->connection->createQuery()

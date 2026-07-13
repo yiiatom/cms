@@ -18,7 +18,7 @@ final class IdentityRepository implements IdentityRepositoryInterface
 
     public function findIdentity(string $id): ?IdentityInterface
     {
-        $user = $this->userRepository->findOne($id);
+        $user = $this->userRepository->findOneByUuid($id);
         return $user ? new UserIdentity($user, $this->userAuthKeyRepository) : null;
     }
 }
