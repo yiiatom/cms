@@ -16,7 +16,7 @@ final readonly class Action
     public function __invoke(): ResponseInterface
     {
         return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
+            ->withLayout('@atom/src/Web/Shared/Layout/Main/main')
             ->render(__DIR__ . '/dashboard');
     }
 }

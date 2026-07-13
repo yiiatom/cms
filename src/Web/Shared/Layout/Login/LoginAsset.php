@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Shared\Layout\Main;
+namespace Atom\Web\Shared\Layout\Login;
 
 use Yiisoft\Assets\AssetBundle;
 
-final class Asset extends AssetBundle
+final class LoginAsset extends AssetBundle
 {
     public ?string $basePath = '@assets';
     public ?string $baseUrl = '@assetsUrl';
@@ -15,10 +15,6 @@ final class Asset extends AssetBundle
     public array $css = [
         'bootstrap/css/bootstrap.min.css',
         'fontawesome/css/all.min.css',
-        'main.css',
-    ];
-
-    public array $js = [
-        'bootstrap/js/bootstrap.bundle.min.js',
+        'login.css',
     ];
 }

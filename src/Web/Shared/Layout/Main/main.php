@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Atom\Web\Shared\Layout\Main\Asset;
+use Atom\Web\Shared\Layout\Main\MainAsset;
 use Atom\Web\Shared\Widget\AlertWidget;
 use Yiisoft\Html\Html;
 
-$assetManager->register(Asset::class);
+$assetManager->register(MainAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
 $this->addCssStrings($assetManager->getCssStrings());

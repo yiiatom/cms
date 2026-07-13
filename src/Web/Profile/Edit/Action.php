@@ -60,7 +60,7 @@ final readonly class Action
         }
 
         return $this->viewRenderer
-            ->withLayout('@atom/src/Web/Shared/Layout/Main/layout')
+            ->withLayout('@atom/src/Web/Shared/Layout/Main/main')
             ->render(__DIR__ . '/edit', [
                 'form' => $form,
             ]);

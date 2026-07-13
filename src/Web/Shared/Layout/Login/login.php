@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Atom\Web\Shared\Layout\Login\Asset;
+use Atom\Web\Shared\Layout\Login\LoginAsset;
 use Yiisoft\Html\Html;
 
-$assetManager->register(Asset::class);
+$assetManager->register(LoginAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
 $this->addCssStrings($assetManager->getCssStrings());
