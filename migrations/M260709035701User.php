@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use DateTimeImmutable;
 use Atom\Entity\User;
+use Atom\Entity\UserRole;
+use Atom\Entity\UserStatus;
 use Ramsey\Uuid\Uuid;
 use Yiisoft\Db\Migration\MigrationBuilder;
 use Yiisoft\Db\Migration\RevertibleMigrationInterface;
@@ -37,7 +39,8 @@ final class M260709035701User implements RevertibleMigrationInterface, Transacti
             'password' => ColumnBuilder::string(64),
             'password_expires_at' => ColumnBuilder::datetime(),
             'is_superadmin' => ColumnBuilder::boolean()->notNull()->defaultValue(false),
-            'status' => ColumnBuilder::integer()->notNull(),
+            'status' => ColumnBuilder::integer()->notNull()->defaultValue(UserStatus::PENDING->value),
+            'role' => ColumnBuilder::integer()->notNull()->defaultValue(UserRole::USER->value),
             'first_name' => ColumnBuilder::string(100),
             'last_name' => ColumnBuilder::string(100),
             'avatar_url' => ColumnBuilder::string(255),

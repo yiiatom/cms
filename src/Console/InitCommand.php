@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Console;
 
 use Atom\Entity\User;
+use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
 use Atom\Security\PasswordHasherInterface;
@@ -81,8 +82,9 @@ final class InitCommand extends Command
 
             $superAdmin = User::create(
                 username: $username,
-                status: UserStatus::ACTIVE,
                 isSuperAdmin: true,
+                status: UserStatus::ACTIVE,
+                role: UserRole::ADMIN,
             );
             $superAdmin->changePassword($password, $this->passwordHasher);
 

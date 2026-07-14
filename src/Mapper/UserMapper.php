@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Mapper;
 
 use Atom\Entity\User;
+use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Closure;
 use DateTimeImmutable;
@@ -24,8 +25,9 @@ final class UserMapper
             'email' => $row['email'],
             'password' => $row['password'],
             'passwordExpiresAt' => $row['password_expires_at'] ? new DateTimeImmutable($row['password_expires_at']) : null,
-            'status' => UserStatus::from((int) $row['status']),
             'isSuperAdmin' => (bool) $row['is_superadmin'],
+            'status' => UserStatus::from((int) $row['status']),
+            'role' => UserRole::from((int) $row['role']),
             'firstName' => $row['first_name'],
             'lastName' => $row['last_name'],
             'avatarUrl' => $row['avatar_url'],
@@ -46,8 +48,9 @@ final class UserMapper
                 'email' => $this->email,
                 'password' => $this->password,
                 'password_expires_at' => $this->passwordExpiresAt,
-                'status' => $this->status->value,
                 'is_superadmin' => $this->isSuperAdmin,
+                'status' => $this->status->value,
+                'role' => $this->role->value,
                 'first_name' => $this->firstName,
                 'last_name' => $this->lastName,
                 'avatar_url' => $this->avatarUrl,
