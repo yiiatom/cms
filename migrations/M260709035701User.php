@@ -36,6 +36,7 @@ final class M260709035701User implements RevertibleMigrationInterface, Transacti
             'email' => ColumnBuilder::string(254),
             'password' => ColumnBuilder::string(64),
             'password_expires_at' => ColumnBuilder::datetime(),
+            'is_superadmin' => ColumnBuilder::boolean()->notNull()->defaultValue(false),
             'status' => ColumnBuilder::integer()->notNull(),
             'first_name' => ColumnBuilder::string(100),
             'last_name' => ColumnBuilder::string(100),
@@ -48,22 +49,6 @@ final class M260709035701User implements RevertibleMigrationInterface, Transacti
         $b->addPrimaryKey(self::USER_TABLE, 'uuid', 'uuid');
         $b->createIndex(self::USER_TABLE, 'username', 'username', 'UNIQUE');
         $b->createIndex(self::USER_TABLE, 'email', ['email', 'deleted_at'], 'UNIQUE');
-
-        $now = new DateTimeImmutable();
-        $b->insert(self::USER_TABLE, [
-            'uuid' => Uuid::uuid7()->toString(),
-            'username' => 'admin',
-            'email' => null,
-            'password' => (new PasswordHasher())->hash('admin'),
-            'password_expires_at' => $now,
-            'status' => User::STATUS_ACTIVE,
-            'first_name' => null,
-            'last_name' => null,
-            'avatar_url' => null,
-            'created_at' => $now,
-            'updated_at' => $now,
-            'deleted_at' => null,
-        ]);
     }
 
     private function createUserAuthKeyTable(MigrationBuilder $b): void

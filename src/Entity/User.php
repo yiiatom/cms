@@ -17,6 +17,7 @@ final class User
         private ?string $password,
         private ?DateTimeImmutable $passwordExpiresAt,
         private UserStatus $status,
+        private bool $isSuperAdmin,
         private ?string $firstName,
         private ?string $lastName,
         private ?string $avatarUrl,
@@ -32,6 +33,7 @@ final class User
         ?string $password = null,
         ?DateTimeImmutable $passwordExpiresAt = null,
         ?UserStatus $status = null,
+        bool $isSuperAdmin = false,
         ?string $firstName = null,
         ?string $lastName = null,
         ?string $avatarUrl = null,
@@ -47,6 +49,7 @@ final class User
             password: $password,
             passwordExpiresAt: $passwordExpiresAt,
             status: $status ?? UserStatus::PENDING,
+            isSuperAdmin: $isSuperAdmin,
             firstName: $firstName,
             lastName: $lastName,
             avatarUrl: $avatarUrl,
@@ -143,7 +146,7 @@ final class User
 
     public function isSuperAdmin(): bool
     {
-        return $this->username === 'admin';
+        return $this->isSuperAdmin;
     }
 
     public function validatePassword(string $password, PasswordHasherInterface $passwordHasher): bool

@@ -125,4 +125,10 @@ Add this to `config/console/params.php`:
 ./yii migrate:up
 ```
 
+### 4. Init CMS
+
+```
+./yii cms:init
+```
+
 ## Changing CMS base path

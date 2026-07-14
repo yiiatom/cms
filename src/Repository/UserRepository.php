@@ -27,6 +27,14 @@ final readonly class UserRepository
             ->exists();
     }
 
+    public function superAdminExist(): bool
+    {
+        return $this->connection->createQuery()
+            ->from('{{%user}}')
+            ->where(['is_superadmin' => true])
+            ->exists();
+    }
+
     public function save(User $entity): void
     {
         $row = $this->mapper->mapEntityToRow($entity);
