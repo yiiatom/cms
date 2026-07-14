@@ -66,7 +66,10 @@ $this->setTitle($title);
                 ),
                 'delete' => new ActionButton(
                     Html::i('', ['class' => 'fa-solid fa-trash']),
-                    attributes: ['title' => 'Delete'],
+                    attributes: [
+                        'title' => 'Delete',
+                        'data-confirm' => 'Are you sure you want to delete this item?',
+                    ],
                 ),
             ],
             urlCreator: function ($action, $context) use ($urlGenerator) {

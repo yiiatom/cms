@@ -20,5 +20,6 @@ final class MainAsset extends AssetBundle
 
     public array $js = [
         'bootstrap/js/bootstrap.bundle.min.js',
+        'main.js',
     ];
 }
