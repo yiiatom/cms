@@ -6,8 +6,8 @@ namespace Atom\Entity;
 
 enum UserRole: int
 {
-    case USER = 1;
-    case ADMIN = 2;
+    case USER = 10;
+    case ADMIN = 50;
 
     public function getLabel(): string
     {

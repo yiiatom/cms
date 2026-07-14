@@ -152,6 +152,15 @@ final class User
         return $this->isSuperAdmin;
     }
 
+    public function canAccess(UserRole $role): bool
+    {
+        if ($this->isSuperAdmin) {
+            return true;
+        }
+
+        return $this->role->value >= $role->value;
+    }
+
     public function validatePassword(string $password, PasswordHasherInterface $passwordHasher): bool
     {
         return $passwordHasher->validate($password, $this->password);

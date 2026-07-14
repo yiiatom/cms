@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Atom\Middleware\AccessControl;
 use Atom\Middleware\Authentication;
 use Atom\Middleware\LoginTheme;
 use Atom\Middleware\MainTheme;
@@ -19,17 +20,19 @@ return [
                 ->action(Atom\Web\Login\Action::class)
                 ->name('atom.login'),
 
+            Route::get('/logout')
+                ->middleware(Authentication::class)
+                ->action(Atom\Web\Logout\Action::class)
+                ->name('atom.logout'),
+
             Group::create('')
                 ->middleware(MainTheme::class)
                 ->middleware(Authentication::class)
+                ->middleware(AccessControl::class)
                 ->routes(
                     Route::get('')
                         ->action(Atom\Web\Dashboard\Action::class)
                         ->name('atom.dashboard'),
-
-                    Route::get('/logout')
-                        ->action(Atom\Web\Logout\Action::class)
-                        ->name('atom.logout'),
 
                     Route::methods([Method::GET, Method::POST], '/profile/edit')
                         ->action(Atom\Web\Profile\Edit\Action::class)
