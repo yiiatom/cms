@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Users\Edit;
+namespace Atom\Web\User\Edit;
 
 use Atom\Entity\UserStatus;
 use Yiisoft\FormModel\FormModel;

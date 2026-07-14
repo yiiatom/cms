@@ -22,5 +22,5 @@ $htmlForm = Html::form()
     <?= Field::password($form, 'confirmPassword') ?>
     <?= Field::checkbox($form, 'requirePasswordChange') ?>
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
-    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.users.index'))->class('btn btn-outline-primary') ?>
+    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-primary') ?>
 <?= $htmlForm->close() ?>

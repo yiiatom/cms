@@ -17,7 +17,7 @@ $this->setTitle($title);
 
 <h1><?= Html::encode($title) ?></h1>
 
-<div class="mb-2"><?= Html::a('Create User')->url($urlGenerator->generate('atom.users.create'))->class('btn btn-primary') ?></div>
+<div class="mb-2"><?= Html::a('Create User')->url($urlGenerator->generate('atom.user.create'))->class('btn btn-primary') ?></div>
 
 <?= GridView::widget()
     ->dataReader($dataReader)
@@ -73,7 +73,7 @@ $this->setTitle($title);
                 ),
             ],
             urlCreator: function ($action, $context) use ($urlGenerator) {
-                return $urlGenerator->generate('atom.users.' . $action, ['uuid' => $context->data->getUuid()]);
+                return $urlGenerator->generate('atom.user.' . $action, ['uuid' => $context->data->getUuid()]);
             },
             visibleButtons: [
                 'edit' => static fn (User $user): bool => !$user->isSuperAdmin(),

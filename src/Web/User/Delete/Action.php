@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Users\Delete;
+namespace Atom\Web\User\Delete;
 
 use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -49,7 +49,7 @@ final readonly class Action
             ->createResponse(Status::SEE_OTHER)
             ->withHeader(
                 'Location', 
-                $this->urlGenerator->generate('atom.users.index'),
+                $this->urlGenerator->generate('atom.user.index'),
             );
     }
 }

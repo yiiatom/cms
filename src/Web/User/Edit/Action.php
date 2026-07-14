@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Users\Edit;
+namespace Atom\Web\User\Edit;
 
 use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
@@ -74,7 +74,7 @@ final readonly class Action
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
                     'Location', 
-                    $this->urlGenerator->generate('atom.users.index'),
+                    $this->urlGenerator->generate('atom.user.index'),
                 );
         }
 

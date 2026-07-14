@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Users\Index;
+namespace Atom\Web\User\Index;
 
 use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseInterface;

@@ -43,24 +43,24 @@ return [
                         ->name('atom.profile.change-password'),
 
                     Route::get('/users')
-                        ->action(Atom\Web\Users\Index\Action::class)
-                        ->name('atom.users.index'),
+                        ->action(Atom\Web\User\Index\Action::class)
+                        ->name('atom.user.index'),
 
                     Route::methods([Method::GET, Method::POST], '/users/create')
-                        ->action(Atom\Web\Users\Create\Action::class)
-                        ->name('atom.users.create'),
+                        ->action(Atom\Web\User\Create\Action::class)
+                        ->name('atom.user.create'),
 
                     Route::methods([Method::GET, Method::POST], '/users/{uuid}/edit')
-                        ->action(Atom\Web\Users\Edit\Action::class)
-                        ->name('atom.users.edit'),
+                        ->action(Atom\Web\User\Edit\Action::class)
+                        ->name('atom.user.edit'),
 
                     Route::get('/user/{uuid}/delete')
-                        ->action(Atom\Web\Users\Delete\Action::class)
-                        ->name('atom.users.delete'),
+                        ->action(Atom\Web\User\Delete\Action::class)
+                        ->name('atom.user.delete'),
 
                     Route::methods([Method::GET, Method::POST], '/users/{uuid}/password')
-                        ->action(Atom\Web\Users\Password\Action::class)
-                        ->name('atom.users.password'),
+                        ->action(Atom\Web\User\Password\Action::class)
+                        ->name('atom.user.password'),
                     ),
         ),
 ];

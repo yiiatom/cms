@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Users\Password;
+namespace Atom\Web\User\Create;
 
-use Atom\Security\PasswordHasherInterface;
+use Atom\Entity\User;
+use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
-use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
@@ -21,54 +21,55 @@ final readonly class Action
     public function __construct(
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
-        private PasswordHasherInterface $passwordHasher,
         private ResponseFactoryInterface $responseFactory,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
 
     public function __invoke(
-        #[RouteArgument('uuid')] string $uuid,
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $user = $this->userRepository->findOneByUuid($uuid);
-
-        if (!$user) {
-            return $this->responseFactory
-                ->createResponse(Status::NOT_FOUND);
-        }
-
-        if ($user->isSuperAdmin()) {
-            return $this->responseFactory
-                ->createResponse(Status::FORBIDDEN);
-        }
-
-        $form = new UserPasswordForm();
+        $form = new UserCreateForm();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->isValid()) {
-            $user->changePassword($form->newPassword, $this->passwordHasher);
-            if ($form->requirePasswordChange) {
-                $user->forcePasswordChange();
+            if ($this->userRepository->findOneByUsername($form->username)) {
+                $form->addError('Username is already in use.', ['username']);
             }
+        }
 
+        if ($form->isValid() && $form->email) {
+            if ($this->userRepository->findOneByEmail($form->email)) {
+                $form->addError('Email is already in use.', ['email']);
+            }
+        }
+
+        if ($form->isValid()) {
+            $user = User::create(
+                username: $form->username,
+                email: $form->email,
+                status: UserStatus::from($form->status),
+                firstName: $form->firstName,
+                lastName: $form->lastName,
+            );
             $this->userRepository->save($user);
 
-            $this->flash->add('success', 'User password has been updated.');
+            $this->flash->add('success', 'User has been created.');
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
                     'Location', 
-                    $this->urlGenerator->generate('atom.users.index'),
+                    $this->urlGenerator->generate('atom.user.index'),
                 );
         }
 
+
         return $request
             ->getAttribute(WebViewRenderer::class)
-            ->render(__DIR__ . '/password', [
+            ->render(__DIR__ . '/create', [
                 'form' => $form,
             ]);
     }
