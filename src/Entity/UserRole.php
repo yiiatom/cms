@@ -16,4 +16,12 @@ enum UserRole: int
             self::ADMIN => 'Admin',
         };
     }
+
+    public function getCssClass(): string
+    {
+        return match ($this) {
+            self::USER => 'bg-secondary text-white',
+            self::ADMIN => 'bg-danger text-white',
+        };
+    }
 }

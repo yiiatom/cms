@@ -50,6 +50,23 @@ $this->setTitle($title);
             encodeContent: false,
         ),
         new DataColumn(
+            property: 'role',
+            header: 'Role',
+            content: static function (User $user): string {
+                $role = $user->getRole();
+
+                $options = ['class' => 'badge'];
+                Html::addCssClass($options, $role->getCssClass());
+
+                return Html::tag(
+                    'span',
+                    Html::encode($role->getLabel()),
+                    $options,
+                )->render();
+            },
+            encodeContent: false,
+        ),
+        new DataColumn(
             property: 'createdAt',
             header: 'Created At',
             content: static fn (User $user): string => $user->getCreatedAt()->format('Y-m-d H:i'),
