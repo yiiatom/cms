@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Web\User\Create;
 
 use Atom\Entity\User;
+use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -51,6 +52,7 @@ final readonly class Action
                 username: $form->username,
                 email: $form->email,
                 status: UserStatus::from($form->status),
+                role: UserRole::from($form->role),
                 firstName: $form->firstName,
                 lastName: $form->lastName,
             );

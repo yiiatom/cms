@@ -23,6 +23,7 @@ $htmlForm = Html::form()
         ->disabled() ?>
     <?= Field::email($form, 'email') ?>
     <?= Field::select($form, 'status')->optionsData($form->getStatusOptions()) ?>
+    <?= Field::select($form, 'role')->optionsData($form->getRoleOptions()) ?>
     <?= Field::text($form, 'firstName') ?>
     <?= Field::text($form, 'lastName') ?>
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>

@@ -101,6 +101,19 @@ final class User
         return $this;
     }
 
+    public function getRole(): UserRole
+    {
+        return $this->role;
+    }
+
+    public function setRole(UserRole $value): self
+    {
+        $this->role = $value;
+        $this->updatedAt = new DateTimeImmutable;
+
+        return $this;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;

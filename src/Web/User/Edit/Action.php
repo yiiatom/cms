@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Edit;
 
+use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -47,6 +48,7 @@ final readonly class Action
         $form->username = $user->getUsername();
         $form->email = $user->getEmail();
         $form->status = $user->getStatus()->value;
+        $form->role = $user->getRole()->value;
         $form->firstName = $user->getFirstName();
         $form->lastName = $user->getLastName();
 
@@ -63,6 +65,7 @@ final readonly class Action
             $user
                 ->setEmail($form->email)
                 ->setStatus(UserStatus::from($form->status))
+                ->setRole(UserRole::from($form->role))
                 ->setFirstName($form->firstName)
                 ->setLastName($form->lastName);
 

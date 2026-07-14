@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Create;
 
+use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Label;
@@ -38,6 +39,10 @@ final class UserCreateForm extends FormModel
     #[Required]
     public int $status = UserStatus::ACTIVE->value;
 
+    #[Label('Role')]
+    #[Required]
+    public int $role = UserRole::USER->value;
+
     #[Label('First Name')]
     #[Length(max: 100, skipOnEmpty: true)]
     public ?string $firstName = null;
@@ -51,6 +56,14 @@ final class UserCreateForm extends FormModel
         return [
             UserStatus::PENDING->value => UserStatus::PENDING->getLabel(),
             UserStatus::ACTIVE->value => UserStatus::ACTIVE->getLabel(),
+        ];
+    }
+
+    public function getRoleOptions(): array
+    {
+        return [
+            UserRole::USER->value => UserRole::USER->getLabel(),
+            UserRole::ADMIN->value => UserRole::ADMIN->getLabel(),
         ];
     }
 }
