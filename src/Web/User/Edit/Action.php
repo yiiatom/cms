@@ -85,6 +85,7 @@ final readonly class Action
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/edit', [
                 'form' => $form,
+                'user' => $user,
             ]);
     }
 }
