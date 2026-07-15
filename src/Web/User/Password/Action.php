@@ -51,6 +51,7 @@ final readonly class Action
         }
 
         $form = new UserPasswordForm();
+        $form->username = $user->getUsername();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 

@@ -18,6 +18,9 @@ $htmlForm = Html::form()
 <h1><?= Html::encode($title) ?></h1>
 
 <?= $htmlForm->open() ?>
+    <?= Field::text($form, 'username')
+        ->readonly()
+        ->disabled() ?>
     <?= Field::password($form, 'newPassword') ?>
     <?= Field::password($form, 'confirmPassword') ?>
     <?= Field::checkbox($form, 'requirePasswordChange') ?>

@@ -11,6 +11,9 @@ use Yiisoft\Validator\Rule\Required;
 
 final class UserPasswordForm extends FormModel
 {
+    #[Label('Username')]
+    public ?string $username = null;
+
     #[Label('New Password')]
     #[Required]
     public ?string $newPassword = null;
