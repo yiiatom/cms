@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace Atom\Injection;
 
+use Atom\Web\Shared\Sidebar\SidebarMenuProvider;
+use Yiisoft\Router\CurrentRoute;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\LayoutParametersInjectionInterface;
 
 final readonly class LayoutInjection implements LayoutParametersInjectionInterface
 {
     public function __construct(
+        private CurrentRoute $currentRoute,
         private CurrentUser $currentUser,
+        private SidebarMenuProvider $sidebarMenuProvider,
     ) {}
 
     public function getLayoutParameters(): array
     {
         return [
+            'currentRoute' => $this->currentRoute,
             'userDisplayName' => $this->getDisplayName(),
             'userAvatarUrl' => $this->getAvatarUrl(),
+            'sidebarMenuProvider' => $this->sidebarMenuProvider,
         ];
     }
 
