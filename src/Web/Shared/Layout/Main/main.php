@@ -28,7 +28,7 @@ $this->beginPage()
 <body>
 <?php $this->beginBody() ?>
 
-<?= $this->render('../../Sidebar/sidebar') ?>
+<?= $this->render('../../Sidebar/_sidebar') ?>
 
 <main class="main-container">
     <?= AlertWidget::widget() ?>
