@@ -6,6 +6,7 @@ namespace Atom\Web\Profile\ChangePassword;
 
 use Atom\Repository\UserRepository;
 use Atom\Security\PasswordHasherInterface;
+use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,6 +20,7 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class Action
 {
     public function __construct(
+        private BreadcrumbsProvider $breadcrumbsProvider,
         private CurrentUser $currentUser,
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
@@ -32,6 +34,8 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $this->breadcrumbsProvider->add('Change Password');
+
         $form = new ChangePasswordForm();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);

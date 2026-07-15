@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Web\Profile\Edit;
 
 use Atom\Repository\UserRepository;
+use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,6 +19,7 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class Action
 {
     public function __construct(
+        private BreadcrumbsProvider $breadcrumbsProvider,
         private CurrentUser $currentUser,
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
@@ -30,6 +32,8 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $this->breadcrumbsProvider->add('Profile');
+
         $user = $this->currentUser->getIdentity()->getUser();
 
         $form = new ProfileForm();

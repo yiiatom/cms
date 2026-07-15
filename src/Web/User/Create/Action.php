@@ -8,6 +8,7 @@ use Atom\Entity\User;
 use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
+use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,6 +21,7 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class Action
 {
     public function __construct(
+        private BreadcrumbsProvider $breadcrumbsProvider,
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
@@ -31,6 +33,10 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $this->breadcrumbsProvider
+            ->add('Users', 'atom.user.index')
+            ->add('Create User');
+
         $form = new UserCreateForm();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);

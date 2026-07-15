@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Password;
 
-use Atom\Security\PasswordHasherInterface;
 use Atom\Repository\UserRepository;
+use Atom\Security\PasswordHasherInterface;
+use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,6 +20,7 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class Action
 {
     public function __construct(
+        private BreadcrumbsProvider $breadcrumbsProvider,
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private PasswordHasherInterface $passwordHasher,
@@ -32,6 +34,10 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $this->breadcrumbsProvider
+            ->add('Users', 'atom.user.index')
+            ->add('Change User Password');
+
         $user = $this->userRepository->findOneByUuid($uuid);
 
         if (!$user) {

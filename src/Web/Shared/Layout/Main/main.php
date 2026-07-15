@@ -31,6 +31,7 @@ $this->beginPage()
 <?= $this->render('../../Sidebar/_sidebar') ?>
 
 <main class="main-container">
+    <?= $this->render('../../Breadcrumbs/_breadcrumbs') ?>
     <?= AlertWidget::widget() ?>
     <?= $content ?>
 </main>
