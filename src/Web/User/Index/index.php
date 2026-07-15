@@ -69,7 +69,7 @@ $this->setTitle($title);
         new DataColumn(
             property: 'createdAt',
             header: 'Created At',
-            content: static fn (User $user): string => $user->getCreatedAt()->format('Y-m-d H:i'),
+            content: static fn (User $user): string => $user->getCreatedAt()->format('Y-m-d H:i:s'),
         ),
         new ActionColumn(
             buttons: [
