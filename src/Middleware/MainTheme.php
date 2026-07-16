@@ -30,6 +30,7 @@ final readonly class MainTheme implements MiddlewareInterface
 
         ThemeContainer::initialize([
             'horizontal' => require $this->aliases->get('@atom/config/theme/main-horizontal.php'),
+            'inline' => require $this->aliases->get('@atom/config/theme/main-inline.php'),
         ], 'horizontal');
 
         WidgetFactory::initialize($this->container, [
