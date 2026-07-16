@@ -87,11 +87,32 @@ final readonly class UserRepository
     }
 
 
-    public function findAllDataReader(): UserDataReader
+    public function findAllAsDataReader(array $filters = []): UserDataReader
     {
         $query = $this->connection
             ->select()
             ->from('{{%user}}');
+
+        $search = $filters['search'] ?? null;
+        if (!empty($search)) {
+            $query->andWhere([
+                'or',
+                ['like', 'username', $search],
+                ['like', 'email', $search],
+                ['like', 'first_name', $search],
+                ['like', 'last_name', $search],
+            ]);
+        }
+
+        $status = $filters['status'] ?? null;
+        if ($status !== null && $status !== '') {
+            $query->andWhere(['status' => (int) $status]);
+        }
+
+        $role = $filters['role'] ?? null;
+        if ($role !== null && $role !== '') {
+            $query->andWhere(['role' => (int) $role]);
+        }
 
         $reader = new QueryDataReader($query);
 
