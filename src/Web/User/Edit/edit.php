@@ -10,7 +10,7 @@ $title = 'Edit User';
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-default form-user-create')
+    ->class('form-default form-user-edit')
     ->post()
     ->csrf($csrf);
 
@@ -27,7 +27,7 @@ $htmlForm = Html::form()
     <?= Field::text($form, 'firstName') ?>
     <?= Field::text($form, 'lastName') ?>
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
-    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-primary') ?>
+    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
 <?= $htmlForm->close() ?>
 <div class="mt-2">
     <i>Last updated: <?= $user->getUpdatedAt()->format('Y-m-d H:i:s') ?></i>

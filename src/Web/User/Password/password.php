@@ -10,7 +10,7 @@ $title = 'Change User Password';
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-default form-user-create')
+    ->class('form-default form-user-password')
     ->post()
     ->csrf($csrf);
 
@@ -25,5 +25,5 @@ $htmlForm = Html::form()
     <?= Field::password($form, 'confirmPassword') ?>
     <?= Field::checkbox($form, 'requirePasswordChange') ?>
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
-    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-primary') ?>
+    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
 <?= $htmlForm->close() ?>

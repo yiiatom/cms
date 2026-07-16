@@ -25,5 +25,5 @@ $htmlForm = Html::form()
     <?= Field::text($form, 'firstName') ?>
     <?= Field::text($form, 'lastName') ?>
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
-    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-primary') ?>
+    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
 <?= $htmlForm->close() ?>
