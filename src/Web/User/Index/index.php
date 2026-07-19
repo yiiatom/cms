@@ -15,7 +15,7 @@ $title = 'Users';
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-user-filter row row-cols-md-auto g-2 align-items-center mb-2')
+    ->class('form-user-filter row row-cols-sm-auto g-2 align-items-center mb-2')
     ->get();
 
 ?>
