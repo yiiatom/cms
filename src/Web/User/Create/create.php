@@ -18,7 +18,7 @@ $htmlForm = Html::form()
 <h1><?= Html::encode($title) ?></h1>
 
 <?= $htmlForm->open() ?>
-    <?= Field::text($form, 'username') ?>
+    <?= Field::text($form, 'username')->autofocus() ?>
     <?= Field::email($form, 'email') ?>
     <?= Field::select($form, 'status')->optionsData($form->getStatusOptions()) ?>
     <?= Field::select($form, 'role')->optionsData($form->getRoleOptions()) ?>

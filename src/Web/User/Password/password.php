@@ -21,7 +21,7 @@ $htmlForm = Html::form()
     <?= Field::text($form, 'username')
         ->readonly()
         ->disabled() ?>
-    <?= Field::password($form, 'newPassword') ?>
+    <?= Field::password($form, 'newPassword')->autofocus() ?>
     <?= Field::password($form, 'confirmPassword') ?>
     <?= Field::checkbox($form, 'requirePasswordChange') ?>
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
