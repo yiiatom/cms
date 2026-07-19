@@ -30,7 +30,7 @@ $this->beginPage()
 
 <?= $this->render('../../Sidebar/_sidebar') ?>
 
-<main class="main-container">
+<main class="main-container pt-md-2">
     <?= $this->render('../../Breadcrumbs/_breadcrumbs') ?>
     <?= AlertWidget::widget() ?>
     <?= $content ?>

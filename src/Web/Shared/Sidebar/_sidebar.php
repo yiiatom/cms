@@ -7,13 +7,34 @@ use Yiisoft\Html\Html;
 $currentRouteName = $currentRoute->getName();
 
 ?>
-<aside class="sidebar text-white bg-dark">
+<div class="navbar navbar-dark bg-dark d-md-none w-100 px-3 fixed-top shadow">
+    <?= Html::a('<span>Atom</span>')
+        ->encode(false)
+        ->url($urlGenerator->generate('atom.dashboard'))
+        ->class('text-white text-decoration-none fs-4') ?>
+
+    <?= Html::button('<span class="navbar-toggler-icon"></span>', [
+        'class' => 'navbar-toggler p-1',
+        'data-bs-toggle' => 'offcanvas',
+        'data-bs-target' => '#sidebar',
+        'aria-controls' => 'sidebar',
+    ])->encode(false)  ?>
+</div>
+
+<aside id="sidebar" class="sidebar text-white bg-dark offcanvas-md offcanvas-end" tabindex="-1">
     <div class="sidebar-header">
         <?= Html::a('<span>Atom</span>')
             ->encode(false)
             ->url($urlGenerator->generate('atom.dashboard'))
             ->class('text-white text-decoration-none fs-4') ?>
         <span class="ver">0.1.0-dev</span>
+
+        <?= Html::button('', [
+            'class' => 'btn-close btn-close-white d-md-none ms-3',
+            'data-bs-dismiss' => 'offcanvas',
+            'data-bs-target' => '#sidebar',
+            'aria-label' => 'Close',
+        ]) ?>
     </div>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">

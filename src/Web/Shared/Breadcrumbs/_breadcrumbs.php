@@ -16,7 +16,7 @@ if (empty($items)) {
     return;
 }
 ?>
-<nav aria-label="breadcrumb" class="mb-4">
+<nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <?= Html::a(
