@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\Dashboard;
 
-use Atom\Web\Dashboard\DashboardEvent;
+use Atom\Event\DashboardEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Data\Reader\Iterable\IterableDataReader;
 
