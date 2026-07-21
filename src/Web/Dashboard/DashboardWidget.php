@@ -41,17 +41,16 @@ final class DashboardWidget extends Widget
         $icon = Html::encode($card->icon);
         $bgClass = Html::encode($card->bgClass);
 
-        // Генерируем HTML карточки по канонам Bootstrap 5.3
         return <<<HTML
         <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm h-100">
+            <div class="card h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-shrink-0 p-3 {$bgClass} bg-opacity-10 text-primary rounded" style="color: var(--bs-primary) !important;">
-                        <i class="fa-solid {$icon} fa-2xl"></i>
+                        <i class="fa-solid {$icon} fa-xl"></i>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h6 class="card-title text-muted mb-0 small text-uppercase fw-bold">{$title}</h6>
-                        <span class="h4 mb-0 fw-bold">{$value}</span>
+                        <h6 class="card-title text-muted mb-0">{$title}</h6>
+                        <span class="h4 mb-0">{$value}</span>
                     </div>
                 </div>
             </div>

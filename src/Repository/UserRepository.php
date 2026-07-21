@@ -7,6 +7,7 @@ namespace Atom\Repository;
 use DateTimeImmutable;
 use Atom\Data\UserDataReader;
 use Atom\Entity\User;
+use Atom\Entity\UserStatus;
 use Atom\Mapper\UserMapper;
 use Yiisoft\Data\Db\QueryDataReader;
 use Yiisoft\Db\Connection\ConnectionInterface;
@@ -54,6 +55,19 @@ final readonly class UserRepository
         }
 
         return $this->mapper->mapRowToEntity($row);
+    }
+
+    public function count(bool $includeDeleted = false): int
+    {
+        $query = $this->connection
+            ->select()
+            ->from('{{%user}}');
+
+        if (!$includeDeleted) {
+            $query->where(['!=', 'status', UserStatus::DELETED->value]);
+        }
+
+        return $query->count();
     }
 
     public function findOneByUuid(string $uuid): ?User
