@@ -6,6 +6,9 @@ namespace Atom\Web\Dashboard;
 
 final class DashboardCard
 {
+    /**
+     * @param DashboardCardItem[] $items
+     */
     public function __construct(
         public string $title,
         public string $icon,

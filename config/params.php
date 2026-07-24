@@ -7,6 +7,9 @@ use Atom\Injection\LayoutInjection;
 use Yiisoft\Definitions\Reference;
 
 return [
+    'atom.env' => $_ENV['APP_ENV'] ?? 'prod',
+    'atom.debug' => filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOLEAN),
+
     'yiisoft/aliases' => [
         'aliases' => [
             '@atom' => dirname(__DIR__),

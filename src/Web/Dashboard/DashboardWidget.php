@@ -42,13 +42,20 @@ final class DashboardWidget extends Widget
         $itemsHtml = '';
         if (!empty($card->items)) {
             $itemsHtml .= '<div class="mt-2 pt-2 border-top">';
-            foreach ($card->items as $label => $val) {
-                $encodedLabel = Html::encode($label);
-                $encodedVal = Html::encode($val);
+            /** @var \Atom\Web\Dashboard\DashboardCardItem $item */
+            foreach ($card->items as $item) {
+                $encodedLabel = Html::encode($item->label);
+                $encodedVal = Html::encode($item->value);
+                $valueClass = match($item->status) {
+                    'default' => 'text-dark',
+                    'success' => 'text-success',
+                    'warning' => 'text-warning',
+                    'danger' => 'text-danger',
+                };
                 $itemsHtml .= <<<HTML
                 <div class="d-flex justify-content-between align-items-center text-muted">
                     <span>{$encodedLabel}</span>
-                    <span class="fw-semibold text-dark">{$encodedVal}</span>
+                    <span class="fw-semibold {$valueClass}">{$encodedVal}</span>
                 </div>
                 HTML;
             }
