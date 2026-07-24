@@ -102,6 +102,7 @@ $htmlForm = Html::form()
                     Html::i('', ['class' => 'fa-solid fa-trash']),
                     attributes: [
                         'title' => 'Delete',
+                        'data-method' => 'POST',
                         'data-confirm' => 'Are you sure you want to delete this item?',
                     ],
                 ),
