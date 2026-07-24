@@ -54,7 +54,7 @@ return [
                         ->action(Atom\Web\User\Edit\Action::class)
                         ->name('atom.user.edit'),
 
-                    Route::get('/user/{uuid}/delete')
+                    Route::get('/users/{uuid}/delete')
                         ->action(Atom\Web\User\Delete\Action::class)
                         ->name('atom.user.delete'),
 
