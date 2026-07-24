@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Atom\Entity;
 
-enum UserStatus: int
+enum UserStatus: string
 {
-    case PENDING = 0;
-    case ACTIVE = 1;
-    case BLOCKED = 2;
-    case DELETED = 3;
+    case PENDING = 'pending';
+    case ACTIVE = 'active';
+    case BLOCKED = 'blocked';
+    case DELETED = 'deleted';
 
     public function getLabel(): string
     {

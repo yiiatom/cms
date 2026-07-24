@@ -37,11 +37,11 @@ final class UserCreateForm extends FormModel
 
     #[Label('Status')]
     #[Required]
-    public int $status = UserStatus::ACTIVE->value;
+    public string $status = UserStatus::ACTIVE->value;
 
     #[Label('Role')]
     #[Required]
-    public int $role = UserRole::USER->value;
+    public string $role = UserRole::USER->value;
 
     #[Label('First Name')]
     #[Length(max: 100, skipOnEmpty: true)]

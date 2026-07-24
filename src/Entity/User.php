@@ -171,7 +171,7 @@ final class User
             return true;
         }
 
-        return $this->role->value >= $role->value;
+        return $this->role->canAccess($role);
     }
 
     public function validatePassword(string $password, PasswordHasherInterface $passwordHasher): bool

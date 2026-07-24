@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Atom\Entity;
 
-enum UserRole: int
+enum UserRole: string
 {
-    case USER = 10;
-    case ADMIN = 50;
+    case USER = 'user';
+    case ADMIN = 'admin';
 
     public function getLabel(): string
     {
@@ -23,5 +23,10 @@ enum UserRole: int
             self::USER => 'bg-secondary text-white',
             self::ADMIN => 'bg-danger text-white',
         };
+    }
+
+    public function canAccess(UserRole $role): bool
+    {
+        return $this === $role || $this === UserRole::ADMIN;
     }
 }
