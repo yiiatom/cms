@@ -57,17 +57,49 @@ final readonly class UserRepository
         return $this->mapper->mapRowToEntity($row);
     }
 
-    public function count(bool $includeDeleted = false): int
+    public function getSummaryStats(?DateTimeImmutable $newUsersDate = null): array
     {
-        $query = $this->connection
-            ->select()
-            ->from('{{%user}}');
+        $stats = [
+            'total' => 0,
+            'active' => 0,
+            'blocked' => 0,
+            'new' => 0,
+        ];
 
-        if (!$includeDeleted) {
-            $query->where(['!=', 'status', UserStatus::DELETED->value]);
+        $rows = $this->connection
+            ->select(['status', 'COUNT(*) as count'])
+            ->from('{{%user}}')
+            ->groupBy('status')
+            ->where(['!=', 'status', UserStatus::DELETED->value])
+            ->all();
+
+        foreach ($rows as $row) {
+            $count = (int) $row['count'];
+            $stats['total'] += $count;
+
+            if ($row['status'] == UserStatus::ACTIVE->value) {
+                $stats['active'] += $count;
+            } elseif ($row['status'] == UserStatus::BLOCKED->value) {
+                $stats['blocked'] += $count;
+            }
         }
 
-        return $query->count();
+        if ($newUsersDate === null) {
+            $newUsersDate = (new DateTimeImmutable())->modify('-7 days');
+        }
+
+        $row = $this->connection
+            ->select(['COUNT(*) as count'])
+            ->from('{{%user}}')
+            ->where(['!=', 'status', UserStatus::DELETED->value])
+            ->andWhere(['>', 'created_at', $newUsersDate->format('Y-m-d H:i:s')])
+            ->one();
+
+        if ($row) {
+            $stats['new'] = (int) $row['count'];
+        }
+
+        return $stats;
     }
 
     public function findOneByUuid(string $uuid): ?User

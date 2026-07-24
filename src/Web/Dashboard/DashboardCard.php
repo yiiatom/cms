@@ -8,9 +8,10 @@ final class DashboardCard
 {
     public function __construct(
         public string $title,
-        public string $value,
         public string $icon,
-        public string $bgClass,
+        public array $items,
         public int $order = 100,
+        public ?string $linkUrl = null,
+        public ?string $linkText = null,
     ) {}
 }
