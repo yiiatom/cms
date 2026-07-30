@@ -36,7 +36,7 @@ final readonly class MainTheme implements MiddlewareInterface
         WidgetFactory::initialize($this->container, [
             GridView::class => [
                 'containerClass()' => ['table-responsive'],
-                'tableClass()' => ['table table-bordered table-sm'],
+                'tableClass()' => ['table table-bordered table-sm table-hover'],
                 'headerRowAttributes()' => [['class' => 'table-dark']],
             ],
         ]);
