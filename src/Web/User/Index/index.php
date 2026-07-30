@@ -58,8 +58,7 @@ $htmlForm = Html::form()
                 $options = ['class' => 'badge'];
                 Html::addCssClass($options, $status->getCssClass());
 
-                return Html::tag(
-                    'span',
+                return Html::span(
                     Html::encode($status->getLabel()),
                     $options,
                 )->render();
@@ -75,8 +74,7 @@ $htmlForm = Html::form()
                 $options = ['class' => 'badge'];
                 Html::addCssClass($options, $role->getCssClass());
 
-                return Html::tag(
-                    'span',
+                return Html::span(
                     Html::encode($role->getLabel()),
                     $options,
                 )->render();
