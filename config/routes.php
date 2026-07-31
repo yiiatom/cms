@@ -61,6 +61,10 @@ return [
                     Route::methods([Method::GET, Method::POST], '/users/{uuid}/password')
                         ->action(Atom\Web\User\Password\Action::class)
                         ->name('atom.user.password'),
-                    ),
+
+                    Route::get('/translit')
+                        ->action(Atom\Web\Translit\Action::class)
+                        ->name('atom.translit'),
+                ),
         ),
 ];
