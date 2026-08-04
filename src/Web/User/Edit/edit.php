@@ -29,6 +29,7 @@ $htmlForm = Html::form()
     <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
     <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
 <?= $htmlForm->close() ?>
+
 <div class="mt-2">
     <i>Last updated: <?= $user->getUpdatedAt()->format('Y-m-d H:i:s') ?></i>
 </div>
