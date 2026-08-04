@@ -36,18 +36,10 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
             return 'Guest';
         }
 
-        $user = $this->currentUser->getIdentity()->getUser();
-
-        $firstName = $user->getFirstName() ?? "";
-        $lastName = $user->getLastName() ?? "";
-
-        $displayName = trim($firstName . ' ' . $lastName);
-
-        if (!$displayName) {
-            $displayName = $user->getUsername();
-        }
-
-        return $displayName;
+        return $this->currentUser
+            ->getIdentity()
+            ->getUser()
+            ->getDisplayName();
     }
 
     private function getAvatarUrl(): ?string

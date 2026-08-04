@@ -156,6 +156,20 @@ final class User
         return $this->deletedAt;
     }
 
+    public function getDisplayName(): string
+    {
+        $firstName = $this->firstName ?? "";
+        $lastName = $this->lastName ?? "";
+
+        $displayName = trim($firstName . ' ' . $lastName);
+
+        if (!$displayName) {
+            $displayName = $this->username;
+        }
+
+        return $displayName;
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->isSuperAdmin;
