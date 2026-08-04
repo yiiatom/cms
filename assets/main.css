@@ -47,7 +47,7 @@ body {
     overflow: auto;
     padding: 4rem 1rem 0.5rem 1rem;
 }
-.form-default {
+.form-default > div.row {
     max-width: 600px;
 }
 .form-default .btn {
