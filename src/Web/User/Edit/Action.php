@@ -34,10 +34,6 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $this->breadcrumbsProvider
-            ->add('Users')
-            ->add('Edit User');
-
         $user = $this->userRepository->findOneByUuid($uuid);
 
         if (!$user) {
@@ -49,6 +45,10 @@ final readonly class Action
             return $this->responseFactory
                 ->createResponse(Status::FORBIDDEN);
         }
+
+        $this->breadcrumbsProvider
+            ->add('Users', 'atom.user.index')
+            ->add($user->getDisplayName());
 
         $form = new UserEditForm();
         $form->username = $user->getUsername();
