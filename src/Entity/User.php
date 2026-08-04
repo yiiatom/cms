@@ -29,7 +29,6 @@ final class User
 
     public static function create(
         string $username,
-        ?string $uuid = null,
         ?string $email = null,
         ?string $password = null,
         ?DateTimeImmutable $passwordExpiresAt = null,
@@ -39,13 +38,10 @@ final class User
         ?string $firstName = null,
         ?string $lastName = null,
         ?string $avatarUrl = null,
-        ?DateTimeImmutable $createdAt = null,
-        ?DateTimeImmutable $updatedAt = null,
-        ?DateTimeImmutable $deletedAt = null,
     ): self {
         $date = new DateTimeImmutable;
         return new self(
-            uuid: $uuid ?: Uuid::uuid7()->toString(),
+            uuid: Uuid::uuid7()->toString(),
             username: $username,
             email: $email,
             password: $password,
@@ -56,9 +52,9 @@ final class User
             firstName: $firstName,
             lastName: $lastName,
             avatarUrl: $avatarUrl,
-            createdAt: $createdAt ?? $date,
-            updatedAt: $updatedAt ?? $date,
-            deletedAt: $deletedAt,
+            createdAt: $date,
+            updatedAt: $date,
+            deletedAt: null,
         );
     }
 
