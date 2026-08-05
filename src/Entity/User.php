@@ -58,6 +58,13 @@ final class User
         );
     }
 
+    public function delete(): void
+    {
+        $this->status = UserStatus::DELETED;
+        $this->deletedAt = new DateTimeImmutable;
+        $this->updatedAt = new DateTimeImmutable;
+    }
+
     public function getUuid(): string
     {
         return $this->uuid;
@@ -205,12 +212,5 @@ final class User
     public function isPasswordExpired(): bool
     {
         return $this->passwordExpiresAt && $this->passwordExpiresAt < new DateTimeImmutable();
-    }
-
-    public function delete(): void
-    {
-        $this->status = UserStatus::DELETED;
-        $this->deletedAt = new DateTimeImmutable;
-        $this->updatedAt = new DateTimeImmutable;
     }
 }
