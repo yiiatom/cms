@@ -7,13 +7,14 @@ namespace Atom\Data;
 use Generator;
 use Atom\Entity\User;
 use Atom\Mapper\UserMapper;
-use Yiisoft\Data\Db\QueryDataReader;
-use Yiisoft\Data\Reader\ReadableDataInterface;
+use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Data\Reader\FilterInterface;
+use Yiisoft\Data\Reader\Sort;
 
-class UserDataReader implements ReadableDataInterface
+class UserDataReader implements DataReaderInterface
 {
     public function __construct(
-        private QueryDataReader $dataReader,
+        private DataReaderInterface $dataReader,
         private UserMapper $mapper,
     ) {}
 
@@ -28,5 +29,63 @@ class UserDataReader implements ReadableDataInterface
     {
         $row = $this->dataReader->readOne();
         return $this->mapper->mapRowToEntity($row);
+    }
+
+    final public function withLimit(?int $limit): static
+    {
+        $new = clone $this;
+        $new->dataReader = $this->dataReader->withLimit($limit);
+        return $new;
+    }
+
+    final public function getLimit(): ?int
+    {
+        return $this->dataReader->getLimit();
+    }
+
+    final public function withOffset(?int $offset): static
+    {
+        $new = clone $this;
+        $new->dataReader = $this->dataReader->withOffset($offset);
+        return $new;
+    }
+
+    final public function getOffset(): int
+    {
+        return $this->dataReader->getOffset();
+    }
+
+    final public function count(): int
+    {
+        return $this->dataReader->count();
+    }
+
+    final public function withSort(?Sort $sort): static
+    {
+        $new = clone $this;
+        $new->dataReader = $this->dataReader->withSort($sort);
+        return $new;
+    }
+
+    final public function getSort(): ?Sort
+    {
+        return $this->dataReader->getSort();
+    }
+
+    final public function withFilter(FilterInterface $filter): static
+    {
+        $new = clone $this;
+        $new->dataReader = $this->dataReader->withFilter($filter);
+        return $new;
+    }
+
+    final public function getFilter(): FilterInterface
+    {
+        return $this->dataReader->getFilter();
+    }
+
+    final public function getIterator(): Generator
+    {
+        return $this->read();
     }
 }
