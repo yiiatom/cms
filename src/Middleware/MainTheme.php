@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Middleware;
 
+use Atom\Helper\DataViewUrlProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,6 +12,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Form\Theme\ThemeContainer;
+use Yiisoft\Injector\Injector;
 use Yiisoft\Widget\WidgetFactory;
 use Yiisoft\Yii\DataView\GridView\GridView;
 use Yiisoft\Yii\DataView\Pagination\OffsetPagination;
@@ -21,6 +23,7 @@ final readonly class MainTheme implements MiddlewareInterface
     public function __construct(
         private Aliases $aliases,
         private ContainerInterface $container,
+        private Injector $injector,
         private WebViewRenderer $viewRenderer,
     ) {}
 
@@ -34,11 +37,17 @@ final readonly class MainTheme implements MiddlewareInterface
             'inline' => require $this->aliases->get('@atom/config/theme/main-inline.php'),
         ], 'horizontal');
 
+        $provider = $this->injector->make(DataViewUrlProvider::class, [
+            'request' => $request,
+        ]);
+
         WidgetFactory::initialize($this->container, [
             GridView::class => [
                 'containerClass()' => ['table-responsive'],
                 'tableClass()' => ['table table-bordered table-sm table-hover'],
                 'headerRowAttributes()' => [['class' => 'table-dark']],
+                'urlCreator()' => [[$provider, 'urlCreator']],
+                'urlParameterProvider()' => [$provider],
             ],
             OffsetPagination::class => [
                 'listTag()' => ['ul'],
