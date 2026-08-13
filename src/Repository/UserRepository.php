@@ -70,7 +70,7 @@ final readonly class UserRepository
             ->select(['status', 'COUNT(*) as count'])
             ->from('{{%user}}')
             ->groupBy('status')
-            ->where(['!=', 'status', UserStatus::DELETED->value])
+            ->where(['deleted_at' => null])
             ->all();
 
         foreach ($rows as $row) {
@@ -91,7 +91,7 @@ final readonly class UserRepository
         $row = $this->connection
             ->select(['COUNT(*) as count'])
             ->from('{{%user}}')
-            ->where(['!=', 'status', UserStatus::DELETED->value])
+            ->where(['deleted_at' => null])
             ->andWhere(['>', 'created_at', $newUsersDate->format('Y-m-d H:i:s')])
             ->one();
 
@@ -137,7 +137,8 @@ final readonly class UserRepository
     {
         $query = $this->connection
             ->select()
-            ->from('{{%user}}');
+            ->from('{{%user}}')
+            ->where(['deleted_at' => null]);
 
         $search = $filters['search'] ?? null;
         if (!empty($search)) {

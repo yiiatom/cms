@@ -60,9 +60,13 @@ final class User
 
     public function delete(): void
     {
-        $this->status = UserStatus::DELETED;
         $this->deletedAt = new DateTimeImmutable;
         $this->updatedAt = new DateTimeImmutable;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->deletedAt !== null;
     }
 
     public function getUuid(): string
@@ -97,9 +101,6 @@ final class User
     {
         $this->status = $value;
         $this->updatedAt = new DateTimeImmutable;
-        if ($value !== UserStatus::DELETED) {
-            $this->deletedAt = null;
-        }
 
         return $this;
     }

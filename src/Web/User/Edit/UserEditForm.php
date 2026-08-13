@@ -45,7 +45,6 @@ final class UserEditForm extends FormModel
             UserStatus::PENDING->value => UserStatus::PENDING->getLabel(),
             UserStatus::ACTIVE->value => UserStatus::ACTIVE->getLabel(),
             UserStatus::BLOCKED->value => UserStatus::BLOCKED->getLabel(),
-            UserStatus::DELETED->value => UserStatus::DELETED->getLabel(),
         ];
     }
 

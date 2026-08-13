@@ -48,7 +48,6 @@ class UserFilterForm extends FormModel
             UserStatus::PENDING->value => 'Pending',
             UserStatus::ACTIVE->value => 'Active',
             UserStatus::BLOCKED->value => 'Blocked',
-            UserStatus::DELETED->value => 'Deleted',
         ];
     }
 

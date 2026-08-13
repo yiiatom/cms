@@ -29,7 +29,7 @@ final readonly class Action
     {
         $user = $this->userRepository->findOneByUuid($uuid);
 
-        if (!$user) {
+        if (!$user || $user->isDeleted()) {
             return $this->responseFactory
                 ->createResponse(Status::NOT_FOUND);
         }

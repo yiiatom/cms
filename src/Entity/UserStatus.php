@@ -9,7 +9,6 @@ enum UserStatus: string
     case PENDING = 'pending';
     case ACTIVE = 'active';
     case BLOCKED = 'blocked';
-    case DELETED = 'deleted';
 
     public function getLabel(): string
     {
@@ -17,7 +16,6 @@ enum UserStatus: string
             self::PENDING => 'Pending',
             self::ACTIVE => 'Active',
             self::BLOCKED => 'Blocked',
-            self::DELETED => 'Deleted',
         };
     }
 
@@ -27,7 +25,6 @@ enum UserStatus: string
             self::PENDING => 'bg-warning text-dark',
             self::ACTIVE => 'bg-success text-white',
             self::BLOCKED => 'bg-danger text-white',
-            self::DELETED => 'bg-secondary text-white',
         };
     }
 }
