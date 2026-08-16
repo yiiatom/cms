@@ -29,12 +29,14 @@ final readonly class Action
         $this->formHydrator->populateFromGet($form, $request);
 
         $dataReader = $this->userRepository->findAllAsDataReader($form->getFilters());
+        $deletedCount = $this->userRepository->getDeletedCount();
 
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/index', [
                 'form' => $form,
                 'dataReader' => $dataReader,
+                'deletedCount' => $deletedCount,
             ]);
     }
 }

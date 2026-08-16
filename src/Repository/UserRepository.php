@@ -110,6 +110,14 @@ final readonly class UserRepository
         return $stats;
     }
 
+    public function getDeletedCount(): int
+    {
+        return $this->connection->createQuery()
+            ->from('{{%user}}')
+            ->where(['not', ['deleted_at' => null]])
+            ->count();
+    }
+
     public function findOneByUuid(string $uuid): ?User
     {
         $query = $this->connection
