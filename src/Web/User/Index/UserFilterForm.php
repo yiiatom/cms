@@ -20,12 +20,12 @@ class UserFilterForm extends FormModel
     public ?string $search = null;
 
     #[Label('Status')]
-    #[Integer]
-    public ?int $status = null;
+    #[StringValue]
+    public ?string $status = null;
 
     #[Label('Role')]
-    #[Integer]
-    public ?int $role = null;
+    #[StringValue]
+    public ?string $role = null;
 
     public function getFormName(): string
     {
@@ -45,9 +45,9 @@ class UserFilterForm extends FormModel
     {
         return [
             '' => 'All Statuses',
-            UserStatus::PENDING->value => 'Pending',
-            UserStatus::ACTIVE->value => 'Active',
-            UserStatus::BLOCKED->value => 'Blocked',
+            UserStatus::PENDING->value => UserStatus::PENDING->getLabel(),
+            UserStatus::ACTIVE->value => UserStatus::ACTIVE->getLabel(),
+            UserStatus::BLOCKED->value => UserStatus::BLOCKED->getLabel(),
         ];
     }
 
@@ -55,8 +55,8 @@ class UserFilterForm extends FormModel
     {
         return [
             '' => 'All Roles',
-            UserRole::ADMIN->value => 'Admin',
-            UserRole::USER->value => 'User',
+            UserRole::ADMIN->value => UserRole::ADMIN->getLabel(),
+            UserRole::USER->value => UserRole::USER->getLabel(),
         ];
     }
 }

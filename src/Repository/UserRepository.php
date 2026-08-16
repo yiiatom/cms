@@ -161,12 +161,12 @@ final readonly class UserRepository
 
         $status = $filters['status'] ?? null;
         if ($status !== null && $status !== '') {
-            $query->andWhere(['status' => (int) $status]);
+            $query->andWhere(['status' => $status]);
         }
 
         $role = $filters['role'] ?? null;
         if ($role !== null && $role !== '') {
-            $query->andWhere(['role' => (int) $role]);
+            $query->andWhere(['role' => $role]);
         }
 
         $reader = new QueryDataReader($query);
