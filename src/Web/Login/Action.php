@@ -7,6 +7,7 @@ namespace Atom\Web\Login;
 use Atom\Entity\User;
 use Atom\Entity\UserAuthKey;
 use Atom\Entity\UserStatus;
+use Atom\Helper\AuthRedirect;
 use Atom\Identity\UserIdentity;
 use Atom\Repository\UserAuthKeyRepository;
 use Atom\Repository\UserRepository;
@@ -17,9 +18,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ramsey\Uuid\Uuid;
 use Yiisoft\FormModel\FormHydrator;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Status;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Security\PasswordHasher;
+use Yiisoft\Session\SessionInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\User\Login\Cookie\CookieLogin;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
@@ -27,11 +29,12 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class Action
 {
     public function __construct(
+        private AuthRedirect $authRedirect,
         private CurrentUser $currentUser,
         private FormHydrator $formHydrator,
         private PasswordHasherInterface $passwordHasher,
         private ResponseFactoryInterface $responseFactory,
-        private UrlGeneratorInterface $urlGenerator,
+        private SessionInterface $session,
         private UserAuthKeyRepository $userAuthKeyRepository,
         private UserRepository $userRepository,
     ) {}
@@ -45,8 +48,8 @@ final readonly class Action
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
-                    'Location', 
-                    $this->urlGenerator->generate('atom.dashboard'),
+                    Header::LOCATION,
+                    $this->authRedirect->getTargetUrl(),
                 );
         }
 
@@ -69,8 +72,8 @@ final readonly class Action
             $response = $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
-                    'Location', 
-                    $this->urlGenerator->generate('atom.dashboard'),
+                    Header::LOCATION,
+                    $this->authRedirect->getTargetUrl(),
                 );
 
             if ($form->rememberMe) {
