@@ -33,6 +33,9 @@ final class DataViewUrlProvider implements UrlParameterProviderInterface
     {
         $name = $this->currentRoute->getName();
 
-        return $this->urlGenerator->generate($name, $arguments, $queryParameters);
+        return $this->urlGenerator->generate($name, $arguments, array_merge(
+            $this->request->getQueryParams(),
+            $queryParameters,
+        ));
     }
 }
