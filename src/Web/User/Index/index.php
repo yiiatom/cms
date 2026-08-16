@@ -17,24 +17,35 @@ $this->setTitle($title);
 $htmlForm = Html::form()
     ->class('form-user-filter row row-cols-sm-auto g-2 align-items-center mb-2')
     ->get();
-
 ?>
 
 <h1><?= Html::encode($title) ?></h1>
 
-<div class="mb-2"><?= Html::a('Create User')->url($urlGenerator->generate('atom.user.create'))->class('btn btn-primary') ?></div>
+<div class="mb-2 d-flex justify-content-between align-items-center">
+    <?= Html::a('Create User')
+        ->url($urlGenerator->generate('atom.user.create'))
+        ->class('btn btn-primary me-2')
+    ?>
+    <?= Html::a(Html::i()->class('fa-solid fa-trash-can me-2')->render() . 'Trash')
+        ->url($urlGenerator->generate('atom.user.trash'))
+        ->class('btn btn-outline-secondary')
+        ->encode(false)
+    ?>
+</div>
 
-<?= $htmlForm->open() ?>
-    <?= Field::text($form, 'search', theme: 'inline')
-        ->placeholder($form->getPropertyLabel('search'))
-        ->template('<div class="input-group"><div class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></div>{input}</div>') ?>
-    <?= Field::select($form, 'status', theme: 'inline')->optionsData($form->getStatusOptions()) ?>
-    <?= Field::select($form, 'role', theme: 'inline')->optionsData($form->getRoleOptions()) ?>
-    <div class="col-12">
-        <?= Html::submitButton('Filter')->class('btn btn-primary') ?>
-        <?= Html::a('Reset')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
-    </div>
-<?= $htmlForm->close() ?>
+<div class="border-top pt-2">
+    <?= $htmlForm->open() ?>
+        <?= Field::text($form, 'search', theme: 'inline')
+            ->placeholder($form->getPropertyLabel('search'))
+            ->template('<div class="input-group"><div class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></div>{input}</div>') ?>
+        <?= Field::select($form, 'status', theme: 'inline')->optionsData($form->getStatusOptions()) ?>
+        <?= Field::select($form, 'role', theme: 'inline')->optionsData($form->getRoleOptions()) ?>
+        <div class="col-12">
+            <?= Html::submitButton('Filter')->class('btn btn-primary') ?>
+            <?= Html::a('Reset')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
+        </div>
+    <?= $htmlForm->close() ?>
+</div>
 
 <?= GridView::widget()
     ->dataReader($dataReader)

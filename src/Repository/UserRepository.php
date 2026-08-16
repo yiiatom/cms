@@ -10,6 +10,7 @@ use Atom\Entity\User;
 use Atom\Entity\UserStatus;
 use Atom\Mapper\UserMapper;
 use Yiisoft\Data\Db\QueryDataReader;
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\Db\Connection\ConnectionInterface;
 use Yiisoft\Db\Query\Query;
 
@@ -46,6 +47,13 @@ final readonly class UserRepository
         } else {
             $this->connection->createCommand()->insert('{{%user}}', $row)->execute();
         }
+    }
+
+    public function purgeDeleted(): int
+    {
+        return $this->connection->createCommand()
+            ->delete('{{%user}}', ['not', ['deleted_at' => null]])
+            ->execute();
     }
 
     private function createEntity(?array $row): ?User
@@ -133,7 +141,7 @@ final readonly class UserRepository
     }
 
 
-    public function findAllAsDataReader(array $filters = []): UserDataReader
+    public function findAllAsDataReader(array $filters = []): DataReaderInterface
     {
         $query = $this->connection
             ->select()
@@ -160,6 +168,22 @@ final readonly class UserRepository
         if ($role !== null && $role !== '') {
             $query->andWhere(['role' => (int) $role]);
         }
+
+        $reader = new QueryDataReader($query);
+
+        return new UserDataReader($reader, $this->mapper);
+    }
+
+    public function findAllDeletedAsDataReader(): DataReaderInterface
+    {
+        $query = $this->connection
+            ->select()
+            ->from('{{%user}}')
+            ->where(['not', ['deleted_at' => null]])
+            ->orderBy([
+                'deleted_at' => SORT_DESC,
+                'username' => SORT_ASC,
+            ]);
 
         $reader = new QueryDataReader($query);
 

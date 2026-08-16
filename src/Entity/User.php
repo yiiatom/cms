@@ -64,6 +64,12 @@ final class User
         $this->updatedAt = new DateTimeImmutable;
     }
 
+    public function restore(): void
+    {
+        $this->deletedAt = null;
+        $this->updatedAt = new DateTimeImmutable;
+    }
+
     public function isDeleted(): bool
     {
         return $this->deletedAt !== null;

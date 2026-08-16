@@ -62,6 +62,18 @@ return [
                         ->action(Atom\Web\User\Password\Action::class)
                         ->name('atom.user.password'),
 
+                    Route::get('/users/trash')
+                        ->action(Atom\Web\User\Trash\Action::class)
+                        ->name('atom.user.trash'),
+
+                    Route::post('/users/{uuid}/restore')
+                        ->action(Atom\Web\User\Restore\Action::class)
+                        ->name('atom.user.restore'),
+
+                    Route::post('/users/empty-trash')
+                        ->action(Atom\Web\User\EmptyTrash\Action::class)
+                        ->name('atom.user.empty-trash'),
+
                     Route::get('/translit')
                         ->action(Atom\Web\Translit\Action::class)
                         ->name('atom.translit'),
