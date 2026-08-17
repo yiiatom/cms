@@ -10,6 +10,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Data\Reader\Iterable\IterableDataReader;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
 final class DashboardService
 {
@@ -18,6 +19,7 @@ final class DashboardService
         private bool $appDebug,
         private Aliases $aliases,
         private EventDispatcherInterface $eventDispatcher,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
@@ -55,46 +57,65 @@ final class DashboardService
 
         $cards = [
             new DashboardCard(
-                title: 'System Health',
+                title: $this->translator->translate('System Health', [], 'atom-cms'),
                 icon: 'fa-solid fa-heart-pulse',
                 order: 10,
                 items: [
-                    new DashboardCardItem('PHP Version', PHP_VERSION),
                     new DashboardCardItem(
-                        'Environment',
+                        $this->translator->translate('PHP Version', [], 'atom-cms'),
+                        PHP_VERSION,
+                    ),
+                    new DashboardCardItem(
+                        $this->translator->translate('Environment', [], 'atom-cms'),
                         $environmentName,
                         $this->appEnv === 'prod' ? 'default' : 'warning',
                     ),
                     new DashboardCardItem(
-                        'Debug',
-                        $this->appDebug ? 'Enabled' : 'Disabled',
+                        $this->translator->translate('Debug', [], 'atom-cms'),
+                        $this->appDebug ? $this->translator->translate('Enabled', [], 'atom-cms') : $this->translator->translate('Disabled', [], 'atom-cms'),
                         $this->appEnv === 'prod' && $this->appDebug ? 'danger' : 'default',
                     ),
                     new DashboardCardItem(
                         '/runtime',
-                        $isRuntimeWritable ? 'Writable' : 'Not Writable',
+                        $isRuntimeWritable ? $this->translator->translate('Writable', [], 'atom-cms') : $this->translator->translate('Not Writable', [], 'atom-cms'),
                         !$isRuntimeWritable ? 'danger' : 'default',
                     ),
                     new DashboardCardItem(
                         '/public/assets',
-                        $isAssetsWritable ? 'Writable' : 'Not Writable',
+                        $isAssetsWritable ? $this->translator->translate('Writable', [], 'atom-cms') : $this->translator->translate('Not Writable', [], 'atom-cms'),
                         !$isAssetsWritable ? 'danger' : 'default',
                     ),
-                    new DashboardCardItem('Disk Space', $diskValue, $diskStatus),
+                    new DashboardCardItem(
+                        $this->translator->translate('Disk Space', [], 'atom-cms'),
+                        $diskValue,
+                        $diskStatus,
+                    ),
                 ],
             ),
             new DashboardCard(
-                title: 'Users',
+                title: $this->translator->translate('Users', [], 'atom-users'),
                 icon: 'fa-solid fa-users',
                 items: [
-                    new DashboardCardItem('Total', (string) $userStats['total']),
-                    new DashboardCardItem('Active', (string) $userStats['active']),
-                    new DashboardCardItem('Blocked', (string) $userStats['blocked']),
-                    new DashboardCardItem('New', (string) $userStats['new']),
+                    new DashboardCardItem(
+                        $this->translator->translate('Total', [], 'atom-users'),
+                        (string) $userStats['total'],
+                    ),
+                    new DashboardCardItem(
+                        $this->translator->translate('Active', [], 'atom-users'),
+                        (string) $userStats['active'],
+                    ),
+                    new DashboardCardItem(
+                        $this->translator->translate('Blocked', [], 'atom-users'),
+                        (string) $userStats['blocked'],
+                    ),
+                    new DashboardCardItem(
+                        $this->translator->translate('New', [], 'atom-users'),
+                        (string) $userStats['new'],
+                    ),
                 ],
                 order: 20,
                 linkUrl: $this->urlGenerator->generate('atom.user.index'),
-                linkText: 'Manage Users',
+                linkText: $this->translator->translate('Manage Users', [], 'atom-users'),
             ),
         ];
 
