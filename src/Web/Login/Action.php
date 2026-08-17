@@ -22,6 +22,7 @@ use Yiisoft\Http\Header;
 use Yiisoft\Http\Status;
 use Yiisoft\Security\PasswordHasher;
 use Yiisoft\Session\SessionInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\User\Login\Cookie\CookieLogin;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
@@ -35,6 +36,7 @@ final readonly class Action
         private PasswordHasherInterface $passwordHasher,
         private ResponseFactoryInterface $responseFactory,
         private SessionInterface $session,
+        private TranslatorInterface $translator,
         private UserAuthKeyRepository $userAuthKeyRepository,
         private UserRepository $userRepository,
     ) {}
@@ -53,15 +55,21 @@ final readonly class Action
                 );
         }
 
+        $translator = $this->translator->withDefaultCategory('atom-cms');
+
         $user = null;
         $form = new LoginForm();
+        $form->setTranslator($translator);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->username && $form->password) {
             $user = $this->userRepository->findOneByUsername($form->username);
             if (!$user || $user->getStatus() !== UserStatus::ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
-                $form->addError('Incorrect username or password.', ['password']);
+                $form->addError(
+                    $translator->translate('Incorrect username or password.'),
+                    ['password'],
+                );
             }
         }
 
@@ -88,6 +96,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/login', [
+                't' => $translator,
                 'form' => $form,
             ]);
     }

@@ -5,7 +5,9 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 use Yiisoft\FormModel\Field;
 
-$this->setTitle('Login');
+$title = $t->translate('Login');
+
+$this->setTitle($title);
 
 $htmlForm = Html::form()
     ->class('form-login')
@@ -19,7 +21,7 @@ $htmlForm = Html::form()
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fa-regular fa-user"></i> Login</h5>
+                <h5 class="modal-title"><i class="fa-regular fa-user"></i> <?= Html::encode($title) ?></h5>
             </div>
             <div class="modal-body pb-0">
                 <?= Field::text($form, 'username')
@@ -36,7 +38,7 @@ $htmlForm = Html::form()
 
             </div>
             <div class="modal-footer">
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton($t->translate('Log In'), ['class' => 'btn btn-primary']) ?>
             </div>
         </div>
     </div>

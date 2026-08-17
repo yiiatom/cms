@@ -9,6 +9,7 @@
         "yiisoft/db-mysql": "^2.0",
         "yiisoft/db-migration": "^2.0",
         "yiisoft/form-model": "^1.1",
+        "yiisoft/translator-message-php": "^1.1",
         "yiisoft/user": "^2.3",
         "ramsey/uuid": "^4.9"
     },

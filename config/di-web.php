@@ -7,6 +7,11 @@ use Atom\Security\PasswordHasherAdepter;
 use Atom\Security\PasswordHasherInterface;
 use Atom\Web\Dashboard\DashboardService;
 use Yiisoft\Auth\IdentityRepositoryInterface;
+use Yiisoft\Translator\CategorySource;
+use Yiisoft\Translator\IdMessageReader;
+use Yiisoft\Translator\IntlMessageFormatter;
+use Yiisoft\Translator\Message\Php\MessageSource;
+use Yiisoft\Translator\SimpleMessageFormatter;
 
 return [
     IdentityRepositoryInterface::class => IdentityRepository::class,
@@ -16,5 +21,20 @@ return [
             'appEnv' => $params['atom.env'],
             'appDebug' => $params['atom.debug'],
         ]
+    ],
+
+    'atom.cms.categorySource' => [
+        'definition' => static function () use ($params): CategorySource {
+            $reader = class_exists(MessageSource::class)
+                ? new MessageSource(\dirname(__DIR__) . '/messages')
+                : new IdMessageReader(); // @codeCoverageIgnore
+
+            $formatter = \extension_loaded('intl')
+                ? new IntlMessageFormatter()
+                : new SimpleMessageFormatter(); // @codeCoverageIgnore
+
+            return new CategorySource('atom-cms', $reader, $formatter);
+        },
+        'tags' => ['translation.categorySource'],
     ],
 ];
