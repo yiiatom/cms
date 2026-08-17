@@ -16,6 +16,7 @@ use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
 use Yiisoft\Session\SessionInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
 
 final readonly class Authentication implements MiddlewareInterface
@@ -27,6 +28,7 @@ final readonly class Authentication implements MiddlewareInterface
         private FlashInterface $flash,
         private ResponseFactoryInterface $responseFactory,
         private SessionInterface $session,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
     ) {}
 
@@ -34,6 +36,8 @@ final readonly class Authentication implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
     ): ResponseInterface {
+        $translator = $this->translator->withDefaultCategory('atom-cms');
+
         if ($this->currentUser->isGuest()) {
             if ($request->getMethod() === 'GET' && !$this->isAjax($request)) {
                 $target = (string) $request->getUri();
@@ -54,7 +58,10 @@ final readonly class Authentication implements MiddlewareInterface
         ])) {
             $user = $this->currentUser->getIdentity()->getUser();
             if ($user->isPasswordExpired()) {
-                $this->flash->add('warning', 'Your password has expired. Please create a new one to continue.');
+                $this->flash->add(
+                    'warning',
+                    $translator->translate('Your password has expired. Please create a new one to continue.'),
+                );
                 return $this->responseFactory
                     ->createResponse(Status::FOUND)
                     ->withHeader(

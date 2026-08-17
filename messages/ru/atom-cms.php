@@ -10,6 +10,8 @@ return [
     'Log In' => 'Войти',
     'Incorrect username or password.' => 'Неверный логин или пароль.',
 
+    'Your password has expired. Please create a new one to continue.' => 'Срок действия вашего пароля истек. Пожалуйста, создайте новый, чтобы продолжить.',
+
     'Profile' => 'Профиль',
     'Change Password' => 'Сменить пароль',
     'Log Out' => 'Выход',
