@@ -20,7 +20,7 @@ if (empty($items)) {
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <?= Html::a(
-                Html::tag('i', '', ['class' => 'fa-solid fa-gauge']) . ' Dashboard',
+                Html::tag('i', '', ['class' => 'fa-solid fa-gauge me-1']) . $t->translate('Dashboard'),
                 $urlGenerator->generate('atom.dashboard'),
             )->encode(false) ?>
         </li>
