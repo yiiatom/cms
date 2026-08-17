@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Dashboard;
+namespace Atom\Dashboard;
 
-use Atom\Event\DashboardEvent;
+use Atom\Dashboard\DashboardEvent;
 use Atom\Repository\UserRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Yiisoft\Aliases\Aliases;
@@ -12,7 +12,7 @@ use Yiisoft\Data\Reader\Iterable\IterableDataReader;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
 
-final class DashboardService
+final class DashboardCardsProvider
 {
     public function __construct(
         private string $appEnv,
@@ -24,7 +24,7 @@ final class DashboardService
         private UserRepository $userRepository,
     ) {}
 
-    public function getCardsDataReader(): IterableDataReader
+    public function getCardsAsDataReader(): IterableDataReader
     {
         $root = $this->aliases->get('@root');
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Atom\Identity\IdentityRepository;
 use Atom\Security\PasswordHasherAdepter;
 use Atom\Security\PasswordHasherInterface;
-use Atom\Web\Dashboard\DashboardService;
+use Atom\Dashboard\DashboardCardsProvider;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\IdMessageReader;
@@ -16,7 +16,7 @@ use Yiisoft\Translator\SimpleMessageFormatter;
 return [
     IdentityRepositoryInterface::class => IdentityRepository::class,
     PasswordHasherInterface::class => PasswordHasherAdepter::class,
-    DashboardService::class => [
+    DashboardCardsProvider::class => [
         '__construct()' => [
             'appEnv' => $params['atom.env'],
             'appDebug' => $params['atom.debug'],

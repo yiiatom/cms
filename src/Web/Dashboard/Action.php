@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Atom\Web\Dashboard;
 
+use Atom\Dashboard\DashboardCardsProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Translator\TranslatorInterface;
@@ -12,7 +13,7 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class Action
 {
     public function __construct(
-        private DashboardService $dashboardService,
+        private DashboardCardsProvider $dashboardCardsProvider,
         private TranslatorInterface $translator,
     ) {}
 
@@ -21,7 +22,7 @@ final readonly class Action
     ): ResponseInterface
     {
         $translator = $this->translator->withDefaultCategory('atom-cms');
-        $dataReader = $this->dashboardService->getCardsDataReader();
+        $dataReader = $this->dashboardCardsProvider->getCardsAsDataReader();
 
         return $request
             ->getAttribute(WebViewRenderer::class)

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Atom\Web\Dashboard;
 
+use Atom\Dashboard\DashboardCard;
+use Atom\Dashboard\DashboardCardItem;
 use Yiisoft\Data\Reader\ReadableDataInterface;
 use Yiisoft\Html\Html;
 use Yiisoft\Widget\Widget;
@@ -42,7 +44,7 @@ final class DashboardWidget extends Widget
         $itemsHtml = '';
         if (!empty($card->items)) {
             $itemsHtml .= '<div class="mt-2 pt-2 border-top">';
-            /** @var \Atom\Web\Dashboard\DashboardCardItem $item */
+            /** @var DashboardCardItem $item */
             foreach ($card->items as $item) {
                 $encodedLabel = Html::encode($item->label);
                 $encodedVal = Html::encode($item->value);

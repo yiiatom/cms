@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atom\Event;
+namespace Atom\Dashboard;
 
-use Atom\Web\Dashboard\DashboardCard;
+use Atom\Dashboard\DashboardCard;
 
 final class DashboardEvent
 {
