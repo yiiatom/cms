@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 use Yiisoft\FormModel\Field;
 
-$title = 'Change Password';
+$title = $t->translate('Change Password');
 
 $this->setTitle($title);
 
@@ -18,8 +18,8 @@ $htmlForm = Html::form()
 <h1><?= Html::encode($title) ?></h1>
 
 <?= $htmlForm->open() ?>
-    <?= Field::password($form, 'oldPassword') ?>
+    <?= Field::password($form, 'currentPassword') ?>
     <?= Field::password($form, 'newPassword') ?>
     <?= Field::password($form, 'confirmPassword') ?>
-    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+    <?= Html::submitButton($t->translate('Update Password'), ['class' => 'btn btn-primary']) ?>
 <?= $htmlForm->close() ?>

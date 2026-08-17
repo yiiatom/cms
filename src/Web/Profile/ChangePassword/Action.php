@@ -14,6 +14,7 @@ use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
@@ -26,6 +27,7 @@ final readonly class Action
         private FormHydrator $formHydrator,
         private PasswordHasherInterface $passwordHasher,
         private ResponseFactoryInterface $responseFactory,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
@@ -34,16 +36,32 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $this->breadcrumbsProvider->add('Change Password');
+        $translator = $this->translator->withDefaultCategory('atom-cms');
+
+        $this->breadcrumbsProvider
+            ->add($translator->translate('Change Password'));
 
         $form = new ChangePasswordForm();
+        $form->setTranslator($translator);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
-        if ($form->oldPassword) {
+        if ($form->currentPassword) {
             $user = $this->currentUser->getIdentity()->getUser();
-            if (!$user->validatePassword($form->oldPassword, $this->passwordHasher)) {
-                $form->addError('Incorrect password.', ['oldPassword']);
+            if (!$user->validatePassword($form->currentPassword, $this->passwordHasher)) {
+                $form->addError(
+                    $translator->translate('Incorrect password.'),
+                    ['currentPassword'],
+                );
+            }
+        }
+
+        if ($form->isValid()) {
+            if ($form->newPassword !== $form->confirmPassword) {
+                $form->addError(
+                    $translator->translate('Passwords do not match.'),
+                    ['confirmPassword'],
+                );
             }
         }
 
@@ -51,7 +69,10 @@ final readonly class Action
             $user->changePassword($form->newPassword, $this->passwordHasher);
             $this->userRepository->save($user);
 
-            $this->flash->add('success', 'Your password has been updated.');
+            $this->flash->add(
+                'success',
+                $translator->translate('Your password has been updated.'),
+            );
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
@@ -64,6 +85,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/change-password', [
+                't' => $translator,
                 'form' => $form,
             ]);
     }

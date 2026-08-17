@@ -17,4 +17,12 @@ return [
     'Log Out' => 'Выход',
 
     'Dashboard' => 'Панель управления',
+
+    'Current Password' => 'Текущий пароль',
+    'New Password' => 'Новый пароль',
+    'Confirm' => 'Подтверждение',
+    'Update Password' => 'Обновить пароль',
+    'Incorrect password.' => 'Неверный пароль.',
+    'Passwords do not match.' => 'Пароли не совпадают.',
+    'Your password has been updated.' => 'Ваш пароль был обновлен.',
 ];
