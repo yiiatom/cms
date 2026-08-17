@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Yiisoft\Html\Html;
 use Yiisoft\FormModel\Field;
 
-$title = 'Profile';
+$title = $t->translate('Profile');
 
 $this->setTitle($title);
 
@@ -24,5 +24,5 @@ $htmlForm = Html::form()
     <?= Field::email($form, 'email') ?>
     <?= Field::text($form, 'firstName') ?>
     <?= Field::text($form, 'lastName') ?>
-    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+    <?= Html::submitButton($t->translate('Update Profile'), ['class' => 'btn btn-primary']) ?>
 <?= $htmlForm->close() ?>

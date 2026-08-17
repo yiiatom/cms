@@ -13,6 +13,7 @@ use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
@@ -24,6 +25,7 @@ final readonly class Action
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
@@ -32,11 +34,15 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $this->breadcrumbsProvider->add('Profile');
+        $translator = $this->translator->withDefaultCategory('atom-cms');
+
+        $this->breadcrumbsProvider
+            ->add($translator->translate('Profile'));
 
         $user = $this->currentUser->getIdentity()->getUser();
 
         $form = new ProfileForm();
+        $form->setTranslator($translator);
         $form->username = $user->getUsername();
         $form->email = $user->getEmail();
         $form->firstName = $user->getFirstName();
@@ -52,7 +58,10 @@ final readonly class Action
 
             $this->userRepository->save($user);
 
-            $this->flash->add('success', 'Your profile has been updated.');
+            $this->flash->add(
+                'success',
+                $translator->translate('Your profile has been updated.'),
+            );
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
@@ -65,6 +74,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/edit', [
+                't' => $translator,
                 'form' => $form,
             ]);
     }

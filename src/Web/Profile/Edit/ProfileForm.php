@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Atom\Web\Profile\Edit;
 
+use Atom\Helper\FormTranslatorTrait;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Label;
+use Yiisoft\Validator\LabelsProviderInterface;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\Length;
 
-final class ProfileForm extends FormModel
+final class ProfileForm extends FormModel implements LabelsProviderInterface
 {
+    use FormTranslatorTrait;
+
     #[Label('Username')]
     public ?string $username = null;
 

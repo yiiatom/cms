@@ -25,4 +25,10 @@ return [
     'Incorrect password.' => 'Неверный пароль.',
     'Passwords do not match.' => 'Пароли не совпадают.',
     'Your password has been updated.' => 'Ваш пароль был обновлен.',
+
+    'Email' => 'Email',
+    'First Name' => 'Имя',
+    'Last Name' => 'Фамилия',
+    'Update Profile' => 'Обновить профиль',
+    'Your profile has been updated.' => 'Ваш профиль был обновлен.',
 ];
