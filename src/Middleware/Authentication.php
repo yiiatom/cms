@@ -48,7 +48,10 @@ final readonly class Authentication implements MiddlewareInterface
                 );
         }
 
-        if ($this->currentRoute->getName() !== 'atom.profile.change-password') {
+        if (!in_array($this->currentRoute->getName(), [
+            'atom.logout',
+            'atom.profile.change-password',
+        ])) {
             $user = $this->currentUser->getIdentity()->getUser();
             if ($user->isPasswordExpired()) {
                 $this->flash->add('warning', 'Your password has expired. Please create a new one to continue.');
