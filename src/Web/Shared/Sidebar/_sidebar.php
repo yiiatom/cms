@@ -67,12 +67,12 @@ $currentRouteName = $currentRoute->getName();
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
             <li>
-                <?= Html::a('Profile')
+                <?= Html::a($t->translate('Profile'))
                     ->url($urlGenerator->generate('atom.profile.edit'))
                     ->class('dropdown-item') ?>
             </li>
             <li>
-                <?= Html::a('Change password')
+                <?= Html::a($t->translate('Change Password'))
                     ->url($urlGenerator->generate('atom.profile.change-password'))
                     ->class('dropdown-item') ?>
             </li>
@@ -80,7 +80,7 @@ $currentRouteName = $currentRoute->getName();
                 <hr class="dropdown-divider">
             </li>
             <li>
-                <?= Html::a('Log out')
+                <?= Html::a($t->translate('Log Out'))
                     ->url($urlGenerator->generate('atom.logout'))
                     ->class('dropdown-item') ?>
             </li>

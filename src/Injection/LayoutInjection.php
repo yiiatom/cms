@@ -7,6 +7,7 @@ namespace Atom\Injection;
 use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Web\Shared\Sidebar\SidebarMenuProvider;
 use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
 use Yiisoft\Yii\View\Renderer\LayoutParametersInjectionInterface;
 
@@ -17,6 +18,7 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
         private CurrentRoute $currentRoute,
         private CurrentUser $currentUser,
         private SidebarMenuProvider $sidebarMenuProvider,
+        private TranslatorInterface $translator,
     ) {}
 
     public function getLayoutParameters(): array
@@ -27,6 +29,7 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
             'userAvatarUrl' => $this->getAvatarUrl(),
             'sidebarMenuProvider' => $this->sidebarMenuProvider,
             'breadcrumbsProvider' => $this->breadcrumbsProvider,
+            't' => $this->translator->withDefaultCategory('atom-cms'),
         ];
     }
 

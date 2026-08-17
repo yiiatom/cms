@@ -37,4 +37,19 @@ return [
         },
         'tags' => ['translation.categorySource'],
     ],
+
+    'atom.users.categorySource' => [
+        'definition' => static function () use ($params): CategorySource {
+            $reader = class_exists(MessageSource::class)
+                ? new MessageSource(\dirname(__DIR__) . '/messages')
+                : new IdMessageReader(); // @codeCoverageIgnore
+
+            $formatter = \extension_loaded('intl')
+                ? new IntlMessageFormatter()
+                : new SimpleMessageFormatter(); // @codeCoverageIgnore
+
+            return new CategorySource('atom-users', $reader, $formatter);
+        },
+        'tags' => ['translation.categorySource'],
+    ],
 ];

@@ -9,4 +9,10 @@ return [
     'Remember Me' => 'Запомнить меня',
     'Log In' => 'Войти',
     'Incorrect username or password.' => 'Неверный логин или пароль.',
+
+    'Profile' => 'Профиль',
+    'Change Password' => 'Сменить пароль',
+    'Log Out' => 'Выход',
+
+    'Dashboard' => 'Панель управления',
 ];
