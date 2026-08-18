@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Password;
 
+use Atom\Breadcrumbs\Breadcrumb;
+use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Repository\UserRepository;
 use Atom\Security\PasswordHasherInterface;
-use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,9 +35,15 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $this->breadcrumbsProvider
-            ->add('Users', 'atom.user.index')
-            ->add('Change User Password');
+        $this->breadcrumbsProvider->add(
+            new Breadcrumb(
+                label: 'Users',
+                url: $this->urlGenerator->generate('atom.user.index'),
+            ),
+            new Breadcrumb(
+                label: 'Change User Password',
+            ),
+        );
 
         $user = $this->userRepository->findOneByUuid($uuid);
 

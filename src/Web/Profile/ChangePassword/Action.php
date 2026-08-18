@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Atom\Web\Profile\ChangePassword;
 
+use Atom\Breadcrumbs\Breadcrumb;
+use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Repository\UserRepository;
 use Atom\Security\PasswordHasherInterface;
-use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -38,8 +39,11 @@ final readonly class Action
     {
         $translator = $this->translator->withDefaultCategory('atom-cms');
 
-        $this->breadcrumbsProvider
-            ->add($translator->translate('Change Password'));
+        $this->breadcrumbsProvider->add(
+            new Breadcrumb(
+                label: $translator->translate('Change Password'),
+            ),
+        );
 
         $form = new ChangePasswordForm();
         $form->setTranslator($translator);

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Index;
 
+use Atom\Breadcrumbs\Breadcrumb;
+use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Repository\UserRepository;
-use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
@@ -23,7 +24,11 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $this->breadcrumbsProvider->add('Users');
+        $this->breadcrumbsProvider->add(
+            new Breadcrumb(
+                label: 'Users',
+            )
+        );
 
         $form = new UserFilterForm();
         $this->formHydrator->populateFromGet($form, $request);

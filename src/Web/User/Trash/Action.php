@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Trash;
 
+use Atom\Breadcrumbs\Breadcrumb;
+use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Repository\UserRepository;
-use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class Action
 {
     public function __construct(
         private BreadcrumbsProvider $breadcrumbsProvider,
+        private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
 
@@ -21,9 +24,15 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $this->breadcrumbsProvider
-            ->add('Users', 'atom.user.index')
-            ->add('Trash');
+        $this->breadcrumbsProvider->add(
+            new Breadcrumb(
+                label: 'Users',
+                url: $this->urlGenerator->generate('atom.user.index'),
+            ),
+            new Breadcrumb(
+                label: 'Trash',
+            ),
+        );
 
         $dataReader = $this->userRepository->findAllDeletedAsDataReader();
 

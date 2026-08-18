@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Edit;
 
+use Atom\Breadcrumbs\Breadcrumb;
+use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
 use Atom\Repository\UserRepository;
-use Atom\Web\Shared\Breadcrumbs\BreadcrumbsProvider;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -46,9 +47,15 @@ final readonly class Action
                 ->createResponse(Status::FORBIDDEN);
         }
 
-        $this->breadcrumbsProvider
-            ->add('Users', 'atom.user.index')
-            ->add($user->getDisplayName());
+        $this->breadcrumbsProvider->add(
+            new Breadcrumb(
+                label: 'Users',
+                url: $this->urlGenerator->generate('atom.user.index'),
+            ),
+            new Breadcrumb(
+                label: $user->getDisplayName(),
+            ),
+        );
 
         $form = new UserEditForm();
         $form->username = $user->getUsername();
