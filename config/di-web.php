@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use Atom\Dashboard\Listener\SystemHealthListener;
 use Atom\Identity\IdentityRepository;
 use Atom\Security\PasswordHasherAdepter;
 use Atom\Security\PasswordHasherInterface;
-use Atom\Dashboard\DashboardCardsProvider;
 use Yiisoft\Auth\IdentityRepositoryInterface;
 use Yiisoft\Translator\CategorySource;
 use Yiisoft\Translator\IdMessageReader;
@@ -16,7 +16,8 @@ use Yiisoft\Translator\SimpleMessageFormatter;
 return [
     IdentityRepositoryInterface::class => IdentityRepository::class,
     PasswordHasherInterface::class => PasswordHasherAdepter::class,
-    DashboardCardsProvider::class => [
+
+    SystemHealthListener::class => [
         '__construct()' => [
             'appEnv' => $params['atom.env'],
             'appDebug' => $params['atom.debug'],

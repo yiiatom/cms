@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Atom\Dashboard;
+namespace Atom\Dashboard\Event;
 
 use Atom\Dashboard\DashboardCard;
 
 final class DashboardEvent
 {
     public function __construct(
-        private array $cards,
+        private array $cards = [],
     ) {}
 
     public function addCard(DashboardCard $card): self
