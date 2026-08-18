@@ -35,18 +35,18 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $translator = $this->translator->withDefaultCategory('atom-cms');
+        $t = $this->translator->withDefaultCategory('atom-cms');
 
         $this->breadcrumbsProvider->add(
             new Breadcrumb(
-                label: $translator->translate('Profile'),
+                label: $t->translate('Profile'),
             )
         );
 
         $user = $this->currentUser->getIdentity()->getUser();
 
         $form = new ProfileForm();
-        $form->setTranslator($translator);
+        $form->setTranslator($t);
         $form->username = $user->getUsername();
         $form->email = $user->getEmail();
         $form->firstName = $user->getFirstName();
@@ -64,7 +64,7 @@ final readonly class Action
 
             $this->flash->add(
                 'success',
-                $translator->translate('Your profile has been updated.'),
+                $t->translate('Your profile has been updated.'),
             );
 
             return $this->responseFactory
@@ -78,7 +78,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/edit', [
-                't' => $translator,
+                't' => $t,
                 'form' => $form,
             ]);
     }

@@ -21,13 +21,13 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $translator = $this->translator->withDefaultCategory('atom-cms');
+        $t = $this->translator->withDefaultCategory('atom-cms');
         $dataReader = $this->dashboardCardsProvider->getCardsAsDataReader();
 
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/dashboard', [
-                't' => $translator,
+                't' => $t,
                 'dataReader' => $dataReader,
             ]);
     }

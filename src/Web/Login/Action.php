@@ -55,11 +55,11 @@ final readonly class Action
                 );
         }
 
-        $translator = $this->translator->withDefaultCategory('atom-cms');
+        $t = $this->translator->withDefaultCategory('atom-cms');
 
         $user = null;
         $form = new LoginForm();
-        $form->setTranslator($translator);
+        $form->setTranslator($t);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
@@ -67,7 +67,7 @@ final readonly class Action
             $user = $this->userRepository->findOneByUsername($form->username);
             if (!$user || $user->getStatus() !== UserStatus::ACTIVE || !$user->validatePassword($form->password, $this->passwordHasher)) {
                 $form->addError(
-                    $translator->translate('Incorrect username or password.'),
+                    $t->translate('Incorrect username or password.'),
                     ['password'],
                 );
             }
@@ -96,7 +96,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/login', [
-                't' => $translator,
+                't' => $t,
                 'form' => $form,
             ]);
     }

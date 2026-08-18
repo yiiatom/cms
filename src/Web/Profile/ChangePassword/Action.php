@@ -37,16 +37,16 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
-        $translator = $this->translator->withDefaultCategory('atom-cms');
+        $t = $this->translator->withDefaultCategory('atom-cms');
 
         $this->breadcrumbsProvider->add(
             new Breadcrumb(
-                label: $translator->translate('Change Password'),
+                label: $t->translate('Change Password'),
             ),
         );
 
         $form = new ChangePasswordForm();
-        $form->setTranslator($translator);
+        $form->setTranslator($t);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
@@ -54,7 +54,7 @@ final readonly class Action
             $user = $this->currentUser->getIdentity()->getUser();
             if (!$user->validatePassword($form->currentPassword, $this->passwordHasher)) {
                 $form->addError(
-                    $translator->translate('Incorrect password.'),
+                    $t->translate('Incorrect password.'),
                     ['currentPassword'],
                 );
             }
@@ -63,7 +63,7 @@ final readonly class Action
         if ($form->isValid()) {
             if ($form->newPassword !== $form->confirmPassword) {
                 $form->addError(
-                    $translator->translate('Passwords do not match.'),
+                    $t->translate('Passwords do not match.'),
                     ['confirmPassword'],
                 );
             }
@@ -75,7 +75,7 @@ final readonly class Action
 
             $this->flash->add(
                 'success',
-                $translator->translate('Your password has been updated.'),
+                $t->translate('Your password has been updated.'),
             );
 
             return $this->responseFactory
@@ -89,7 +89,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/change-password', [
-                't' => $translator,
+                't' => $t,
                 'form' => $form,
             ]);
     }
