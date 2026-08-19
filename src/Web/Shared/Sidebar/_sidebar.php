@@ -23,10 +23,10 @@ $currentRouteName = $currentRoute->getName();
 
 <aside id="sidebar" class="sidebar text-white bg-dark offcanvas-md offcanvas-end" tabindex="-1">
     <div class="sidebar-header">
-        <?= Html::a('<span>Atom</span>')
+        <?= Html::a('<div class="logo me-2"></div><span>Atom</span>')
             ->encode(false)
             ->url($urlGenerator->generate('atom.dashboard'))
-            ->class('text-white text-decoration-none fs-4') ?>
+            ->class('brand text-white text-decoration-none fs-4') ?>
         <span class="ver">0.1.0-dev</span>
 
         <?= Html::button('', [
