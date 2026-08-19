@@ -21,7 +21,7 @@ final class SystemHealthListener
 
     public function __invoke(DashboardEvent $event): void
     {
-        $t = $this->translator->withDefaultCategory('atom-cms');
+        $t = $this->translator->withDefaultCategory('atom-dashboard');
 
         $root = $this->aliases->get('@root');
 

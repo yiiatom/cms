@@ -31,14 +31,4 @@ return [
     'Last Name' => 'Фамилия',
     'Update Profile' => 'Обновить профиль',
     'Your profile has been updated.' => 'Ваш профиль был обновлен.',
-
-    'System Health' => 'Состояние системы',
-    'PHP Version' => 'Версия PHP',
-    'Environment' => 'Окружение',
-    'Debug' => 'Отладка',
-    'Enabled' => 'Включено',
-    'Disabled' => 'Выключено',
-    'Writable' => 'Доступен',
-    'Not Writable' => 'Недоступен',
-    'Disk Space' => 'Диск',
 ];

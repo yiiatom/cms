@@ -21,7 +21,7 @@ final class UsersSummaryListener
 
     public function __invoke(DashboardEvent $event): void
     {
-        $t = $this->translator->withDefaultCategory('atom-users');
+        $t = $this->translator->withDefaultCategory('atom-dashboard');
 
         $userStats = $this->userRepository->getSummaryStats();
 
