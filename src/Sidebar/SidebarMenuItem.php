@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Shared\Sidebar;
+namespace Atom\Sidebar;
 
 use Atom\Entity\User;
 use Atom\Entity\UserRole;

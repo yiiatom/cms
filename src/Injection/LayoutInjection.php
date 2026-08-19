@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Atom\Injection;
 
 use Atom\Breadcrumbs\BreadcrumbsProvider;
-use Atom\Web\Shared\Sidebar\SidebarMenuProvider;
+use Atom\Sidebar\SidebarMenuProvider;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;

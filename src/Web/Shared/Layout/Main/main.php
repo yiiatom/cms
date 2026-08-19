@@ -10,11 +10,13 @@ use Atom\Web\Shared\Widget\AlertWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Translator\TranslatorInterface;
+use Yiisoft\View\WebView;
 
 /**
  * @var BreadcrumbsProvider $breadcrumbsProvider
  * @var TranslatorInterface $t
  * @var UrlGeneratorInterface $urlGenerator
+ * @var WebView $this
  */
 
 $assetManager->register(MainAsset::class);
@@ -39,7 +41,7 @@ $this->beginPage()
 <body>
 <?php $this->beginBody() ?>
 
-<?= $this->render('../../Sidebar/_sidebar') ?>
+<?= $this->render('./_sidebar') ?>
 
 <main class="main-container pt-md-2">
     <?= BreadcrumbsWidget::widget()

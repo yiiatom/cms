@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Atom\Event;
+namespace Atom\Sidebar\Event;
 
-use Atom\Web\Shared\Sidebar\SidebarMenuItem;
+use Atom\Sidebar\SidebarMenuItem;
 
 final class SidebarMenuEvent
 {

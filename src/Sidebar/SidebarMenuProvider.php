@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Shared\Sidebar;
+namespace Atom\Sidebar;
 
 use Atom\Entity\UserRole;
-use Atom\Event\SidebarMenuEvent;
+use Atom\Sidebar\Event\SidebarMenuEvent;
 use Yiisoft\Translator\TranslatorInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
