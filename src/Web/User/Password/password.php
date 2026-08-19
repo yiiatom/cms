@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 use Yiisoft\Html\Html;
 use Yiisoft\FormModel\Field;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
-$title = 'Change User Password';
+/**
+ * @var TranslatorInterface $t
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var UserPasswordForm $form
+ */
+
+$title = $t->translate('Change User Password');
 
 $this->setTitle($title);
 
@@ -24,6 +32,11 @@ $htmlForm = Html::form()
     <?= Field::password($form, 'newPassword')->autofocus() ?>
     <?= Field::password($form, 'confirmPassword') ?>
     <?= Field::checkbox($form, 'requirePasswordChange') ?>
-    <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
-    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
+    <?= Html::submitButton($t->translate('Save'))
+        ->class('btn btn-primary')
+    ?>
+    <?= Html::a($t->translate('Cancel'))
+        ->url($urlGenerator->generate('atom.user.index'))
+        ->class('btn btn-outline-secondary')
+    ?>
 <?= $htmlForm->close() ?>

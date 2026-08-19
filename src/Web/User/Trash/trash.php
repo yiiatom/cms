@@ -6,12 +6,21 @@ namespace Atom\Web\User\Trash;
 
 use Atom\Entity\User;
 use Yiisoft\Html\Html;
+use Yiisoft\Data\Reader\DataReaderInterface;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Yii\DataView\GridView\Column\ActionButton;
 use Yiisoft\Yii\DataView\GridView\Column\ActionColumn;
 use Yiisoft\Yii\DataView\GridView\Column\DataColumn;
 use Yiisoft\Yii\DataView\GridView\GridView;
 
-$title = 'Trash';
+/**
+ * @var DataReaderInterface $dataReader
+ * @var TranslatorInterface $t
+ * @var UrlGeneratorInterface $urlGenerator
+ */
+
+$title = $t->translate('Trash');
 
 $this->setTitle($title);
 
@@ -20,12 +29,12 @@ $this->setTitle($title);
 
 <?php if ($dataReader->count() > 0): ?>
     <div class="mb-2">
-        <?= Html::a(Html::i()->class('fa-solid fa-trash-can me-2')->render() . 'Empty Trash')
+        <?= Html::a(Html::i()->class('fa-solid fa-trash-can me-2')->render() . $t->translate('Empty Trash'))
             ->url($urlGenerator->generate('atom.user.empty-trash'))
             ->class('btn btn-danger')
             ->addAttributes([
                 'data-method' => 'POST',
-                'data-confirm' => 'Are you sure you want to permanently delete all items in the trash? This action cannot be undone.',
+                'data-confirm' => $t->translate('Are you sure you want to permanently delete all items in the trash? This action cannot be undone.'),
             ])
             ->encode(false)
         ?>
@@ -37,25 +46,25 @@ $this->setTitle($title);
     ->columns(
         new DataColumn(
             property: 'username',
-            header: 'Username',
+            header: $t->translate('Username'),
             content: static fn (User $user): string => $user->getUsername(),
         ),
         new DataColumn(
             property: 'email',
-            header: 'Email',
+            header: $t->translate('Email'),
             content: static fn (User $user): string => $user->getEmail() ?? '',
         ),
         new DataColumn(
             property: 'role',
-            header: 'Role',
-            content: static function (User $user): string {
+            header: $t->translate('Role'),
+            content: static function (User $user) use ($t): string {
                 $role = $user->getRole();
 
                 $options = ['class' => 'badge'];
                 Html::addCssClass($options, $role->getCssClass());
 
                 return Html::span(
-                    Html::encode($role->getLabel()),
+                    Html::encode($t->translate($role->getLabel())),
                     $options,
                 )->render();
             },
@@ -63,7 +72,7 @@ $this->setTitle($title);
         ),
         new DataColumn(
             property: 'deletedAt',
-            header: 'Deleted At',
+            header: $t->translate('Deleted At'),
             content: static fn (User $user): string => $user->getDeletedAt()->format('Y-m-d H:i:s'),
         ),
         new ActionColumn(
@@ -71,9 +80,9 @@ $this->setTitle($title);
                 'restore' => new ActionButton(
                     Html::i('', ['class' => 'fa-solid fa-rotate-left']),
                     attributes: [
-                        'title' => 'Restore',
+                        'title' => $t->translate('Restore'),
                         'data-method' => 'POST',
-                        'data-confirm' => 'Are you sure you want to restore this item?',
+                        'data-confirm' => $t->translate('Are you sure you want to restore this user?'),
                     ],
                 ),
             ],

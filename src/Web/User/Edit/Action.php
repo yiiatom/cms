@@ -17,6 +17,7 @@ use Yiisoft\Http\Status;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class Action
@@ -26,6 +27,7 @@ final readonly class Action
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
@@ -35,6 +37,8 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $t = $this->translator->withDefaultCategory('atom-users');
+
         $user = $this->userRepository->findOneByUuid($uuid);
 
         if (!$user) {
@@ -49,7 +53,7 @@ final readonly class Action
 
         $this->breadcrumbsProvider->add(
             new Breadcrumb(
-                label: 'Users',
+                label: $t->translate('Users'),
                 url: $this->urlGenerator->generate('atom.user.index'),
             ),
             new Breadcrumb(
@@ -58,6 +62,7 @@ final readonly class Action
         );
 
         $form = new UserEditForm();
+        $form->setTranslator($t);
         $form->username = $user->getUsername();
         $form->email = $user->getEmail();
         $form->status = $user->getStatus()->value;
@@ -70,7 +75,10 @@ final readonly class Action
         if ($form->isValid() && $form->email) {
             $existingUser = $this->userRepository->findOneByEmail($form->email);
             if ($existingUser && $existingUser->getUuid() !== $user->getUuid()) {
-                $form->addError('Email is already in use.', ['email']);
+                $form->addError(
+                    $t->translate('Email is already in use.'),
+                    ['email'],
+                );
             }
         }
 
@@ -84,7 +92,10 @@ final readonly class Action
 
             $this->userRepository->save($user);
 
-            $this->flash->add('success', 'User has been updated.');
+            $this->flash->add(
+                'success',
+                $t->translate('User has been updated.'),
+            );
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
@@ -97,6 +108,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/edit', [
+                't' => $t,
                 'form' => $form,
                 'user' => $user,
             ]);

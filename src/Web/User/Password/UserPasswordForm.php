@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Atom\Web\User\Password;
 
+use Atom\Helper\FormTranslatorTrait;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Label;
-use Yiisoft\Validator\Rule\Compare;
+use Yiisoft\Validator\LabelsProviderInterface;
 use Yiisoft\Validator\Rule\Required;
 
-final class UserPasswordForm extends FormModel
+final class UserPasswordForm extends FormModel implements LabelsProviderInterface
 {
+    use FormTranslatorTrait;
+
     #[Label('Username')]
     public ?string $username = null;
 
@@ -18,9 +21,8 @@ final class UserPasswordForm extends FormModel
     #[Required]
     public ?string $newPassword = null;
 
-    #[Label('Confirm')]
+    #[Label('Confirm Password')]
     #[Required]
-    #[Compare(targetProperty: 'newPassword', message: 'Passwords do not match.')]
     public ?string $confirmPassword = null;
 
     #[Label('Require Password Change on Next Login')]

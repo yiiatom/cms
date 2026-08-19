@@ -3,14 +3,25 @@
 declare(strict_types=1);
 
 use Atom\Entity\User;
+use Yiisoft\Data\Reader\DataReaderInterface;
 use Yiisoft\FormModel\Field;
 use Yiisoft\Html\Html;
 use Yiisoft\Yii\DataView\GridView\Column\ActionButton;
 use Yiisoft\Yii\DataView\GridView\Column\ActionColumn;
 use Yiisoft\Yii\DataView\GridView\Column\DataColumn;
 use Yiisoft\Yii\DataView\GridView\GridView;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
-$title = 'Users';
+/**
+ * @var TranslatorInterface $t
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var int $deletedCount
+ * @var UserFilterForm $form
+ * @var DataReaderInterface $dataReader
+ */
+
+$title = $t->translate('Users');
 
 $this->setTitle($title);
 
@@ -18,16 +29,16 @@ $htmlForm = Html::form()
     ->class('form-user-filter row row-cols-sm-auto g-2 align-items-center mb-2')
     ->get();
 
-$trashLabel = Html::i()->class('fa-solid fa-trash-can me-2')->render() . 'Trash';
+$trashLabel = Html::i()->class('fa-solid fa-trash-can me-2')->render() . $t->translate('Trash');
 if ($deletedCount > 0) {
-    $trashLabel .= Html::span($deletedCount, ['class' => 'badge bg-secondary ms-1'])->render();
+    $trashLabel .= Html::span($deletedCount, ['class' => 'badge bg-secondary ms-2'])->render();
 }
-?>
 
+?>
 <h1><?= Html::encode($title) ?></h1>
 
 <div class="mb-2 d-flex justify-content-between align-items-center">
-    <?= Html::a('Create User')
+    <?= Html::a($t->translate('Add User'))
         ->url($urlGenerator->generate('atom.user.create'))
         ->class('btn btn-primary me-2')
     ?>
@@ -46,8 +57,13 @@ if ($deletedCount > 0) {
         <?= Field::select($form, 'status', theme: 'inline')->optionsData($form->getStatusOptions()) ?>
         <?= Field::select($form, 'role', theme: 'inline')->optionsData($form->getRoleOptions()) ?>
         <div class="col-12">
-            <?= Html::submitButton('Filter')->class('btn btn-primary') ?>
-            <?= Html::a('Reset')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
+            <?= Field::submitButton($t->translate('Apply'), theme: 'inline') ?>
+        </div>
+        <div class="col-12">
+            <?= Html::a($t->translate('Clear'))
+                ->url($urlGenerator->generate('atom.user.index'))
+                ->class('btn btn-outline-secondary')
+            ?>
         </div>
     <?= $htmlForm->close() ?>
 </div>
@@ -57,25 +73,25 @@ if ($deletedCount > 0) {
     ->columns(
         new DataColumn(
             property: 'username',
-            header: 'Username',
+            header: $t->translate('Username'),
             content: static fn (User $user): string => $user->getUsername(),
         ),
         new DataColumn(
             property: 'email',
-            header: 'Email',
+            header: $t->translate('Email'),
             content: static fn (User $user): string => $user->getEmail() ?? '',
         ),
         new DataColumn(
             property: 'status',
-            header: 'Status',
-            content: static function (User $user): string {
+            header: $t->translate('Status'),
+            content: static function (User $user) use ($t): string {
                 $status = $user->getStatus();
 
                 $options = ['class' => 'badge'];
                 Html::addCssClass($options, $status->getCssClass());
 
                 return Html::span(
-                    Html::encode($status->getLabel()),
+                    Html::encode($t->translate($status->getLabel())),
                     $options,
                 )->render();
             },
@@ -83,15 +99,15 @@ if ($deletedCount > 0) {
         ),
         new DataColumn(
             property: 'role',
-            header: 'Role',
-            content: static function (User $user): string {
+            header: $t->translate('Role'),
+            content: static function (User $user) use ($t): string {
                 $role = $user->getRole();
 
                 $options = ['class' => 'badge'];
                 Html::addCssClass($options, $role->getCssClass());
 
                 return Html::span(
-                    Html::encode($role->getLabel()),
+                    Html::encode($t->translate($role->getLabel())),
                     $options,
                 )->render();
             },
@@ -99,25 +115,25 @@ if ($deletedCount > 0) {
         ),
         new DataColumn(
             property: 'createdAt',
-            header: 'Created At',
+            header: $t->translate('Created At'),
             content: static fn (User $user): string => $user->getCreatedAt()->format('Y-m-d H:i:s'),
         ),
         new ActionColumn(
             buttons: [
                 'edit' => new ActionButton(
                     Html::i('', ['class' => 'fa-solid fa-pencil']),
-                    attributes: ['title' => 'Edit'],
+                    attributes: ['title' => $t->translate('Edit')],
                 ),
                 'password' => new ActionButton(
                     Html::i('', ['class' => 'fa-solid fa-key']),
-                    attributes: ['title' => 'Change Password'],
+                    attributes: ['title' => $t->translate('Change Password')],
                 ),
                 'delete' => new ActionButton(
                     Html::i('', ['class' => 'fa-solid fa-trash']),
                     attributes: [
-                        'title' => 'Delete',
+                        'title' => $t->translate('Delete User'),
                         'data-method' => 'POST',
-                        'data-confirm' => 'Are you sure you want to delete this item?',
+                        'data-confirm' => $t->translate('Are you sure you want to delete this user?'),
                     ],
                 ),
             ],

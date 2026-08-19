@@ -6,16 +6,20 @@ namespace Atom\Web\User\Edit;
 
 use Atom\Entity\UserRole;
 use Atom\Entity\UserStatus;
+use Atom\Helper\FormTranslatorTrait;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Label;
+use Yiisoft\Validator\LabelsProviderInterface;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\In;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Regex;
 use Yiisoft\Validator\Rule\Required;
 
-final class UserEditForm extends FormModel
+final class UserEditForm extends FormModel implements LabelsProviderInterface
 {
+    use FormTranslatorTrait;
+
     #[Label('Username')]
     public ?string $username = null;
 
@@ -41,18 +45,22 @@ final class UserEditForm extends FormModel
 
     public function getStatusOptions(): array
     {
+        $t = $this->getTranslator();
+
         return [
-            UserStatus::PENDING->value => UserStatus::PENDING->getLabel(),
-            UserStatus::ACTIVE->value => UserStatus::ACTIVE->getLabel(),
-            UserStatus::BLOCKED->value => UserStatus::BLOCKED->getLabel(),
+            UserStatus::PENDING->value => $t->translate(UserStatus::PENDING->getLabel()),
+            UserStatus::ACTIVE->value => $t->translate(UserStatus::ACTIVE->getLabel()),
+            UserStatus::BLOCKED->value => $t->translate(UserStatus::BLOCKED->getLabel()),
         ];
     }
 
     public function getRoleOptions(): array
     {
+        $t = $this->getTranslator();
+
         return [
-            UserRole::USER->value => UserRole::USER->getLabel(),
-            UserRole::ADMIN->value => UserRole::ADMIN->getLabel(),
+            UserRole::USER->value => $t->translate(UserRole::USER->getLabel()),
+            UserRole::ADMIN->value => $t->translate(UserRole::ADMIN->getLabel()),
         ];
     }
 }

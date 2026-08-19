@@ -12,12 +12,14 @@ use Yiisoft\Http\Status;
 use Yiisoft\Router\HydratorAttribute\RouteArgument;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
 final readonly class Action
 {
     public function __construct(
         private FlashInterface $flash,
         private ResponseFactoryInterface $responseFactory,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
@@ -27,6 +29,8 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $t = $this->translator->withDefaultCategory('atom-users');
+
         $user = $this->userRepository->findOneByUuid($uuid);
 
         if (!$user || !$user->isDeleted()) {
@@ -38,7 +42,10 @@ final readonly class Action
 
         $this->userRepository->save($user);
 
-        $this->flash->add('success', 'User has been restored.');
+        $this->flash->add(
+            'success',
+            $t->translate('User has been restored.'),
+        );
 
         return $this->responseFactory
             ->createResponse(Status::SEE_OTHER)

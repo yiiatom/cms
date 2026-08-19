@@ -17,6 +17,7 @@ use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
+use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class Action
@@ -26,6 +27,7 @@ final readonly class Action
         private FlashInterface $flash,
         private FormHydrator $formHydrator,
         private ResponseFactoryInterface $responseFactory,
+        private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private UserRepository $userRepository,
     ) {}
@@ -34,29 +36,38 @@ final readonly class Action
         ServerRequestInterface $request,
     ): ResponseInterface
     {
+        $t = $this->translator->withDefaultCategory('atom-users');
+
         $this->breadcrumbsProvider->add(
             new Breadcrumb(
-                label: 'Users',
+                label: $t->translate('Users'),
                 url: $this->urlGenerator->generate('atom.user.index'),
             ),
             new Breadcrumb(
-                label: 'Create User',
+                label: $t->translate('Add User'),
             ),
         );
 
         $form = new UserCreateForm();
+        $form->setTranslator($t);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
         if ($form->isValid()) {
             if ($this->userRepository->findOneByUsername($form->username)) {
-                $form->addError('Username is already in use.', ['username']);
+                $form->addError(
+                    $t->translate('Username is already in use.'),
+                    ['username'],
+                );
             }
         }
 
         if ($form->isValid() && $form->email) {
             if ($this->userRepository->findOneByEmail($form->email)) {
-                $form->addError('Email is already in use.', ['email']);
+                $form->addError(
+                    $t->translate('Email is already in use.'),
+                    ['email'],
+                );
             }
         }
 
@@ -71,7 +82,10 @@ final readonly class Action
             );
             $this->userRepository->save($user);
 
-            $this->flash->add('success', 'User has been created.');
+            $this->flash->add(
+                'success',
+                $t->translate('User has been created.'),
+            );
 
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
@@ -85,6 +99,7 @@ final readonly class Action
         return $request
             ->getAttribute(WebViewRenderer::class)
             ->render(__DIR__ . '/create', [
+                't' => $t,
                 'form' => $form,
             ]);
     }

@@ -2,10 +2,20 @@
 
 declare(strict_types=1);
 
+use Atom\Entity\User;
 use Yiisoft\Html\Html;
 use Yiisoft\FormModel\Field;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Translator\TranslatorInterface;
 
-$title = 'Edit User';
+/**
+ * @var TranslatorInterface $t
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var UserEditForm $form
+ * @var User $user
+ */
+
+$title = $t->translate('Edit User');
 
 $this->setTitle($title);
 
@@ -26,10 +36,18 @@ $htmlForm = Html::form()
     <?= Field::select($form, 'role')->optionsData($form->getRoleOptions()) ?>
     <?= Field::text($form, 'firstName') ?>
     <?= Field::text($form, 'lastName') ?>
-    <?= Html::submitButton('Submit')->class('btn btn-primary') ?>
-    <?= Html::a('Cancel')->url($urlGenerator->generate('atom.user.index'))->class('btn btn-outline-secondary') ?>
+    <?= Html::submitButton(
+        $t->translate('Save'))
+        ->class('btn btn-primary')
+    ?>
+    <?= Html::a($t->translate('Cancel'))
+        ->url($urlGenerator->generate('atom.user.index'))
+        ->class('btn btn-outline-secondary')
+    ?>
 <?= $htmlForm->close() ?>
 
-<div class="mt-2">
-    <i>Last updated: <?= $user->getUpdatedAt()->format('Y-m-d H:i:s') ?></i>
+<div class="mt-3">
+    <?= Html::i($t->translate('Last Updated: {date}', [
+        'date' => $user->getUpdatedAt()->format('Y-m-d H:i:s'),
+    ])) ?>
 </div>
