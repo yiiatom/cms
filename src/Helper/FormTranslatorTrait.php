@@ -19,6 +19,11 @@ trait FormTranslatorTrait
         $this->translator = $translator;
     }
 
+    public function getTranslator(): ?TranslatorInterface
+    {
+        return $this->translator;
+    }
+
     public function getPropertyLabel(string $property): string
     {
         $label = parent::getPropertyLabel($property);
