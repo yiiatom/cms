@@ -18,22 +18,7 @@ final class SidebarMenuProvider
 
     public function getMenuItems(): array
     {
-        $items = [
-            new SidebarMenuItem(
-                label: $this->translator->translate('Dashboard', [], 'atom-cms'),
-                routeName: 'atom.dashboard',
-                icon: 'fa-solid fa-gauge',
-                requiredRole: UserRole::ADMIN,
-            ),
-            new SidebarMenuItem(
-                label: $this->translator->translate('Users', [], 'atom-users'),
-                routeName: 'atom.user.index',
-                icon: 'fa-solid fa-users',
-                requiredRole: UserRole::ADMIN,
-            ),
-        ];
-
-        $event = $this->eventDispatcher->dispatch(new SidebarMenuEvent($items));
+        $event = $this->eventDispatcher->dispatch(new SidebarMenuEvent());
 
         return $event->getItems();
     }
