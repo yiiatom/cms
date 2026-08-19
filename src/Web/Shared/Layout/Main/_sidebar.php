@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
+use Atom\Web\Shared\Widget\SidebarMenuWidget;
 use Yiisoft\Html\Html;
-
-$currentRouteName = $currentRoute->getName();
 
 ?>
 <div class="navbar navbar-dark bg-dark d-md-none w-100 px-3 fixed-top shadow">
@@ -37,22 +36,13 @@ $currentRouteName = $currentRoute->getName();
         ]) ?>
     </div>
     <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-        <?php foreach ($sidebarMenuProvider->getMenuItems() as $item): ?>
-            <?php
-                $class = 'nav-link text-white';
-                if ($item->isActive($currentRouteName)) {
-                    $class .= ' active';
-                }
-            ?>
-            <li class="nav-item">
-                <?= Html::a(Html::tag('i', '', ['class' => $item->getIcon() . ' me-2']) . Html::encode($item->getLabel()))
-                    ->encode(false)
-                    ->url($urlGenerator->generate($item->getRouteName()))
-                    ->class($class) ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+    <?= SidebarMenuWidget::widget()
+        ->items($sidebarMenuProvider->getMenuItems())
+        ->addListClass('nav nav-pills flex-column mb-auto')
+        ->addItemClass('nav-item')
+        ->addLinkClass('nav-link text-white')
+        ->addIconClass('me-2')
+    ?>
     <hr>
     <div class="dropdown current-user">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
