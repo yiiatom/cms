@@ -44,7 +44,7 @@ use Yiisoft\Html\Html;
         ->addIconClass('me-2')
     ?>
     <hr>
-    <div class="dropdown current-user">
+    <div class="dropup current-user">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="avatar">
                 <?php if ($userAvatarUrl): ?>
