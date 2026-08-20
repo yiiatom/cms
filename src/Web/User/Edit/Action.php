@@ -61,8 +61,7 @@ final readonly class Action
             ),
         );
 
-        $form = new UserEditForm();
-        $form->setTranslator($t);
+        $form = (new UserEditForm())->withTranslator($t);
         $form->username = $user->getUsername();
         $form->email = $user->getEmail();
         $form->status = $user->getStatus()->value;

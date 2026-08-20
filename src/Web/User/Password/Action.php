@@ -61,8 +61,7 @@ final readonly class Action
                 ->createResponse(Status::FORBIDDEN);
         }
 
-        $form = new UserPasswordForm();
-        $form->setTranslator($t);
+        $form = (new UserPasswordForm())->withTranslator($t);
         $form->username = $user->getUsername();
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);

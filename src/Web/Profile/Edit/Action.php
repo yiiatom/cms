@@ -45,8 +45,7 @@ final readonly class Action
 
         $user = $this->currentUser->getIdentity()->getUser();
 
-        $form = new ProfileForm();
-        $form->setTranslator($t);
+        $form = (new ProfileForm())->withTranslator($t);
         $form->username = $user->getUsername();
         $form->email = $user->getEmail();
         $form->firstName = $user->getFirstName();

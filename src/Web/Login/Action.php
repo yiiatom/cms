@@ -58,8 +58,7 @@ final readonly class Action
         $t = $this->translator->withDefaultCategory('atom-cms');
 
         $user = null;
-        $form = new LoginForm();
-        $form->setTranslator($t);
+        $form = (new LoginForm())->withTranslator($t);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 

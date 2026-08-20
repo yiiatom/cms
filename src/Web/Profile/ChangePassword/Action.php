@@ -45,8 +45,7 @@ final readonly class Action
             ),
         );
 
-        $form = new ChangePasswordForm();
-        $form->setTranslator($t);
+        $form = (new ChangePasswordForm())->withTranslator($t);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 

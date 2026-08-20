@@ -34,8 +34,7 @@ final readonly class Action
             )
         );
 
-        $form = new UserFilterForm();
-        $form->setTranslator($t);
+        $form = (new UserFilterForm())->withTranslator($t);
 
         $this->formHydrator->populateFromGet($form, $request);
 

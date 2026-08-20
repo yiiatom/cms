@@ -14,14 +14,16 @@ trait FormTranslatorTrait
 
     private ?array $validationPropertyLabels = null;
 
-    public function setTranslator(TranslatorInterface $translator): void
-    {
-        $this->translator = $translator;
-    }
-
     public function getTranslator(): ?TranslatorInterface
     {
         return $this->translator;
+    }
+
+    public function withTranslator(TranslatorInterface $translator): self
+    {
+        $new = clone $this;
+        $new->translator = $translator;
+        return $new;
     }
 
     public function getPropertyLabel(string $property): string

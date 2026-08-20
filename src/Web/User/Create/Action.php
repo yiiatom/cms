@@ -48,8 +48,7 @@ final readonly class Action
             ),
         );
 
-        $form = new UserCreateForm();
-        $form->setTranslator($t);
+        $form = (new UserCreateForm())->withTranslator($t);
 
         $this->formHydrator->populateFromPostAndValidate($form, $request);
 
@@ -94,7 +93,6 @@ final readonly class Action
                     $this->urlGenerator->generate('atom.user.index'),
                 );
         }
-
 
         return $request
             ->getAttribute(WebViewRenderer::class)
