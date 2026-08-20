@@ -29,7 +29,7 @@ $htmlForm = Html::form()
     ->class('form-user-filter row row-cols-sm-auto g-2 align-items-center mb-2')
     ->get();
 
-$trashLabel = Html::i()->class('fa-solid fa-trash-can me-2')->render() . $t->translate('Trash');
+$trashLabel = Html::i()->class('fa-solid fa-trash-can me-2')->render() . Html::encode($t->translate('Trash'));
 if ($deletedCount > 0) {
     $trashLabel .= Html::span($deletedCount, ['class' => 'badge bg-secondary ms-2'])->render();
 }
@@ -131,7 +131,7 @@ if ($deletedCount > 0) {
                 'delete' => new ActionButton(
                     Html::i('', ['class' => 'fa-solid fa-trash']),
                     attributes: [
-                        'title' => $t->translate('Delete User'),
+                        'title' => $t->translate('Delete'),
                         'data-method' => 'POST',
                         'data-confirm' => $t->translate('Are you sure you want to delete this user?'),
                     ],
