@@ -10,7 +10,7 @@ $title = $t->translate('Profile');
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-default form-profile')
+    ->class('form-constrained')
     ->post()
     ->csrf($csrf);
 ?>

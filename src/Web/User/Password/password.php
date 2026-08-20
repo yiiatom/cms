@@ -18,7 +18,7 @@ $title = $t->translate('Change User Password');
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-default form-user-password')
+    ->class('form-constrained')
     ->post()
     ->csrf($csrf);
 

@@ -18,7 +18,7 @@ $title = $t->translate('Add User');
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-default form-user-create')
+    ->class('form-constrained')
     ->post()
     ->csrf($csrf);
 

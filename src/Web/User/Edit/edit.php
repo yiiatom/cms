@@ -20,7 +20,7 @@ $title = $t->translate('Edit User');
 $this->setTitle($title);
 
 $htmlForm = Html::form()
-    ->class('form-default form-user-edit')
+    ->class('form-constrained')
     ->post()
     ->csrf($csrf);
 

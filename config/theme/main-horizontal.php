@@ -26,9 +26,9 @@ return [
     'fieldConfigs' => [
         Checkbox::class => [
             'labelPlacement()' => [CheckboxLabelPlacement::SIDE],
-            'addContainerClass()' => ['form-check offset-3'],
             'inputClass()' => ['form-check-input'],
-            'inputLabelClass()' => ['form-check-label'],
+            'inputLabelClass()' => ['form-check-label ms-1'],
+            'template()' => ["<div class=\"col-sm-3\"></div>{label}\n<div class=\"col-sm-9\">{input}\n{hint}\n{error}</div>"],
         ],
         CheckboxList::class => [
             'checkboxLabelWrap()' => [false],
