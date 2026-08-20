@@ -29,7 +29,7 @@ $this->setTitle($title);
 
 <?php if ($dataReader->count() > 0): ?>
     <div class="mb-2">
-        <?= Html::a(Html::i()->class('fa-solid fa-trash-can me-2')->render() . $t->translate('Empty Trash'))
+        <?= Html::a(Html::i()->class('fa-solid fa-trash-can me-2')->render() . Html::encode($t->translate('Empty Trash')))
             ->url($urlGenerator->generate('atom.user.empty-trash'))
             ->class('btn btn-danger')
             ->addAttributes([
