@@ -5,12 +5,12 @@ declare(strict_types=1);
 return [
     'Users' => 'Пользователи',
 
-    'All Statuses' => 'Все статусы',
+    '[All Statuses]' => '[Все статусы]',
     'Pending' => 'Ожидает активации',
     'Active' => 'Активен',
     'Blocked' => 'Заблокирован',
 
-    'All Roles' => 'Все роли',
+    '[All Roles]' => '[Все роли]',
     'User' => 'Пользователь',
     'Admin' => 'Администратор',
 

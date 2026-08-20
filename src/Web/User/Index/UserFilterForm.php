@@ -50,7 +50,7 @@ class UserFilterForm extends FormModel implements LabelsProviderInterface
         $t = $this->getTranslator();
 
         return [
-            '' => $t->translate('All Statuses'),
+            '' => $t->translate('[All Statuses]'),
             UserStatus::PENDING->value => $t->translate(UserStatus::PENDING->getLabel()),
             UserStatus::ACTIVE->value => $t->translate(UserStatus::ACTIVE->getLabel()),
             UserStatus::BLOCKED->value => $t->translate(UserStatus::BLOCKED->getLabel()),
@@ -62,7 +62,7 @@ class UserFilterForm extends FormModel implements LabelsProviderInterface
         $t = $this->getTranslator();
 
         return [
-            '' => $t->translate('All Roles'),
+            '' => $t->translate('[All Roles]'),
             UserRole::ADMIN->value => $t->translate(UserRole::ADMIN->getLabel()),
             UserRole::USER->value => $t->translate(UserRole::USER->getLabel()),
         ];
