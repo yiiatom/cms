@@ -6,35 +6,7 @@ use Atom\Web\Shared\Widget\SidebarMenuWidget;
 use Yiisoft\Html\Html;
 
 ?>
-<div class="navbar navbar-dark bg-dark d-md-none w-100 px-3 fixed-top shadow">
-    <?= Html::a('<span>Atom</span>')
-        ->encode(false)
-        ->url($urlGenerator->generate('atom.dashboard'))
-        ->class('text-white text-decoration-none fs-4') ?>
-
-    <?= Html::button('<span class="navbar-toggler-icon"></span>', [
-        'class' => 'navbar-toggler p-1',
-        'data-bs-toggle' => 'offcanvas',
-        'data-bs-target' => '#sidebar',
-        'aria-controls' => 'sidebar',
-    ])->encode(false)  ?>
-</div>
-
-<aside id="sidebar" class="sidebar text-white bg-dark offcanvas-md offcanvas-end" tabindex="-1">
-    <div class="sidebar-header">
-        <?= Html::a('<div class="logo me-2"></div><span>Atom</span>')
-            ->encode(false)
-            ->url($urlGenerator->generate('atom.dashboard'))
-            ->class('brand text-white text-decoration-none fs-4') ?>
-        <span class="ver">0.1.0-dev</span>
-
-        <?= Html::button('', [
-            'class' => 'btn-close btn-close-white d-md-none ms-3',
-            'data-bs-dismiss' => 'offcanvas',
-            'data-bs-target' => '#sidebar',
-            'aria-label' => 'Close',
-        ]) ?>
-    </div>
+<aside id="sidebar" class="atom-sidebar text-white bg-dark offcanvas-md offcanvas-start" tabindex="-1">
     <hr>
     <?= SidebarMenuWidget::widget()
         ->items($sidebarMenuProvider->getMenuItems())
@@ -43,8 +15,9 @@ use Yiisoft\Html\Html;
         ->addLinkClass('nav-link text-white')
         ->addIconClass('me-2')
     ?>
+    <div class="small opacity-25 px-2">v0.1.0-dev</div>
     <hr>
-    <div class="dropup current-user">
+    <div class="dropup current-user px-2">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="avatar">
                 <?php if ($userAvatarUrl): ?>

@@ -41,24 +41,43 @@ $this->beginPage()
 <body>
 <?php $this->beginBody() ?>
 
-<?= $this->render('./_sidebar') ?>
+<header class="atom-header fixed-top text-white bg-dark">
+    <button type="button"
+        class="sidebar-toggler d-md-none"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar"
+        aria-controls="sidebar"
+        aria-expanded="false">
+        <span></span>
+    </button>
 
-<main class="main-container pt-md-2">
-    <?= BreadcrumbsWidget::widget()
-        ->breadcrumbs($breadcrumbsProvider->getBreadcrumbs())
-        ->home(new Breadcrumb(
-            label: Html::i('', ['class' => 'fa-solid fa-gauge me-1']) . $t->translate('Dashboard'),
-            url: $urlGenerator->generate('atom.dashboard'),
-            encode: false,
-        ))
-        ->addContainerClass('mb-3')
-        ->addListClass('breadcrumb')
-        ->addItemClass('breadcrumb-item')
-        ->activeItemClass('active')
+    <?= Html::a('<div class="logo me-2"></div><span>Atom</span>')
+        ->encode(false)
+        ->url($urlGenerator->generate('atom.dashboard'))
+        ->class('brand text-white text-decoration-none fs-4 me-2')
     ?>
-    <?= AlertWidget::widget() ?>
-    <?= $content ?>
-</main>
+</header>
+
+<div class="atom-layout-wrapper">
+    <?= $this->render('./_sidebar') ?>
+
+    <main class="main-container">
+        <?= BreadcrumbsWidget::widget()
+            ->breadcrumbs($breadcrumbsProvider->getBreadcrumbs())
+            ->home(new Breadcrumb(
+                label: Html::i('', ['class' => 'fa-solid fa-gauge me-1']) . $t->translate('Dashboard'),
+                url: $urlGenerator->generate('atom.dashboard'),
+                encode: false,
+            ))
+            ->addContainerClass('mb-3')
+            ->addListClass('breadcrumb')
+            ->addItemClass('breadcrumb-item')
+            ->activeItemClass('active')
+        ?>
+        <?= AlertWidget::widget() ?>
+        <?= $content ?>
+    </main>
+</div>
 
 <?php $this->endBody() ?>
 </body>
