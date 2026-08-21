@@ -16,6 +16,7 @@ body {
     display: flex;
     height: var(--header-height);
     padding: 0 1rem;
+    z-index: 1060;
 }
 .atom-layout-wrapper {
     display: flex;
@@ -54,6 +55,24 @@ body {
 }
 .atom-header .sidebar-toggler span::after {
     top: 12px;
+}
+
+.atom-header .current-user .avatar {
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: inline-flex;
+    border-radius: 50%;
+    flex-shrink: 0;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+}
+.atom-header .current-user strong {
+    display: inline-block;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .atom-header .brand {
