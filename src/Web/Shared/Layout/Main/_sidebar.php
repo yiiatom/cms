@@ -15,5 +15,4 @@ use Yiisoft\Html\Html;
         ->addLinkClass('nav-link text-white')
         ->addIconClass('me-2')
     ?>
-    <div class="small opacity-25 px-2">v0.1.0-dev</div>
 </aside>
