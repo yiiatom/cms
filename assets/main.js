@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const method = link.getAttribute('data-method').toUpperCase();
+        const method = link.getAttribute('data-method');
         if (!method) {
             return;
         }
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const href = link.getAttribute('href');
 
-        if (method === 'POST') {
+        if (method.toUpperCase() === 'POST') {
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = href;
