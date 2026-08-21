@@ -14,6 +14,7 @@ final class SidebarMenuItem
         private string $routeName,
         private string $icon,
         private ?UserRole $requiredRole = null,
+        private int $priority = 100,
     ) {}
 
     public function getLabel(): string
@@ -31,6 +32,10 @@ final class SidebarMenuItem
         return $this->icon;
     }
 
+    public function getPriority(): int
+    {
+        return $this->priority;
+    }
 
     public function isVisibleForUser(?User $user): bool
     {

@@ -19,7 +19,12 @@ final class SidebarMenuProvider
     public function getMenuItems(): array
     {
         $event = $this->eventDispatcher->dispatch(new SidebarMenuEvent());
+        $items = $event->getItems();
 
-        return $event->getItems();
+        usort($items, function (SidebarMenuItem $a, SidebarMenuItem $b) {
+            return $a->getPriority() <=> $b->getPriority();
+        });
+
+        return $items;
     }
 }

@@ -24,6 +24,7 @@ final class DashboardSidebarListener
             routeName: 'atom.dashboard',
             icon: 'fa-solid fa-gauge',
             requiredRole: UserRole::ADMIN,
+            priority: 0,
         );
 
         $event->addItem($item);
