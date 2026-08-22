@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Atom\Injection;
 
 use Atom\Breadcrumbs\BreadcrumbsProvider;
+use Atom\Locale\LocaleContext;
 use Atom\Sidebar\SidebarMenuProvider;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Translator\TranslatorInterface;
@@ -17,6 +18,7 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
         private BreadcrumbsProvider $breadcrumbsProvider,
         private CurrentRoute $currentRoute,
         private CurrentUser $currentUser,
+        private LocaleContext $localeContext,
         private SidebarMenuProvider $sidebarMenuProvider,
         private TranslatorInterface $translator,
     ) {}
@@ -29,6 +31,7 @@ final readonly class LayoutInjection implements LayoutParametersInjectionInterfa
             'userAvatarUrl' => $this->getAvatarUrl(),
             'sidebarMenuProvider' => $this->sidebarMenuProvider,
             'breadcrumbsProvider' => $this->breadcrumbsProvider,
+            'localeContext' => $this->localeContext,
             't' => $this->translator->withDefaultCategory('atom-cms'),
         ];
     }

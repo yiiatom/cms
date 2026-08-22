@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Atom\Middleware\AccessControl;
 use Atom\Middleware\Authentication;
+use Atom\Middleware\LocaleMiddleware;
 use Atom\Middleware\LoginTheme;
 use Atom\Middleware\MainTheme;
 use Yiisoft\Http\Method;
@@ -13,6 +14,7 @@ use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 
 return [
     Group::create('/cms')
+        ->middleware(LocaleMiddleware::class)
         ->middleware(CookieLoginMiddleware::class)
         ->routes(
             Route::methods([Method::GET, Method::POST], '/login')
@@ -77,6 +79,10 @@ return [
                     Route::get('/translit')
                         ->action(Atom\Web\Translit\Action::class)
                         ->name('atom.translit'),
+
+                    Route::get('/locale')
+                        ->action(Atom\Web\Locale\Action::class)
+                        ->name('atom.locale'),
                 ),
         ),
 ];
