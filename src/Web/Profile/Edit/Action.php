@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
+use Yiisoft\Http\Header;
 use Yiisoft\Http\Status;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\FlashInterface;
@@ -69,7 +70,7 @@ final readonly class Action
             return $this->responseFactory
                 ->createResponse(Status::SEE_OTHER)
                 ->withHeader(
-                    'Location', 
+                    Header::LOCATION,
                     $this->urlGenerator->generate('atom.dashboard'),
                 );
         }
