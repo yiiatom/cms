@@ -19,7 +19,7 @@ use Yiisoft\Session\SessionInterface;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\User\CurrentUser;
 
-final readonly class Authentication implements MiddlewareInterface
+final readonly class AuthenticationMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private AuthRedirect $authRedirect,

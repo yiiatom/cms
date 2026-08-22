@@ -2,87 +2,82 @@
 
 declare(strict_types=1);
 
-use Atom\Middleware\AccessControl;
-use Atom\Middleware\Authentication;
+use Atom\Middleware\AccessControlMiddleware;
 use Atom\Middleware\LocaleMiddleware;
-use Atom\Middleware\LoginTheme;
-use Atom\Middleware\MainTheme;
+use Atom\Middleware\LoginThemeMiddleware;
+use Atom\Middleware\PipelineMiddleware;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 
 return [
-    Group::create('/cms')
+    Route::methods([Method::GET, Method::POST], '/cms/login')
+        ->middleware(LoginThemeMiddleware::class)
         ->middleware(LocaleMiddleware::class)
         ->middleware(CookieLoginMiddleware::class)
+        ->action(Atom\Web\Login\Action::class)
+        ->name('atom.login'),
+
+    Route::get('/cms/logout')
+        ->middleware(PipelineMiddleware::class)
+        ->action(Atom\Web\Logout\Action::class)
+        ->name('atom.logout'),
+
+    Group::create('/cms')
+        ->middleware(PipelineMiddleware::class)
+        ->middleware(AccessControlMiddleware::class)
         ->routes(
-            Route::methods([Method::GET, Method::POST], '/login')
-                ->middleware(LoginTheme::class)
-                ->action(Atom\Web\Login\Action::class)
-                ->name('atom.login'),
+            Route::get('')
+                ->action(Atom\Web\Dashboard\Action::class)
+                ->name('atom.dashboard'),
 
-            Route::get('/logout')
-                ->middleware(Authentication::class)
-                ->action(Atom\Web\Logout\Action::class)
-                ->name('atom.logout'),
+            Route::methods([Method::GET, Method::POST], '/profile/edit')
+                ->action(Atom\Web\Profile\Edit\Action::class)
+                ->name('atom.profile.edit'),
 
-            Group::create('')
-                ->middleware(MainTheme::class)
-                ->middleware(Authentication::class)
-                ->middleware(AccessControl::class)
-                ->routes(
-                    Route::get('')
-                        ->action(Atom\Web\Dashboard\Action::class)
-                        ->name('atom.dashboard'),
+            Route::methods([Method::GET, Method::POST], '/profile/change-password')
+                ->action(Atom\Web\Profile\ChangePassword\Action::class)
+                ->name('atom.profile.change-password'),
 
-                    Route::methods([Method::GET, Method::POST], '/profile/edit')
-                        ->action(Atom\Web\Profile\Edit\Action::class)
-                        ->name('atom.profile.edit'),
+            Route::get('/users')
+                ->action(Atom\Web\User\Index\Action::class)
+                ->name('atom.user.index'),
 
-                    Route::methods([Method::GET, Method::POST], '/profile/change-password')
-                        ->action(Atom\Web\Profile\ChangePassword\Action::class)
-                        ->name('atom.profile.change-password'),
+            Route::methods([Method::GET, Method::POST], '/users/create')
+                ->action(Atom\Web\User\Create\Action::class)
+                ->name('atom.user.create'),
 
-                    Route::get('/users')
-                        ->action(Atom\Web\User\Index\Action::class)
-                        ->name('atom.user.index'),
+            Route::methods([Method::GET, Method::POST], '/users/{uuid}/edit')
+                ->action(Atom\Web\User\Edit\Action::class)
+                ->name('atom.user.edit'),
 
-                    Route::methods([Method::GET, Method::POST], '/users/create')
-                        ->action(Atom\Web\User\Create\Action::class)
-                        ->name('atom.user.create'),
+            Route::post('/users/{uuid}/delete')
+                ->action(Atom\Web\User\Delete\Action::class)
+                ->name('atom.user.delete'),
 
-                    Route::methods([Method::GET, Method::POST], '/users/{uuid}/edit')
-                        ->action(Atom\Web\User\Edit\Action::class)
-                        ->name('atom.user.edit'),
+            Route::methods([Method::GET, Method::POST], '/users/{uuid}/password')
+                ->action(Atom\Web\User\Password\Action::class)
+                ->name('atom.user.password'),
 
-                    Route::post('/users/{uuid}/delete')
-                        ->action(Atom\Web\User\Delete\Action::class)
-                        ->name('atom.user.delete'),
+            Route::get('/users/trash')
+                ->action(Atom\Web\User\Trash\Action::class)
+                ->name('atom.user.trash'),
 
-                    Route::methods([Method::GET, Method::POST], '/users/{uuid}/password')
-                        ->action(Atom\Web\User\Password\Action::class)
-                        ->name('atom.user.password'),
+            Route::post('/users/{uuid}/restore')
+                ->action(Atom\Web\User\Restore\Action::class)
+                ->name('atom.user.restore'),
 
-                    Route::get('/users/trash')
-                        ->action(Atom\Web\User\Trash\Action::class)
-                        ->name('atom.user.trash'),
+            Route::post('/users/empty-trash')
+                ->action(Atom\Web\User\EmptyTrash\Action::class)
+                ->name('atom.user.empty-trash'),
 
-                    Route::post('/users/{uuid}/restore')
-                        ->action(Atom\Web\User\Restore\Action::class)
-                        ->name('atom.user.restore'),
+            Route::get('/translit')
+                ->action(Atom\Web\Translit\Action::class)
+                ->name('atom.translit'),
 
-                    Route::post('/users/empty-trash')
-                        ->action(Atom\Web\User\EmptyTrash\Action::class)
-                        ->name('atom.user.empty-trash'),
-
-                    Route::get('/translit')
-                        ->action(Atom\Web\Translit\Action::class)
-                        ->name('atom.translit'),
-
-                    Route::get('/locale')
-                        ->action(Atom\Web\Locale\Action::class)
-                        ->name('atom.locale'),
-                ),
+            Route::get('/locale')
+                ->action(Atom\Web\Locale\Action::class)
+                ->name('atom.locale'),
         ),
 ];

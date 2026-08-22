@@ -18,7 +18,7 @@ use Yiisoft\Yii\DataView\GridView\GridView;
 use Yiisoft\Yii\DataView\Pagination\OffsetPagination;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
-final readonly class MainTheme implements MiddlewareInterface
+final readonly class MainThemeMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private Aliases $aliases,

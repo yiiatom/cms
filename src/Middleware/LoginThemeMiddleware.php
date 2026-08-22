@@ -12,7 +12,7 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Form\Theme\ThemeContainer;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
-final readonly class LoginTheme implements MiddlewareInterface
+final readonly class LoginThemeMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private Aliases $aliases,

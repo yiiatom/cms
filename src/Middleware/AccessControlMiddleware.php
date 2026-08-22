@@ -13,7 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
 use Yiisoft\User\CurrentUser;
 
-final class AccessControl implements MiddlewareInterface
+final class AccessControlMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private CurrentUser $currentUser,
