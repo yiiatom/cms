@@ -53,13 +53,14 @@ if ($deletedCount > 0) {
     <?= $htmlForm->open() ?>
         <?= Field::text($form, 'search', theme: 'inline')
             ->placeholder($form->getPropertyLabel('search'))
-            ->template('<div class="input-group"><div class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></div>{input}</div>') ?>
+            ->template('<div class="input-group"><div class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></div>{input}</div>')
+        ?>
         <?= Field::select($form, 'status', theme: 'inline')->optionsData($form->getStatusOptions()) ?>
         <?= Field::select($form, 'role', theme: 'inline')->optionsData($form->getRoleOptions()) ?>
-        <div class="col-12">
-            <?= Field::submitButton($t->translate('Apply'), theme: 'inline') ?>
-        </div>
-        <div class="col-12">
+        <div>
+            <?= Html::submitButton($t->translate('Apply'))
+                ->class('btn btn-primary me-1')
+            ?>
             <?= Html::a($t->translate('Clear'))
                 ->url($urlGenerator->generate('atom.user.index'))
                 ->class('btn btn-outline-secondary')
