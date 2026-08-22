@@ -11,7 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 use Yiisoft\User\Login\Cookie\CookieLoginMiddleware;
 
-final class PipelineMiddleware implements MiddlewareInterface
+final class CorePipelineMiddleware implements MiddlewareInterface
 {
     private readonly MiddlewareDispatcher $dispatcher;
 

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Atom\Middleware\AccessControlMiddleware;
+use Atom\Middleware\CorePipelineMiddleware;
 use Atom\Middleware\LocaleMiddleware;
 use Atom\Middleware\LoginThemeMiddleware;
-use Atom\Middleware\PipelineMiddleware;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
@@ -20,12 +20,12 @@ return [
         ->name('atom.login'),
 
     Route::get('/cms/logout')
-        ->middleware(PipelineMiddleware::class)
+        ->middleware(CorePipelineMiddleware::class)
         ->action(Atom\Web\Logout\Action::class)
         ->name('atom.logout'),
 
     Group::create('/cms')
-        ->middleware(PipelineMiddleware::class)
+        ->middleware(CorePipelineMiddleware::class)
         ->middleware(AccessControlMiddleware::class)
         ->routes(
             Route::get('')
