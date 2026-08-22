@@ -34,7 +34,7 @@ final class Action
             ->createResponse(Status::SEE_OTHER)
             ->withHeader(
                 Header::LOCATION, 
-                $this->urlGenerator->generate('atom.dashboard'),
+                $url,
             );
 
         return $this->localeContext->write($response, $locale);
