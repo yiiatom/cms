@@ -2,8 +2,13 @@
 
 declare(strict_types=1);
 
+use Atom\Locale\LocaleContext;
 use Atom\Web\Shared\Layout\Login\LoginAsset;
 use Yiisoft\Html\Html;
+
+/**
+ * @var LocaleContext $localeContext
+ */
 
 $assetManager->register(LoginAsset::class);
 
@@ -16,7 +21,7 @@ $this->addJsVars($assetManager->getJsVars());
 $this->beginPage()
 ?>
 <!DOCTYPE html>
-<html lang="<?= Html::encode($applicationParams->locale) ?>">
+<html lang="<?= Html::encode($localeContext->getCurrentLocale()->getCode()) ?>">
 <head>
     <meta charset="<?= Html::encode($applicationParams->charset) ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">

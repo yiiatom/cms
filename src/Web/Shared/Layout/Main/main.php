@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Atom\Breadcrumbs\Breadcrumb;
 use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Breadcrumbs\BreadcrumbsWidget;
+use Atom\Locale\LocaleContext;
 use Atom\Web\Shared\Layout\Main\MainAsset;
 use Atom\Web\Shared\Widget\AlertWidget;
 use Yiisoft\Html\Html;
@@ -14,6 +15,7 @@ use Yiisoft\View\WebView;
 
 /**
  * @var BreadcrumbsProvider $breadcrumbsProvider
+ * @var LocaleContext $localeContext
  * @var TranslatorInterface $t
  * @var UrlGeneratorInterface $urlGenerator
  * @var WebView $this
@@ -31,7 +33,7 @@ $this->beginPage();
 
 ?>
 <!DOCTYPE html>
-<html lang="<?= Html::encode($applicationParams->locale) ?>">
+<html lang="<?= Html::encode($localeContext->getCurrentLocale()->getCode()) ?>">
 <head>
     <meta charset="<?= Html::encode($applicationParams->charset) ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
