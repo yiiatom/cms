@@ -72,5 +72,9 @@ return [
         Select::class => [
             'inputClass()' => ['form-select'],
         ],
+        'Atom\Editor\EditorWidget' => [
+            'containerClass()' => ['mb-2'],
+            'template()' => ["{label}\n<div class=\"col-sm-12\">{input}\n{hint}\n{error}</div>"],
+        ],
     ],
 ];
