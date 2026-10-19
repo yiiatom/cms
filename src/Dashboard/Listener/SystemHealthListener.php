@@ -13,10 +13,10 @@ use Yiisoft\Translator\TranslatorInterface;
 final class SystemHealthListener
 {
     public function __construct(
-        private string $appEnv,
-        private bool $appDebug,
         private Aliases $aliases,
         private TranslatorInterface $translator,
+        private string $appEnv = 'dev',
+        private bool $appDebug = true,
     ) {}
 
     public function __invoke(DashboardEvent $event): void
