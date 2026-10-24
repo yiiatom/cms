@@ -72,6 +72,38 @@ return [
                 ->action(Atom\Web\User\EmptyTrash\Action::class)
                 ->name('atom.user.empty-trash'),
 
+            Route::get('/settings')
+                ->action(Atom\Web\Setting\Index\Action::class)
+                ->name('atom.setting.index'),
+
+            Route::get('/settings/manage')
+                ->action(Atom\Web\Setting\Manage\Index\Action::class)
+                ->name('atom.setting.manage.index'),
+
+            Route::methods([Method::GET, Method::POST], '/settings/manage/group/create')
+                ->action(Atom\Web\Setting\Manage\Group\Create\Action::class)
+                ->name('atom.setting.manage.group.create'),
+
+            Route::methods([Method::GET, Method::POST], '/settings/manage/group/{uuid}/edit')
+                ->action(Atom\Web\Setting\Manage\Group\Edit\Action::class)
+                ->name('atom.setting.manage.group.edit'),
+
+            Route::post('/settings/manage/group/{uuid}/delete')
+                ->action(Atom\Web\Setting\Manage\Group\Delete\Action::class)
+                ->name('atom.setting.manage.group.delete'),
+
+            Route::methods([Method::GET, Method::POST], '/settings/manage/setting/create')
+                ->action(Atom\Web\Setting\Manage\Setting\Create\Action::class)
+                ->name('atom.setting.manage.setting.create'),
+
+            Route::methods([Method::GET, Method::POST], '/settings/manage/setting/{uuid}/edit')
+                ->action(Atom\Web\Setting\Manage\Setting\Edit\Action::class)
+                ->name('atom.setting.manage.setting.edit'),
+
+            Route::post('/settings/manage/setting/{uuid}/delete')
+                ->action(Atom\Web\Setting\Manage\Setting\Delete\Action::class)
+                ->name('atom.setting.manage.setting.delete'),
+
             Route::get('/translit')
                 ->action(Atom\Web\Translit\Action::class)
                 ->name('atom.translit'),

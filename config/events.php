@@ -7,6 +7,7 @@ use Atom\Dashboard\Listener\SystemHealthListener;
 use Atom\Dashboard\Listener\UsersSummaryListener;
 use Atom\Sidebar\Event\SidebarMenuEvent;
 use Atom\Sidebar\Listener\DashboardSidebarListener;
+use Atom\Sidebar\Listener\SettingSidebarListener;
 use Atom\Sidebar\Listener\UserSidebarListener;
 
 return [
@@ -18,5 +19,6 @@ return [
     SidebarMenuEvent::class => [
         [DashboardSidebarListener::class, '__invoke'],
         [UserSidebarListener::class, '__invoke'],
+        [SettingSidebarListener::class, '__invoke'],
     ],
 ];
