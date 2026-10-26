@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Atom\Entity\Setting;
 use Atom\Entity\SettingGroup;
+use Atom\Web\Setting\Manage\Index\SettingsManageAsset;
 use Yiisoft\Data\Reader\ReadableDataInterface;
 use Yiisoft\Html\Html;
 use Yiisoft\Router\UrlGeneratorInterface;
@@ -18,6 +19,8 @@ use Yiisoft\Yii\DataView\GridView\GridView;
  * @var TranslatorInterface $t
  * @var UrlGeneratorInterface $urlGenerator
  */
+
+$assetManager->register(SettingsManageAsset::class);
 
 $title = $t->translate('Manage');
 
@@ -35,14 +38,14 @@ $this->setTitle($title);
 
 <?= GridView::widget()
     ->dataReader($dataReader)
-    // ->tbodyAttributes(['data-sort-url' => $urlGenerator->generate('atom.page.sort')])
-    // ->addTbodyClass('sortable-tree')
-    // ->bodyRowAttributes(static function (Page $page): array {
-    //     return [
-    //         'data-uuid' => $page->getUuid(),
-    //         'data-depth' => $page->getDepth(),
-    //     ];
-    // })
+    ->tbodyAttributes(['data-sort-url' => $urlGenerator->generate('atom.setting.manage.sort')])
+    ->addTbodyClass('sortable-settings')
+    ->bodyRowAttributes(static function (Setting|SettingGroup $item): array {
+        return [
+            'data-uuid' => $item->getUuid(),
+            'data-type' => $item instanceof SettingGroup ? 'group' : 'setting',
+        ];
+    })
     ->columns(
         new DataColumn(
             bodyAttributes: ['style' => 'width: 40px'],

@@ -114,4 +114,18 @@ final readonly class SettingRepository
 
         return $items;
     }
+
+    public function updatePositions(array $positions, string $groupUuid): void
+    {
+        $this->connection->transaction(function () use ($positions, $groupUuid): void {
+            foreach ($positions as $uuid => $position) {
+                $this->connection->createCommand()
+                    ->update('{{%setting}}', [
+                        'position' => $position,
+                        'group_uuid' => $groupUuid,
+                    ], ['uuid' => $uuid])
+                    ->execute();
+            }
+        });
+    }
 }

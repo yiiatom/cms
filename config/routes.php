@@ -104,6 +104,10 @@ return [
                 ->action(Atom\Web\Setting\Manage\Setting\Delete\Action::class)
                 ->name('atom.setting.manage.setting.delete'),
 
+            Route::post('/settings/manage/sort')
+                ->action(Atom\Web\Setting\Manage\Sort\Action::class)
+                ->name('atom.setting.manage.sort'),
+
             Route::get('/translit')
                 ->action(Atom\Web\Translit\Action::class)
                 ->name('atom.translit'),
