@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Atom\Web\Setting\Manage;
+namespace Atom\Web\Setting\Manage\Index;
 
 use Atom\Data\SettingDataReader;
 use Atom\Entity\Setting;

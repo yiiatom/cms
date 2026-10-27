@@ -8,7 +8,6 @@ use Atom\Breadcrumbs\Breadcrumb;
 use Atom\Breadcrumbs\BreadcrumbsProvider;
 use Atom\Repository\SettingRepository;
 use Atom\Repository\SettingGroupRepository;
-use Atom\Web\Setting\Manage\SettingTreeBuilder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Router\UrlGeneratorInterface;
