@@ -43,7 +43,8 @@ final class SettingCreateForm extends FormModel implements LabelsProviderInterfa
         return [
             SettingType::STRING->value => $t->translate(SettingType::STRING->getLabel()),
             SettingType::BOOLEAN->value => $t->translate(SettingType::BOOLEAN->getLabel()),
-            SettingType::NUMBER->value => $t->translate(SettingType::NUMBER->getLabel()),
+            SettingType::INTEGER->value => $t->translate(SettingType::INTEGER->getLabel()),
+            SettingType::FLOAT->value => $t->translate(SettingType::FLOAT->getLabel()),
             SettingType::TEXT->value => $t->translate(SettingType::TEXT->getLabel()),
             SettingType::CODE->value => $t->translate(SettingType::CODE->getLabel()),
             SettingType::IMAGE->value => $t->translate(SettingType::IMAGE->getLabel()),

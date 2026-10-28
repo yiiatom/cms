@@ -8,7 +8,8 @@ enum SettingType: string
 {
     case STRING = 'string';
     case TEXT = 'text';
-    case NUMBER = 'number';
+    case INTEGER = 'integer';
+    case FLOAT = 'float';
     case BOOLEAN = 'boolean';
     case CODE = 'code';
     case IMAGE = 'image';
@@ -19,7 +20,8 @@ enum SettingType: string
         return match ($this) {
             self::STRING => 'String',
             self::TEXT => 'Text',
-            self::NUMBER => 'Number',
+            self::INTEGER => 'Integer',
+            self::FLOAT => 'Float',
             self::BOOLEAN => 'Boolean',
             self::CODE => 'Code',
             self::IMAGE => 'Image',

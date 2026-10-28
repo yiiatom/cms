@@ -22,7 +22,8 @@ final class SettingMapper
         $v = $row['value'];
         $value = match ($type) {
             SettingType::BOOLEAN => (bool) $v,
-            SettingType::NUMBER => str_contains($v, '.') ? (float) $v : (int) $v,
+            SettingType::INTEGER => (int) $v,
+            SettingType::FLOAT => (float) $v,
             SettingType::STRING,
             SettingType::TEXT,
             SettingType::CODE,
